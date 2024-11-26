@@ -16,12 +16,16 @@ import {
 @Component({
   selector: 'ngx-plusify-datetime-picker',
   template: '',
+  styleUrls: ['./datetime-picker.styles.scss'],
   exportAs: 'ngxPlusifyDatetimePicker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER,
-    { provide: NgxPlusifyDatepickerBase, useExisting: NgxPlusifyDatetimepicker },
+    {
+      provide: NgxPlusifyDatepickerBase,
+      useExisting: NgxPlusifyDatetimepicker,
+    },
   ],
 })
 export class NgxPlusifyDatetimepicker<D> extends NgxPlusifyDatepickerBase<

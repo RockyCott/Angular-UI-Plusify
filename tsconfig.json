@@ -1,0 +1,28 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es5", "es2015", "dom"],
+    "types": ["node"],
+    "paths": {
+      "@angular-ui-plusify/*": ["dist/@angular-ui-plusify/*"],
+      "@angular-ui-plusify/datetime-picker": [
+        "dist/@angular-ui-plusify/datetime-picker"
+      ],
+      "@angular-ui-plusify/datetime-picker/*": [
+        "dist/@angular-ui-plusify/datetime-picker/*"
+      ]
+    },
+    "useDefineForClassFields": false
+  }
+}

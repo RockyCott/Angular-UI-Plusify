@@ -1,19 +1,17 @@
-@use "sass:math";
-@use "@angular/cdk";
-@use "./vendor-prefixes" as vp;
+@use 'sass:math';
+@use '@angular/cdk';
+@use './vendor-prefixes' as vp;
 
 $swift-ease-out-duration: 400ms !default;
 $swift-ease-out-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !default;
 
 $date-range-input-separator-spacing: 4px;
-$date-range-input-part-max-width: calc(
-  50% - #{$date-range-input-separator-spacing}
-);
+$date-range-input-part-max-width: calc(50% - #{$date-range-input-separator-spacing});
 
 @mixin placeholder-transition($property) {
-  transition: #{$property} $swift-ease-out-duration
-    math.div($swift-ease-out-duration, 3) $swift-ease-out-timing-function;
+  transition: #{$property} $swift-ease-out-duration math.div($swift-ease-out-duration, 3)
+    $swift-ease-out-timing-function;
 }
 
 // Host of the date range input.

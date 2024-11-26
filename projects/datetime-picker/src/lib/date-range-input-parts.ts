@@ -338,7 +338,10 @@ export class NgxPlusifyStartDate<D>
   inputs: ['errorStateMatcher'],
   standalone: true,
 })
-export class NgxPlusifyEndDate<D> extends _NgxPlusifyDateRangeInputBase<D> implements CanUpdateErrorState {
+export class NgxPlusifyEndDate<D>
+  extends _NgxPlusifyDateRangeInputBase<D>
+  implements CanUpdateErrorState
+{
   /** Validator that checks that the end date isn't before the start date. */
   private _endValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const end = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(control.value));

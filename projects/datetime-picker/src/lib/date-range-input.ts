@@ -40,32 +40,32 @@ import {
 let nextUniqueId = 0;
 
 @Component({
-    selector: 'ngx-plusify-date-range-input',
-    templateUrl: 'date-range-input.html',
-    styleUrls: ['date-range-input.scss'],
-    exportAs: 'ngxPlusifyDateRangeInput',
-    host: {
-        class: 'mat-date-range-input',
-        '[class.mat-date-range-input-hide-placeholders]': '_shouldHidePlaceholders()',
-        '[class.mat-date-range-input-required]': 'required',
-        '[attr.id]': 'id',
-        role: 'group',
-        '[attr.aria-labelledby]': '_getAriaLabelledby()',
-        '[attr.aria-describedby]': '_ariaDescribedBy',
-        // Used by the test harness to tie this input to its calendar. We can't depend on
-        // `aria-owns` for this, because it's only defined while the calendar is open.
-        '[attr.data-mat-calendar]': 'rangePicker ? rangePicker.id : null',
+  selector: 'ngx-plusify-date-range-input',
+  templateUrl: 'date-range-input.html',
+  styleUrls: ['date-range-input.scss'],
+  exportAs: 'ngxPlusifyDateRangeInput',
+  host: {
+    class: 'mat-date-range-input',
+    '[class.mat-date-range-input-hide-placeholders]': '_shouldHidePlaceholders()',
+    '[class.mat-date-range-input-required]': 'required',
+    '[attr.id]': 'id',
+    role: 'group',
+    '[attr.aria-labelledby]': '_getAriaLabelledby()',
+    '[attr.aria-describedby]': '_ariaDescribedBy',
+    // Used by the test harness to tie this input to its calendar. We can't depend on
+    // `aria-owns` for this, because it's only defined while the calendar is open.
+    '[attr.data-mat-calendar]': 'rangePicker ? rangePicker.id : null',
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    { provide: MatFormFieldControl, useExisting: NgxPlusifyDateRangeInput },
+    {
+      provide: NGX_PLUSIFY_DATE_RANGE_INPUT_PARENT,
+      useExisting: NgxPlusifyDateRangeInput,
     },
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    providers: [
-        { provide: MatFormFieldControl, useExisting: NgxPlusifyDateRangeInput },
-        {
-            provide: NGX_PLUSIFY_DATE_RANGE_INPUT_PARENT,
-            useExisting: NgxPlusifyDateRangeInput,
-        },
-    ],
-    imports: [CdkMonitorFocus]
+  ],
+  imports: [CdkMonitorFocus],
 })
 export class NgxPlusifyDateRangeInput<D>
   implements
@@ -128,7 +128,11 @@ export class NgxPlusifyDateRangeInput<D>
       this._registerModel(this._model!);
     }
   }
-  private _rangePicker: NgxPlusifyDatepickerPanel<NgxPlusifyDatepickerControl<D>, NgxDateRange<D>, D>;
+  private _rangePicker: NgxPlusifyDatepickerPanel<
+    NgxPlusifyDatepickerControl<D>,
+    NgxDateRange<D>,
+    D
+  >;
 
   /** Whether the input is required. */
   @Input()

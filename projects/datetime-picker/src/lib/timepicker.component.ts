@@ -38,28 +38,28 @@ import {
 } from './utils/date-utils';
 
 @Component({
-    selector: 'ngx-plusify-timepicker',
-    templateUrl: './timepicker.component.html',
-    styleUrls: ['./timepicker.component.scss'],
-    host: {
-        class: 'ngx-plusify-timepicker',
+  selector: 'ngx-plusify-timepicker',
+  templateUrl: './timepicker.component.html',
+  styleUrls: ['./timepicker.component.scss'],
+  host: {
+    class: 'ngx-plusify-timepicker',
+  },
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NgxPlusifyTimepickerComponent),
+      multi: true,
     },
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => NgxPlusifyTimepickerComponent),
-            multi: true,
-        },
-    ],
-    exportAs: 'ngxPlusifyTimepicker',
-    encapsulation: ViewEncapsulation.None,
-    imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-    ]
+  ],
+  exportAs: 'ngxPlusifyTimepicker',
+  encapsulation: ViewEncapsulation.None,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class NgxPlusifyTimepickerComponent<D> implements ControlValueAccessor, OnInit, OnChanges {
   public form: FormGroup;

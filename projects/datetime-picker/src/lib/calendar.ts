@@ -24,7 +24,10 @@ import { Subject, Subscription } from 'rxjs';
 import { NgxPlusifyCalendarCellClassFunction, NgxPlusifyCalendarUserEvent } from './calendar-body';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
 import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
-import { NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER, NgxDateRange } from './date-selection-model';
+import {
+  NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER,
+  NgxDateRange,
+} from './date-selection-model';
 import { createMissingDateImplError } from './datepicker-errors';
 import { NgxPlusifyDatepickerIntl } from './datepicker-intl';
 import { NgxPlusifyMonthView } from './month-view';
@@ -48,12 +51,12 @@ export type NgxPlusifyCalendarView = 'month' | 'year' | 'multi-year';
 
 /** Default header for MatCalendar */
 @Component({
-    selector: 'ngx-plusify-calendar-header',
-    templateUrl: 'calendar-header.html',
-    exportAs: 'ngxPlusifyCalendarHeader',
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [MatButton, MatIconButton]
+  selector: 'ngx-plusify-calendar-header',
+  templateUrl: 'calendar-header.html',
+  exportAs: 'ngxPlusifyCalendarHeader',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatButton, MatIconButton],
 })
 export class NgxPlusifyCalendarHeader<D> {
   constructor(
@@ -225,19 +228,27 @@ export class NgxPlusifyCalendarHeader<D> {
 
 /** A calendar that is used as part of the datepicker. */
 @Component({
-    selector: 'ngx-plusify-calendar',
-    templateUrl: 'calendar.html',
-    styleUrls: ['calendar.scss'],
-    host: {
-        class: 'mat-calendar',
-    },
-    exportAs: 'ngxPlusifyCalendar',
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER],
-    imports: [CdkPortalOutlet, CdkMonitorFocus, NgxPlusifyMonthView, NgxPlusifyYearView, NgxPlusifyMultiYearView]
+  selector: 'ngx-plusify-calendar',
+  templateUrl: 'calendar.html',
+  styleUrls: ['calendar.scss'],
+  host: {
+    class: 'mat-calendar',
+  },
+  exportAs: 'ngxPlusifyCalendar',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER],
+  imports: [
+    CdkPortalOutlet,
+    CdkMonitorFocus,
+    NgxPlusifyMonthView,
+    NgxPlusifyYearView,
+    NgxPlusifyMultiYearView,
+  ],
 })
-export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked, OnDestroy, OnChanges {
+export class NgxPlusifyCalendar<D>
+  implements AfterContentInit, AfterViewChecked, OnDestroy, OnChanges
+{
   /** An input indicating the type of the header component, if set. */
   headerComponent = input<ComponentType<any>>();
 
@@ -338,7 +349,9 @@ export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked
   /**
    * Emits when the current view changes.
    */
-  readonly viewChanged = outputFromObservable<NgxPlusifyCalendarView>(toObservable(this.currentView));
+  readonly viewChanged = outputFromObservable<NgxPlusifyCalendarView>(
+    toObservable(this.currentView),
+  );
 
   /** Emits when any date is selected. */
   readonly _userSelection = output<NgxPlusifyCalendarUserEvent<D | null>>();
@@ -368,8 +381,6 @@ export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked
     this._changeDetectorRef.markForCheck();
   }
   private _clampedActiveDate: D;
-
-  private _currentView: NgxPlusifyCalendarView;
 
   /** Origin of active drag, or null when dragging is not active. */
   protected _activeDrag: NgxPlusifyCalendarUserEvent<D> | null = null;

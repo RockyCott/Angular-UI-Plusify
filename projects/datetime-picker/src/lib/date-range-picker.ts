@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { NGX_PLUSIFY_CALENDAR_RANGE_STRATEGY_PROVIDER } from './date-range-selection-strategy';
-import { NGX_PLUSIFY_RANGE_DATE_SELECTION_MODEL_PROVIDER, NgxDateRange } from './date-selection-model';
+import {
+  NGX_PLUSIFY_RANGE_DATE_SELECTION_MODEL_PROVIDER,
+  NgxDateRange,
+} from './date-selection-model';
 import {
   NgxPlusifyDatepickerBase,
   NgxPlusifyDatepickerContent,
@@ -33,14 +36,15 @@ export interface NgxPlusifyDateRangePickerInput<D> extends NgxPlusifyDatepickerC
     NGX_PLUSIFY_CALENDAR_RANGE_STRATEGY_PROVIDER,
     { provide: NgxPlusifyDatepickerBase, useExisting: NgxPlusifyDateRangePicker },
   ],
-  standalone: true,
 })
 export class NgxPlusifyDateRangePicker<D> extends NgxPlusifyDatepickerBase<
   NgxPlusifyDateRangePickerInput<D>,
   NgxDateRange<D>,
   D
 > {
-  protected override _forwardContentValues(instance: NgxPlusifyDatepickerContent<NgxDateRange<D>, D>) {
+  protected override _forwardContentValues(
+    instance: NgxPlusifyDatepickerContent<NgxDateRange<D>, D>,
+  ) {
     super._forwardContentValues(instance);
 
     const input = this.datepickerInput;

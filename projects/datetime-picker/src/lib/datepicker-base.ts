@@ -87,7 +87,9 @@ export const NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY = new InjectionToken<() => S
 );
 
 /** @docs-private */
-export function NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY_FACTORY(overlay: Overlay): () => ScrollStrategy {
+export function NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY_FACTORY(
+  overlay: Overlay,
+): () => ScrollStrategy {
   return () => overlay.scrollStrategies.reposition();
 }
 
@@ -120,35 +122,35 @@ const _NgxPlusifyDatepickerContentBase = mixinColor(
  * @docs-private
  */
 @Component({
-    selector: 'ngx-plusify-datepicker-content',
-    templateUrl: 'datepicker-content.html',
-    styleUrls: ['datepicker-content.scss'],
-    host: {
-        class: 'mat-datepicker-content',
-        '[@transformPanel]': '_animationState',
-        '(@transformPanel.start)': '_handleAnimationEvent($event)',
-        '(@transformPanel.done)': '_handleAnimationEvent($event)',
-        '[class.mat-datepicker-content-touch]': 'datepicker.touchUi',
-        '[class.mat-datepicker-content-touch-with-time]': '!datepicker.hideTime',
-    },
-    animations: [
-        ngxPlusifyDatepickerAnimations.transformPanel,
-        ngxPlusifyDatepickerAnimations.fadeInCalendar,
-    ],
-    exportAs: 'ngxPlusifyDatepickerContent',
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    inputs: ['color'],
-    imports: [
-        CdkTrapFocus,
-        NgxPlusifyCalendar,
-        NgClass,
-        NgxPlusifyTimepickerComponent,
-        ReactiveFormsModule,
-        FormsModule,
-        CdkPortalOutlet,
-        MatButton,
-    ]
+  selector: 'ngx-plusify-datepicker-content',
+  templateUrl: './datepicker-content.html',
+  styleUrls: ['./datepicker-content.scss'],
+  host: {
+    class: 'mat-datepicker-content',
+    '[@transformPanel]': '_animationState',
+    '(@transformPanel.start)': '_handleAnimationEvent($event)',
+    '(@transformPanel.done)': '_handleAnimationEvent($event)',
+    '[class.mat-datepicker-content-touch]': 'datepicker.touchUi',
+    '[class.mat-datepicker-content-touch-with-time]': '!datepicker.hideTime',
+  },
+  animations: [
+    ngxPlusifyDatepickerAnimations.transformPanel,
+    ngxPlusifyDatepickerAnimations.fadeInCalendar,
+  ],
+  exportAs: 'ngxPlusifyDatepickerContent',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  inputs: ['color'],
+  imports: [
+    CdkTrapFocus,
+    NgxPlusifyCalendar,
+    NgClass,
+    NgxPlusifyTimepickerComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    CdkPortalOutlet,
+    MatButton,
+  ],
 })
 export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<S>>
   extends _NgxPlusifyDatepickerContentBase
@@ -318,6 +320,10 @@ export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<
     if (this._model !== this._globalModel) {
       this._globalModel.updateSelection(this._model.selection, this);
     }
+  }
+
+  _clearSelection() {
+    this._globalModel.updateSelection(null, this);
   }
 
   /**
@@ -826,6 +832,10 @@ export abstract class NgxPlusifyDatepickerBase<
   /** Applies the current pending selection on the overlay to the model. */
   _applyPendingSelection() {
     this._componentRef?.instance?._applyPendingSelection();
+  }
+
+  _clearSelection() {
+    this._componentRef?.instance?._clearSelection();
   }
 
   /** Forwards relevant values from the datepicker to the datepicker content inside the overlay. */

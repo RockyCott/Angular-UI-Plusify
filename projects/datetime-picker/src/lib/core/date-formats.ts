@@ -13,4 +13,6 @@ export type NgxPlusifyDateFormats = {
   };
 };
 
-export const NGX_PLUSIFY_DATE_FORMATS = new InjectionToken<NgxPlusifyDateFormats>('ngx-plusify-date-formats');
+export const NGX_PLUSIFY_DATE_FORMATS = new InjectionToken<NgxPlusifyDateFormats>(
+  'ngx-plusify-date-formats',
+);

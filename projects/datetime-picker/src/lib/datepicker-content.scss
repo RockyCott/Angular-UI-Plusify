@@ -20,7 +20,6 @@ $touch-min-height: 312px;
 $touch-max-width: 750px;
 $touch-max-height: 815px;
 
-
 .mat-datepicker-content {
   display: block;
   border-radius: 4px;
@@ -66,7 +65,6 @@ $touch-max-height: 815px;
 
   // Ensures that `mat-datepicker-actions` is pushed to the bottom of the popup.
   justify-content: space-between;
-
 }
 
 .time-container {
@@ -76,7 +74,7 @@ $touch-max-height: 815px;
   justify-content: center;
 
   &.disable-seconds {
-    .ngx-plusify-timepicker {
+    .ngx-mat-timepicker {
       .table {
         margin-left: 9px;
       }

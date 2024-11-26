@@ -50,7 +50,9 @@ export interface NgxPlusifyDateRangeSelectionStrategy<D> {
 
 /** Provides the default date range selection behavior. */
 @Injectable()
-export class DefaultNgxPlusifyCalendarRangeStrategy<D> implements NgxPlusifyDateRangeSelectionStrategy<D> {
+export class DefaultNgxPlusifyCalendarRangeStrategy<D>
+  implements NgxPlusifyDateRangeSelectionStrategy<D>
+{
   constructor(private _dateAdapter: NgxPlusifyDateAdapter<D>) {}
 
   selectionFinished(date: D, currentRange: NgxDateRange<D>) {

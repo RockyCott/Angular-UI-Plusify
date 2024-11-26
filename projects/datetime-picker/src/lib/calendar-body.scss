@@ -36,7 +36,8 @@ $calendar-body-preview-cell-border: dashed 1px;
 $calendar-body-min-size: 7 * $calendar-body-cell-min-size !default;
 $calendar-body-cell-content-size: 100% - $calendar-body-cell-content-margin * 2 !default;
 
-$calendar-range-end-body-cell-size: $calendar-body-cell-content-size + $calendar-body-cell-content-margin !default;
+$calendar-range-end-body-cell-size: $calendar-body-cell-content-size +
+  $calendar-body-cell-content-margin !default;
 
 .mat-calendar-body {
   min-width: $calendar-body-min-size;
@@ -63,10 +64,12 @@ $calendar-range-end-body-cell-size: $calendar-body-cell-content-size + $calendar
   height: 0;
   line-height: 0;
 
-  .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
+    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(
+      .mat-calendar-body-comparison-identical
+    ) {
     background-color: var(--mat-datepicker-calendar-date-hover-state-background-color);
   }
-
 }
 
 .mat-calendar-body-cell {
@@ -154,7 +157,6 @@ $calendar-range-end-body-cell-size: $calendar-body-cell-content-size + $calendar
 
 // Styles necessary to make RTL work.
 [dir='rtl'] {
-
   .mat-calendar-body-comparison-bridge-start.mat-calendar-body-range-end::after,
   .mat-calendar-body-comparison-bridge-end.mat-calendar-body-range-start::after {
     @include _range-right-radius;
@@ -164,7 +166,6 @@ $calendar-range-end-body-cell-size: $calendar-body-cell-content-size + $calendar
 // Prevents the extra overlap range indication from showing up when it's not supposed to.
 .mat-calendar-body-comparison-start.mat-calendar-body-range-end::after,
 .mat-calendar-body-comparison-end.mat-calendar-body-range-start::after {
-
   // Note that the RTL selector here is redundant, but we need to keep it in order to
   // raise the specificity since it can be overridden by some of the styles from above.
   &,
@@ -236,7 +237,9 @@ $calendar-range-end-body-cell-size: $calendar-body-cell-content-size + $calendar
     color: var(--mat-datepicker-calendar-date-selected-state-text-color);
   }
 
-  &.mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  &.mat-calendar-body-today:not(.mat-calendar-body-selected):not(
+      .mat-calendar-body-comparison-identical
+    ) {
     border-color: var(--mat-datepicker-calendar-date-today-outline-color);
   }
 

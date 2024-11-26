@@ -2,7 +2,7 @@
 
 <div class="mat-calendar-content" cdkMonitorSubtreeFocus tabindex="-1">
   @switch (currentView()) {
-    @case ("month") {
+    @case ('month') {
       <ngx-plusify-month-view
         [(activeDate)]="activeDate"
         [selected]="selected"
@@ -17,10 +17,9 @@
         (_userSelection)="_dateSelected($event)"
         (dragStarted)="_dragStarted($event)"
         (dragEnded)="_dragEnded($event)"
-        [activeDrag]="_activeDrag"
-      />
+        [activeDrag]="_activeDrag" />
     }
-    @case ("year") {
+    @case ('year') {
       <ngx-plusify-year-view
         [(activeDate)]="activeDate"
         [selected]="selected"
@@ -29,10 +28,9 @@
         [minDate]="minDate"
         [dateClass]="dateClass()"
         (monthSelected)="_monthSelectedInYearView($event)"
-        (selectedChange)="_goToDateInView($event, 'month')"
-      />
+        (selectedChange)="_goToDateInView($event, 'month')" />
     }
-    @case ("multi-year") {
+    @case ('multi-year') {
       <ngx-plusify-multi-year-view
         [(activeDate)]="activeDate"
         [selected]="selected"
@@ -41,8 +39,7 @@
         [minDate]="minDate"
         [dateClass]="dateClass()"
         (yearSelected)="_yearSelectedInMultiYearView($event)"
-        (selectedChange)="_goToDateInView($event, 'year')"
-      />
+        (selectedChange)="_goToDateInView($event, 'year')" />
     }
   }
 </div>

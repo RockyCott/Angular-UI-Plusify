@@ -53,12 +53,12 @@ const DAYS_PER_WEEK = 7;
  * @docs-private
  */
 @Component({
-    selector: 'ngx-plusify-month-view',
-    templateUrl: 'month-view.html',
-    exportAs: 'ngxPlusifyMonthView',
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgxPlusifyCalendarBody]
+  selector: 'ngx-plusify-month-view',
+  templateUrl: 'month-view.html',
+  exportAs: 'ngxPlusifyMonthView',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgxPlusifyCalendarBody],
 })
 export class NgxPlusifyMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;
@@ -161,7 +161,7 @@ export class NgxPlusifyMonthView<D> implements AfterContentInit, OnChanges, OnDe
   readonly activeDateChange = output<D>();
 
   /** The body of calendar table */
-  _matCalendarBody = viewChild(NgxPlusifyCalendarBody);
+  _plusifyCalendarBody = viewChild(NgxPlusifyCalendarBody);
 
   /** The label for this month (e.g. "January 2017"). */
   _monthLabel: string;
@@ -416,16 +416,19 @@ export class NgxPlusifyMonthView<D> implements AfterContentInit, OnChanges, OnDe
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell(movePreview?: boolean) {
-    this._matCalendarBody()._focusActiveCell(movePreview);
+    this._plusifyCalendarBody()._focusActiveCell(movePreview);
   }
 
   /** Focuses the active cell after change detection has run and the microtask queue is empty. */
   _focusActiveCellAfterViewChecked() {
-    this._matCalendarBody()._scheduleFocusActiveCellAfterViewChecked();
+    this._plusifyCalendarBody()._scheduleFocusActiveCellAfterViewChecked();
   }
 
   /** Called when the user has activated a new cell and the preview needs to be updated. */
-  _previewChanged({ event, value: cell }: NgxPlusifyCalendarUserEvent<NgxPlusifyCalendarCell<D> | null>) {
+  _previewChanged({
+    event,
+    value: cell,
+  }: NgxPlusifyCalendarUserEvent<NgxPlusifyCalendarCell<D> | null>) {
     if (this._rangeStrategy) {
       // We can assume that this will be a range, because preview
       // events aren't fired for single date selections.

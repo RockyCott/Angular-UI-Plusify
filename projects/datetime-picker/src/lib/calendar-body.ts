@@ -16,7 +16,11 @@ import {
 import { take } from 'rxjs/operators';
 
 /** Extra CSS classes that can be associated with a calendar cell. */
-export type NgxPlusifyCalendarCellCssClasses = string | string[] | Set<string> | { [key: string]: any };
+export type NgxPlusifyCalendarCellCssClasses =
+  | string
+  | string[]
+  | Set<string>
+  | { [key: string]: any };
 
 /** Function that can generate the extra classes that should be added to a calendar cell. */
 export type NgxPlusifyCalendarCellClassFunction<D> = (
@@ -49,16 +53,16 @@ export interface NgxPlusifyCalendarUserEvent<D> {
 let calendarBodyId = 1;
 
 @Component({
-    selector: '[ngx-plusify-calendar-body]',
-    templateUrl: 'calendar-body.html',
-    styleUrls: ['calendar-body.scss'],
-    host: {
-        class: 'ngx-plusify-calendar-body',
-    },
-    exportAs: 'matCalendarBody',
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgClass]
+  selector: '[ngx-plusify-calendar-body]',
+  templateUrl: 'calendar-body.html',
+  styleUrls: ['calendar-body.scss'],
+  host: {
+    class: 'ngx-plusify-calendar-body',
+  },
+  exportAs: 'plusifyCalendarBody',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgClass],
 })
 export class NgxPlusifyCalendarBody<D = any> implements OnDestroy, AfterViewChecked {
   private _platform = inject(Platform);
@@ -151,7 +155,7 @@ export class NgxPlusifyCalendarBody<D = any> implements OnDestroy, AfterViewChec
     const rows = this.rows();
     const numCols = this.numCols();
 
-    return rows && rows.length && rows[0].length ? numCols - rows[0].length : 0;
+    return rows?.length && rows[0].length ? numCols - rows[0].length : 0;
   });
 
   /** Padding for the individual date cells. */

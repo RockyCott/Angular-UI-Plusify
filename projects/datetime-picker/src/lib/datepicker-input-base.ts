@@ -204,8 +204,12 @@ export abstract class NgxPlusifyDatepickerInputBase<S, D = NgxExtractDateTypeFro
         this._cvaOnChange(value);
         this._onTouched();
         this._formatValue(value);
-        this.dateInput.emit(new NgxPlusifyDatepickerInputEvent(this, this._elementRef.nativeElement));
-        this.dateChange.emit(new NgxPlusifyDatepickerInputEvent(this, this._elementRef.nativeElement));
+        this.dateInput.emit(
+          new NgxPlusifyDatepickerInputEvent(this, this._elementRef.nativeElement),
+        );
+        this.dateChange.emit(
+          new NgxPlusifyDatepickerInputEvent(this, this._elementRef.nativeElement),
+        );
       }
     });
   }

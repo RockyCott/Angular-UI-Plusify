@@ -8,7 +8,7 @@
   .mat-mdc-button-base + .mat-mdc-button-base {
     margin-left: $spacing;
 
-    [dir="rtl"] & {
+    [dir='rtl'] & {
       margin-left: 0;
       margin-right: $spacing;
     }

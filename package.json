@@ -28,16 +28,13 @@
     "ngx-plusify-timepicker"
   ],
   "license": "MIT",
-  "engines": {
-    "node": "^18.19.1 || ^20.11.1 || ^22.0.0"
-  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build -c=production",
-    "build:datetime-picker": "ng build datetime-picker",
+    "build:datetime-picker": "ng build NgxPlusifyDatetimePicker",
     "build:moment-adapter": "ng build NgxPlusifyMomentAdapter",
-    "publish:datetime-picker": "ng build datetime-picker && cd dist/@angular-ui-plusify/datetime-picker && npm publish --access public && cd .. && cd .. && cd ..",
+    "publish:datetime-picker": "ng build NgxPlusifyDatetimePicker && cd dist/@angular-ui-plusify/datetime-picker && npm publish --access public && cd .. && cd .. && cd ..",
     "publish:moment-adapter": "ng build NgxPlusifyMomentAdapter && cd dist/@angular-ui-plusify/moment-adapter && npm publish --access public  && cd .. && cd .. && cd ..",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -47,7 +44,7 @@
   "private": false,
   "dependencies": {
     "@angular/animations": "~19.0.0",
-    "@angular/cdk": "~18.2.14",
+    "@angular/cdk": "~19.0.0",
     "@angular/common": "~19.0.0",
     "@angular/compiler": "~19.0.0",
     "@angular/core": "~19.0.0",

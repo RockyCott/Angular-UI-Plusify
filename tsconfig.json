@@ -23,6 +23,7 @@
         "dist/@angular-ui-plusify/datetime-picker/*"
       ]
     },
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "skipLibCheck": true
   }
 }

@@ -9,7 +9,7 @@
       [attr.aria-describedby]="_periodButtonLabelId"
       aria-live="polite"
     >
-      <span aria-hidden="true">{{periodButtonText}}</span>
+      <span aria-hidden="true">{{ periodButtonText }}</span>
       <svg
         class="mat-calendar-arrow"
         [class.mat-calendar-invert]="calendar.currentView !== 'month'"
@@ -44,6 +44,6 @@
     ></button>
   </div>
 </div>
-<label [id]="_periodButtonLabelId" class="mat-calendar-hidden-label"
-  >{{periodButtonDescription}}</label
->
+<label [id]="_periodButtonLabelId" class="mat-calendar-hidden-label">{{
+  periodButtonDescription
+}}</label>

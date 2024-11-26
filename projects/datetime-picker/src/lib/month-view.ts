@@ -18,16 +18,16 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   Inject,
   Input,
   OnChanges,
   OnDestroy,
   Optional,
-  Output,
   SimpleChanges,
-  ViewChild,
   ViewEncapsulation,
+  input,
+  output,
+  viewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -38,10 +38,7 @@ import {
   NgxPlusifyCalendarUserEvent,
 } from './calendar-body';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
-import {
-  NGX_PLUSIFY_DATE_FORMATS,
-  NgxPlusifyDateFormats,
-} from './core/date-formats';
+import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
 import {
   NGX_PLUSIFY_DATE_RANGE_SELECTION_STRATEGY,
   NgxPlusifyDateRangeSelectionStrategy,
@@ -61,10 +58,10 @@ const DAYS_PER_WEEK = 7;
   exportAs: 'ngxPlusifyMonthView',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgxPlusifyCalendarBody],
 })
-export class NgxPlusifyMonthView<D>
-  implements AfterContentInit, OnChanges, OnDestroy
-{
+export class NgxPlusifyMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;
 
   /** Flag used to filter out space/enter keyup events that originated outside of the view. */
@@ -80,14 +77,9 @@ export class NgxPlusifyMonthView<D>
   set activeDate(value: D) {
     const oldActiveDate = this._activeDate;
     const validDate =
-      this._dateAdapter.getValidDateOrNull(
-        this._dateAdapter.deserialize(value),
-      ) || this._dateAdapter.today();
-    this._activeDate = this._dateAdapter.clampDate(
-      validDate,
-      this.minDate,
-      this.maxDate,
-    );
+      this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value)) ||
+      this._dateAdapter.today();
+    this._activeDate = this._dateAdapter.clampDate(validDate, this.minDate, this.maxDate);
     if (!this._hasSameMonthAndYear(oldActiveDate, this._activeDate)) {
       this._init();
     }
@@ -103,9 +95,7 @@ export class NgxPlusifyMonthView<D>
     if (value instanceof NgxDateRange) {
       this._selected = value;
     } else {
-      this._selected = this._dateAdapter.getValidDateOrNull(
-        this._dateAdapter.deserialize(value),
-      );
+      this._selected = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
     }
 
     this._setRanges(this._selected);
@@ -118,9 +108,7 @@ export class NgxPlusifyMonthView<D>
     return this._minDate;
   }
   set minDate(value: D | null) {
-    this._minDate = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value),
-    );
+    this._minDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
   private _minDate: D | null;
 
@@ -130,60 +118,51 @@ export class NgxPlusifyMonthView<D>
     return this._maxDate;
   }
   set maxDate(value: D | null) {
-    this._maxDate = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value),
-    );
+    this._maxDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
   private _maxDate: D | null;
 
   /** Function used to filter which dates are selectable. */
-  @Input() dateFilter: (date: D) => boolean;
+  dateFilter = input<(date: D) => boolean>();
 
   /** Function that can be used to add custom CSS classes to dates. */
-  @Input() dateClass: NgxPlusifyCalendarCellClassFunction<D>;
+  dateClass = input<NgxPlusifyCalendarCellClassFunction<D>>();
 
   /** Start of the comparison range. */
-  @Input() comparisonStart: D | null;
+  comparisonStart = input<D | null>();
 
   /** End of the comparison range. */
-  @Input() comparisonEnd: D | null;
+  comparisonEnd = input<D | null>();
 
   /** ARIA Accessible name of the `<input matStartDate/>` */
-  @Input() startDateAccessibleName: string | null;
+  startDateAccessibleName = input<string | null>();
 
   /** ARIA Accessible name of the `<input matEndDate/>` */
-  @Input() endDateAccessibleName: string | null;
+  endDateAccessibleName = input<string | null>();
 
   /** Origin of active drag, or null when dragging is not active. */
-  @Input() activeDrag: NgxPlusifyCalendarUserEvent<D> | null = null;
+  activeDrag = input<NgxPlusifyCalendarUserEvent<D> | null>(null);
 
   /** Emits when a new date is selected. */
-  @Output() readonly selectedChange: EventEmitter<D | null> =
-    new EventEmitter<D | null>();
+  readonly selectedChange = output<D | null>();
 
   /** Emits when any date is selected. */
-  @Output() readonly _userSelection: EventEmitter<
-    NgxPlusifyCalendarUserEvent<D | null>
-  > = new EventEmitter<NgxPlusifyCalendarUserEvent<D | null>>();
+  readonly _userSelection = output<NgxPlusifyCalendarUserEvent<D | null>>();
 
   /** Emits when the user initiates a date range drag via mouse or touch. */
-  @Output() readonly dragStarted = new EventEmitter<
-    NgxPlusifyCalendarUserEvent<D>
-  >();
+  readonly dragStarted = output<NgxPlusifyCalendarUserEvent<D>>();
 
   /**
    * Emits when the user completes or cancels a date range drag.
    * Emits null when the drag was canceled or the newly selected date range if completed.
    */
-  @Output() readonly dragEnded = new EventEmitter<
-    NgxPlusifyCalendarUserEvent<NgxDateRange<D> | null>
-  >();
+  readonly dragEnded = output<NgxPlusifyCalendarUserEvent<NgxDateRange<D> | null>>();
 
   /** Emits when any date is activated. */
-  @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
+  readonly activeDateChange = output<D>();
 
   /** The body of calendar table */
-  @ViewChild(NgxPlusifyCalendarBody) _matCalendarBody: NgxPlusifyCalendarBody;
+  _matCalendarBody = viewChild(NgxPlusifyCalendarBody);
 
   /** The label for this month (e.g. "January 2017"). */
   _monthLabel: string;
@@ -249,14 +228,13 @@ export class NgxPlusifyMonthView<D>
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const comparisonChange =
-      changes['comparisonStart'] || changes['comparisonEnd'];
+    const comparisonChange = changes['comparisonStart'] || changes['comparisonEnd'];
 
     if (comparisonChange && !comparisonChange.firstChange) {
       this._setRanges(this.selected);
     }
 
-    if (changes['activeDrag'] && !this.activeDrag) {
+    if (changes['activeDrag'] && !this.activeDrag()) {
       this._clearPreview();
     }
   }
@@ -276,9 +254,7 @@ export class NgxPlusifyMonthView<D>
       rangeStartDate = this._getDateInCurrentMonth(this._selected.start);
       rangeEndDate = this._getDateInCurrentMonth(this._selected.end);
     } else {
-      rangeStartDate = rangeEndDate = this._getDateInCurrentMonth(
-        this._selected,
-      );
+      rangeStartDate = rangeEndDate = this._getDateInCurrentMonth(this._selected);
     }
 
     if (rangeStartDate !== date || rangeEndDate !== date) {
@@ -321,28 +297,16 @@ export class NgxPlusifyMonthView<D>
 
     switch (event.keyCode) {
       case LEFT_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarDays(
-          this._activeDate,
-          isRtl ? 1 : -1,
-        );
+        this.activeDate = this._dateAdapter.addCalendarDays(this._activeDate, isRtl ? 1 : -1);
         break;
       case RIGHT_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarDays(
-          this._activeDate,
-          isRtl ? -1 : 1,
-        );
+        this.activeDate = this._dateAdapter.addCalendarDays(this._activeDate, isRtl ? -1 : 1);
         break;
       case UP_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarDays(
-          this._activeDate,
-          -7,
-        );
+        this.activeDate = this._dateAdapter.addCalendarDays(this._activeDate, -7);
         break;
       case DOWN_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarDays(
-          this._activeDate,
-          7,
-        );
+        this.activeDate = this._dateAdapter.addCalendarDays(this._activeDate, 7);
         break;
       case HOME:
         this.activeDate = this._dateAdapter.addCalendarDays(
@@ -386,7 +350,7 @@ export class NgxPlusifyMonthView<D>
           this._clearPreview();
           // If a drag is in progress, cancel the drag without changing the
           // current selection.
-          if (this.activeDrag) {
+          if (this.activeDrag()) {
             this.dragEnded.emit({ value: null, event });
           } else {
             this.selectedChange.emit(null);
@@ -430,10 +394,7 @@ export class NgxPlusifyMonthView<D>
     this._setRanges(this.selected);
     this._todayDate = this._getCellCompareValue(this._dateAdapter.today());
     this._monthLabel = this._dateFormats.display.monthLabel
-      ? this._dateAdapter.format(
-          this.activeDate,
-          this._dateFormats.display.monthLabel,
-        )
+      ? this._dateAdapter.format(this.activeDate, this._dateFormats.display.monthLabel)
       : this._dateAdapter
           .getMonthNames('short')
           [this._dateAdapter.getMonth(this.activeDate)].toLocaleUpperCase();
@@ -456,19 +417,16 @@ export class NgxPlusifyMonthView<D>
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell(movePreview?: boolean) {
-    this._matCalendarBody._focusActiveCell(movePreview);
+    this._matCalendarBody()._focusActiveCell(movePreview);
   }
 
   /** Focuses the active cell after change detection has run and the microtask queue is empty. */
   _focusActiveCellAfterViewChecked() {
-    this._matCalendarBody._scheduleFocusActiveCellAfterViewChecked();
+    this._matCalendarBody()._scheduleFocusActiveCellAfterViewChecked();
   }
 
   /** Called when the user has activated a new cell and the preview needs to be updated. */
-  _previewChanged({
-    event,
-    value: cell,
-  }: NgxPlusifyCalendarUserEvent<NgxPlusifyCalendarCell<D> | null>) {
+  _previewChanged({ event, value: cell }: NgxPlusifyCalendarUserEvent<NgxPlusifyCalendarCell<D> | null>) {
     if (this._rangeStrategy) {
       // We can assume that this will be a range, because preview
       // events aren't fired for single date selections.
@@ -481,9 +439,9 @@ export class NgxPlusifyMonthView<D>
       this._previewStart = this._getCellCompareValue(previewRange.start);
       this._previewEnd = this._getCellCompareValue(previewRange.end);
 
-      if (this.activeDrag && value) {
+      if (this.activeDrag()! && value) {
         const dragRange = this._rangeStrategy.createDrag?.(
-          this.activeDrag.value,
+          this.activeDrag()!.value,
           this.selected as NgxDateRange<D>,
           value,
           event,
@@ -508,12 +466,12 @@ export class NgxPlusifyMonthView<D>
    * computes and emits the new range selection.
    */
   protected _dragEnded(event: NgxPlusifyCalendarUserEvent<D | null>) {
-    if (!this.activeDrag) return;
+    if (!this.activeDrag()!) return;
 
     if (event.value) {
       // Propagate drag effect
       const dragDropResult = this._rangeStrategy?.createDrag?.(
-        this.activeDrag.value,
+        this.activeDrag()!.value,
         this.selected as NgxDateRange<D>,
         event.value,
         event.event,
@@ -550,9 +508,7 @@ export class NgxPlusifyMonthView<D>
     let weekdays = longWeekdays.map((long, i) => {
       return { long, narrow: narrowWeekdays[i] };
     });
-    this._weekdays = weekdays
-      .slice(firstDayOfWeek)
-      .concat(weekdays.slice(0, firstDayOfWeek));
+    this._weekdays = weekdays.slice(firstDayOfWeek).concat(weekdays.slice(0, firstDayOfWeek));
   }
 
   /** Creates MatCalendarCells for the dates in this month. */
@@ -560,11 +516,7 @@ export class NgxPlusifyMonthView<D>
     const daysInMonth = this._dateAdapter.getNumDaysInMonth(this.activeDate);
     const dateNames = this._dateAdapter.getDateNames();
     this._weeks = [[]];
-    for (
-      let i = 0, cell = this._firstWeekOffset;
-      i < daysInMonth;
-      i++, cell++
-    ) {
+    for (let i = 0, cell = this._firstWeekOffset; i < daysInMonth; i++, cell++) {
       if (cell == DAYS_PER_WEEK) {
         this._weeks.push([]);
         cell = 0;
@@ -575,13 +527,8 @@ export class NgxPlusifyMonthView<D>
         i + 1,
       );
       const enabled = this._shouldEnableDate(date);
-      const ariaLabel = this._dateAdapter.format(
-        date,
-        this._dateFormats.display.dateA11yLabel,
-      );
-      const cellClasses = this.dateClass
-        ? this.dateClass(date, 'month')
-        : undefined;
+      const ariaLabel = this._dateAdapter.format(date, this._dateFormats.display.dateA11yLabel);
+      const cellClasses = this.dateClass() ? this.dateClass()!(date, 'month') : undefined;
 
       this._weeks[this._weeks.length - 1].push(
         new NgxPlusifyCalendarCell<D>(
@@ -601,11 +548,9 @@ export class NgxPlusifyMonthView<D>
   private _shouldEnableDate(date: D): boolean {
     return (
       !!date &&
-      (!this.minDate ||
-        this._dateAdapter.compareDate(date, this.minDate) >= 0) &&
-      (!this.maxDate ||
-        this._dateAdapter.compareDate(date, this.maxDate) <= 0) &&
-      (!this.dateFilter || this.dateFilter(date))
+      (!this.minDate || this._dateAdapter.compareDate(date, this.minDate) >= 0) &&
+      (!this.maxDate || this._dateAdapter.compareDate(date, this.maxDate) <= 0) &&
+      (!this.dateFilter() || this.dateFilter()(date))
     );
   }
 
@@ -655,20 +600,17 @@ export class NgxPlusifyMonthView<D>
       this._rangeEnd = this._getCellCompareValue(selectedValue.end);
       this._isRange = true;
     } else {
-      this._rangeStart = this._rangeEnd =
-        this._getCellCompareValue(selectedValue);
+      this._rangeStart = this._rangeEnd = this._getCellCompareValue(selectedValue);
       this._isRange = false;
     }
 
-    this._comparisonRangeStart = this._getCellCompareValue(
-      this.comparisonStart,
-    );
-    this._comparisonRangeEnd = this._getCellCompareValue(this.comparisonEnd);
+    this._comparisonRangeStart = this._getCellCompareValue(this.comparisonStart());
+    this._comparisonRangeEnd = this._getCellCompareValue(this.comparisonEnd());
   }
 
   /** Gets whether a date can be selected in the month view. */
   private _canSelect(date: D) {
-    return !this.dateFilter || this.dateFilter(date);
+    return !this.dateFilter() || this.dateFilter()(date);
   }
 
   /** Clears out preview state. */

@@ -1,14 +1,58 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, viewChild } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ThemePalette } from '@angular/material/core';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import {
+  NgxPlusifyDatepickerActions,
+  NgxPlusifyDatepickerApply,
+  NgxPlusifyDatepickerCancel,
+  NgxPlusifyDatepickerInput,
+  NgxPlusifyDatepickerToggle,
+  NgxPlusifyDatetimepicker,
+} from 'projects/datetime-picker/src';
+import { NgxPlusifyHighlightDirective } from '../shared/NgxMatHighlightDirective';
 
 @Component({
   selector: 'app-demo-datetime',
   templateUrl: './demo-datetime.component.html',
   styleUrls: ['./demo-datetime.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatTabsModule,
+    NgxPlusifyDatepickerActions,
+    NgxPlusifyDatepickerApply,
+    NgxPlusifyDatepickerCancel,
+    NgxPlusifyDatepickerInput,
+    NgxPlusifyDatepickerToggle,
+    NgxPlusifyDatetimepicker,
+    NgxPlusifyHighlightDirective,
+    ReactiveFormsModule,
+  ],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill' },
+    },
+  ],
 })
-export class DemoDatetimeComponent implements OnInit {
-  @ViewChild('picker', { static: true }) picker: any;
+export class DemoDatetimeComponent {
+  pickerElement = viewChild(NgxPlusifyDatetimepicker);
 
   public disabled = false;
   public showSpinners = true;
@@ -24,7 +68,7 @@ export class DemoDatetimeComponent implements OnInit {
   public disableMinute = false;
   public hideTime = false;
 
-  public dateControl = new FormControl(new Date());
+  public dateControl = new FormControl<Date>(null);
 
   public options = [
     { value: true, label: 'True' },
@@ -50,27 +94,27 @@ export class DemoDatetimeComponent implements OnInit {
 </mat-form-field>`;
 
   public code2 = `import {
-           NgxPlusifyDatetimePickerModule, 
-           NgxPlusifyNativeDateModule, 
-           NgxPlusifyTimepickerModule 
+           NgxPlusifyDatetimePickerComponent,
+           NgxPlusifyNativeDateComponent,
+           NgxPlusifyTimepickerComponent
   } from '@angular-ui-plusify/datetime-picker';
-  
-@NgModule({
+
+@Component({
   imports: [
     ...
-    NgxPlusifyDatetimePickerModule,
-    NgxPlusifyTimepickerModule,
-    NgxPlusifyNativeDateModule,
+    NgxPlusifyDatetimePickerComponent,
+    NgxPlusifyTimepickerComponent,
+    NgxPlusifyNativeDateComponent,
     ...
   ]
 })
-export class AppModule { }`;
+export class AppComponent { }`;
   public code4 = 'npm install --save  @angular-ui-plusify/moment-adapter';
   public code5 = `@Injectable()
 export class CustomDateAdapter extends NgxPlusifyDateAdapter<D> {...}
 // D can be Date, Moment or customized type`;
 
-  public code6 = `@NgModule({
+  public code6 = `@Component({
   providers: [
     {
       provide: NgxPlusifyDateAdapter,
@@ -79,7 +123,7 @@ export class CustomDateAdapter extends NgxPlusifyDateAdapter<D> {...}
     }
   ],
 })
-export class CustomDateModule { }`;
+export class CustomDateComponent { }`;
 
   public code7 = `// If using Moment
 const CUSTOM_DATE_FORMATS: NgxPlusifyDateFormats = {
@@ -94,7 +138,7 @@ const CUSTOM_DATE_FORMATS: NgxPlusifyDateFormats = {
   }
 };
 
-//and in the module providers 
+//and in the module providers
 providers: [
     { provide: NGX_PLUSIFY_DATE_FORMATS, useValue: CUSTOM_MOMENT_FORMATS }
   ]`;
@@ -128,17 +172,6 @@ providers: [
 </ngx-plusify-datetime-picker>
 </mat-form-field>`;
 
-  constructor() {}
-
-  ngOnInit() {
-    // this.picker.closedStream.subscribe(() => {
-    //   console.log('closed');
-    // })
-    // this.picker.openedStream.subscribe(() => {
-    //   console.log('opened');
-    // })
-  }
-
   toggleMinDate(evt: any) {
     if (evt.checked) {
       this._setMinDate();
@@ -156,7 +189,7 @@ providers: [
   }
 
   closePicker() {
-    this.picker.cancel();
+    this.pickerElement().close();
   }
 
   private _setMinDate() {

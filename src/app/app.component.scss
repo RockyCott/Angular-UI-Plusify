@@ -4,6 +4,8 @@
 
 :host {
   ::ng-deep mat-sidenav-container {
+    height: 100%;
+
     mat-sidenav {
       .mat-mdc-nav-list {
         padding: 0;
@@ -18,7 +20,7 @@
           }
 
           &.active {
-            background-color: #009b77;
+            background-color: #009B77;
 
             .mdc-list-item__content {
               .mdc-list-item__primary-text {

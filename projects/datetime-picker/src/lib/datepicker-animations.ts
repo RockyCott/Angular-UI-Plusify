@@ -1,11 +1,11 @@
 import {
   animate,
+  AnimationTriggerMetadata,
+  keyframes,
   state,
   style,
   transition,
   trigger,
-  keyframes,
-  AnimationTriggerMetadata,
 } from '@angular/animations';
 
 /**
@@ -48,9 +48,6 @@ export const ngxPlusifyDatepickerAnimations: {
 
     // TODO(crisbeto): this animation should be removed since it isn't quite on spec, but we
     // need to keep it until #12440 gets in, otherwise the exit animation will look glitchy.
-    transition(
-      'void => *',
-      animate('120ms 100ms cubic-bezier(0.55, 0, 0.55, 0.2)'),
-    ),
+    transition('void => *', animate('120ms 100ms cubic-bezier(0.55, 0, 0.55, 0.2)')),
   ]),
 };

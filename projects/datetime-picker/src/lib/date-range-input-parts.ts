@@ -22,25 +22,12 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import {
-  CanUpdateErrorState,
-  ErrorStateMatcher,
-  mixinErrorState,
-} from '@angular/material/core';
+import { CanUpdateErrorState, ErrorStateMatcher, mixinErrorState } from '@angular/material/core';
 import { _computeAriaAccessibleName } from './aria-accessible-name';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
-import {
-  NGX_PLUSIFY_DATE_FORMATS,
-  NgxPlusifyDateFormats,
-} from './core/date-formats';
-import {
-  NgxDateRange,
-  NgxDateSelectionModelChange,
-} from './date-selection-model';
-import {
-  NgxDateFilterFn,
-  NgxPlusifyDatepickerInputBase,
-} from './datepicker-input-base';
+import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
+import { NgxDateRange, NgxDateSelectionModelChange } from './date-selection-model';
+import { NgxDateFilterFn, NgxPlusifyDatepickerInputBase } from './datepicker-input-base';
 
 /** Parent component that should be wrapped around `MatStartDate` and `MatEndDate`. */
 export interface NgxPlusifyDateRangeInputParent<D> {
@@ -86,9 +73,7 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
 
   protected abstract override _validator: ValidatorFn | null;
   protected abstract override _assignValueToModel(value: D | null): void;
-  protected abstract override _getValueFromModel(
-    modelValue: NgxDateRange<D>,
-  ): D | null;
+  protected abstract override _getValueFromModel(modelValue: NgxDateRange<D>): D | null;
 
   protected readonly _dir = inject(Directionality, { optional: true });
 
@@ -101,9 +86,7 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
     @Optional() public _parentForm: NgForm,
     @Optional() public _parentFormGroup: FormGroupDirective,
     @Optional() dateAdapter: NgxPlusifyDateAdapter<D>,
-    @Optional()
-    @Inject(NGX_PLUSIFY_DATE_FORMATS)
-    dateFormats: NgxPlusifyDateFormats,
+    @Optional() @Inject(NGX_PLUSIFY_DATE_FORMATS) dateFormats: NgxPlusifyDateFormats,
   ) {
     super(_elementRef, dateAdapter, dateFormats);
   }
@@ -190,10 +173,7 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
   protected _shouldHandleChangeEvent({
     source,
   }: NgxDateSelectionModelChange<NgxDateRange<D>>): boolean {
-    return (
-      source !== this._rangeInput._startInput &&
-      source !== this._rangeInput._endInput
-    );
+    return source !== this._rangeInput._startInput && source !== this._rangeInput._endInput;
   }
 
   protected override _assignValueProgrammatically(value: D | null) {
@@ -212,9 +192,7 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
   }
 }
 
-const _NgxPlusifyDateRangeInputBase = mixinErrorState(
-  NgxPlusifyDateRangeInputPartBase,
-);
+const _NgxPlusifyDateRangeInputBase = mixinErrorState(NgxPlusifyDateRangeInputPartBase);
 
 /** Input for entering the start date in a `mat-date-range-input`. */
 @Directive({
@@ -226,36 +204,28 @@ const _NgxPlusifyDateRangeInputBase = mixinErrorState(
     '(change)': '_onChange()',
     '(keydown)': '_onKeydown($event)',
     '[attr.aria-haspopup]': '_rangeInput.rangePicker ? "dialog" : null',
-    '[attr.aria-owns]':
-      '(_rangeInput.rangePicker?.opened && _rangeInput.rangePicker.id) || null',
-    '[attr.min]':
-      '_getMinDate() ? _dateAdapter.toIso8601(_getMinDate()) : null',
-    '[attr.max]':
-      '_getMaxDate() ? _dateAdapter.toIso8601(_getMaxDate()) : null',
+    '[attr.aria-owns]': '(_rangeInput.rangePicker?.opened && _rangeInput.rangePicker.id) || null',
+    '[attr.min]': '_getMinDate() ? _dateAdapter.toIso8601(_getMinDate()) : null',
+    '[attr.max]': '_getMaxDate() ? _dateAdapter.toIso8601(_getMaxDate()) : null',
     '(blur)': '_onBlur()',
     type: 'text',
   },
   providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: NgxPlusifyStartDate,
-      multi: true,
-    },
+    { provide: NG_VALUE_ACCESSOR, useExisting: NgxPlusifyStartDate, multi: true },
     { provide: NG_VALIDATORS, useExisting: NgxPlusifyStartDate, multi: true },
   ],
   // These need to be specified explicitly, because some tooling doesn't
   // seem to pick them up from the base class. See #20932.
   outputs: ['dateChange', 'dateInput'],
   inputs: ['errorStateMatcher'],
+  standalone: true,
 })
 export class NgxPlusifyStartDate<D>
   extends _NgxPlusifyDateRangeInputBase<D>
   implements CanUpdateErrorState
 {
   /** Validator that checks that the start date isn't after the end date. */
-  private _startValidator: ValidatorFn = (
-    control: AbstractControl,
-  ): ValidationErrors | null => {
+  private _startValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const start = this._dateAdapter.getValidDateOrNull(
       this._dateAdapter.deserialize(control.value),
     );
@@ -274,9 +244,7 @@ export class NgxPlusifyStartDate<D>
     @Optional() parentForm: NgForm,
     @Optional() parentFormGroup: FormGroupDirective,
     @Optional() dateAdapter: NgxPlusifyDateAdapter<D>,
-    @Optional()
-    @Inject(NGX_PLUSIFY_DATE_FORMATS)
-    dateFormats: NgxPlusifyDateFormats,
+    @Optional() @Inject(NGX_PLUSIFY_DATE_FORMATS) dateFormats: NgxPlusifyDateFormats,
   ) {
     super(
       rangeInput,
@@ -290,10 +258,7 @@ export class NgxPlusifyStartDate<D>
     );
   }
 
-  protected _validator = Validators.compose([
-    ...super._getValidators(),
-    this._startValidator,
-  ]);
+  protected _validator = Validators.compose([...super._getValidators(), this._startValidator]);
 
   protected _getValueFromModel(modelValue: NgxDateRange<D>) {
     return modelValue.start;
@@ -308,10 +273,7 @@ export class NgxPlusifyStartDate<D>
       return !change.oldValue?.start
         ? !!change.selection.start
         : !change.selection.start ||
-            !!this._dateAdapter.compareDate(
-              change.oldValue.start,
-              change.selection.start,
-            );
+            !!this._dateAdapter.compareDate(change.oldValue.start, change.selection.start);
     }
   }
 
@@ -337,8 +299,7 @@ export class NgxPlusifyStartDate<D>
     // If the user hits RIGHT (LTR) when at the end of the input (and no
     // selection), move the cursor to the start of the end input.
     if (
-      ((event.keyCode === RIGHT_ARROW && isLtr) ||
-        (event.keyCode === LEFT_ARROW && !isLtr)) &&
+      ((event.keyCode === RIGHT_ARROW && isLtr) || (event.keyCode === LEFT_ARROW && !isLtr)) &&
       element.selectionStart === element.value.length &&
       element.selectionEnd === element.value.length
     ) {
@@ -361,12 +322,9 @@ export class NgxPlusifyStartDate<D>
     '(change)': '_onChange()',
     '(keydown)': '_onKeydown($event)',
     '[attr.aria-haspopup]': '_rangeInput.rangePicker ? "dialog" : null',
-    '[attr.aria-owns]':
-      '(_rangeInput.rangePicker?.opened && _rangeInput.rangePicker.id) || null',
-    '[attr.min]':
-      '_getMinDate() ? _dateAdapter.toIso8601(_getMinDate()) : null',
-    '[attr.max]':
-      '_getMaxDate() ? _dateAdapter.toIso8601(_getMaxDate()) : null',
+    '[attr.aria-owns]': '(_rangeInput.rangePicker?.opened && _rangeInput.rangePicker.id) || null',
+    '[attr.min]': '_getMinDate() ? _dateAdapter.toIso8601(_getMinDate()) : null',
+    '[attr.max]': '_getMaxDate() ? _dateAdapter.toIso8601(_getMaxDate()) : null',
     '(blur)': '_onBlur()',
     type: 'text',
   },
@@ -378,18 +336,12 @@ export class NgxPlusifyStartDate<D>
   // seem to pick them up from the base class. See #20932.
   outputs: ['dateChange', 'dateInput'],
   inputs: ['errorStateMatcher'],
+  standalone: true,
 })
-export class NgxPlusifyEndDate<D>
-  extends _NgxPlusifyDateRangeInputBase<D>
-  implements CanUpdateErrorState
-{
+export class NgxPlusifyEndDate<D> extends _NgxPlusifyDateRangeInputBase<D> implements CanUpdateErrorState {
   /** Validator that checks that the end date isn't before the start date. */
-  private _endValidator: ValidatorFn = (
-    control: AbstractControl,
-  ): ValidationErrors | null => {
-    const end = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value),
-    );
+  private _endValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const end = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(control.value));
     const start = this._model ? this._model.selection.start : null;
     return !end || !start || this._dateAdapter.compareDate(end, start) >= 0
       ? null
@@ -405,9 +357,7 @@ export class NgxPlusifyEndDate<D>
     @Optional() parentForm: NgForm,
     @Optional() parentFormGroup: FormGroupDirective,
     @Optional() dateAdapter: NgxPlusifyDateAdapter<D>,
-    @Optional()
-    @Inject(NGX_PLUSIFY_DATE_FORMATS)
-    dateFormats: NgxPlusifyDateFormats,
+    @Optional() @Inject(NGX_PLUSIFY_DATE_FORMATS) dateFormats: NgxPlusifyDateFormats,
   ) {
     super(
       rangeInput,
@@ -421,10 +371,7 @@ export class NgxPlusifyEndDate<D>
     );
   }
 
-  protected _validator = Validators.compose([
-    ...super._getValidators(),
-    this._endValidator,
-  ]);
+  protected _validator = Validators.compose([...super._getValidators(), this._endValidator]);
 
   protected _getValueFromModel(modelValue: NgxDateRange<D>) {
     return modelValue.end;
@@ -439,10 +386,7 @@ export class NgxPlusifyEndDate<D>
       return !change.oldValue?.end
         ? !!change.selection.end
         : !change.selection.end ||
-            !!this._dateAdapter.compareDate(
-              change.oldValue.end,
-              change.selection.end,
-            );
+            !!this._dateAdapter.compareDate(change.oldValue.end, change.selection.end);
     }
   }
 
@@ -465,17 +409,13 @@ export class NgxPlusifyEndDate<D>
     // If the user hits LEFT (LTR) when at the start of the input (and no
     // selection), move the cursor to the end of the start input.
     else if (
-      ((event.keyCode === LEFT_ARROW && isLtr) ||
-        (event.keyCode === RIGHT_ARROW && !isLtr)) &&
+      ((event.keyCode === LEFT_ARROW && isLtr) || (event.keyCode === RIGHT_ARROW && !isLtr)) &&
       element.selectionStart === 0 &&
       element.selectionEnd === 0
     ) {
       event.preventDefault();
       const endPosition = startInput._elementRef.nativeElement.value.length;
-      startInput._elementRef.nativeElement.setSelectionRange(
-        endPosition,
-        endPosition,
-      );
+      startInput._elementRef.nativeElement.setSelectionRange(endPosition, endPosition);
       startInput.focus();
     } else {
       super._onKeydown(event);

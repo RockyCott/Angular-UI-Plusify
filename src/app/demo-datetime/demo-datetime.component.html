@@ -18,7 +18,6 @@
     >
       <img
         src="https://badge.fury.io/js/%40angular-ui-plusify%2Fdatetime-picker.svg"
-        alt="npm version"
       />
     </a>
 
@@ -321,13 +320,14 @@
             [(ngModel)]="disabled"
             [color]="color"
           >
-            <mat-radio-button
-              class="example-radio-button"
-              *ngFor="let option of options"
-              [value]="option.value"
-            >
-              {{ option.label }}</mat-radio-button
-            >
+            @for (option of options; track option.value) {
+              <mat-radio-button
+                class="example-radio-button"
+                [value]="option.value"
+              >
+                {{ option.label }}</mat-radio-button
+              >
+            }
           </mat-radio-group>
         </div>
 
@@ -338,13 +338,14 @@
             [(ngModel)]="showSpinners"
             [color]="color"
           >
-            <mat-radio-button
-              class="example-radio-button"
-              *ngFor="let option of options"
-              [value]="option.value"
-            >
-              {{ option.label }}</mat-radio-button
-            >
+            @for (option of options; track option) {
+              <mat-radio-button
+                class="example-radio-button"
+                [value]="option.value"
+              >
+                {{ option.label }}</mat-radio-button
+              >
+            }
           </mat-radio-group>
         </div>
 
@@ -355,13 +356,14 @@
             [(ngModel)]="showSeconds"
             [color]="color"
           >
-            <mat-radio-button
-              class="example-radio-button"
-              *ngFor="let option of options"
-              [value]="option.value"
-            >
-              {{ option.label }}</mat-radio-button
-            >
+            @for (option of options; track option) {
+              <mat-radio-button
+                class="example-radio-button"
+                [value]="option.value"
+              >
+                {{ option.label }}</mat-radio-button
+              >
+            }
           </mat-radio-group>
         </div>
 
@@ -372,13 +374,14 @@
             [(ngModel)]="disableMinute"
             [color]="color"
           >
-            <mat-radio-button
-              class="example-radio-button"
-              *ngFor="let option of options"
-              [value]="option.value"
-            >
-              {{ option.label }}</mat-radio-button
-            >
+            @for (option of options; track option) {
+              <mat-radio-button
+                class="example-radio-button"
+                [value]="option.value"
+              >
+                {{ option.label }}</mat-radio-button
+              >
+            }
           </mat-radio-group>
         </div>
 
@@ -389,13 +392,14 @@
             [(ngModel)]="touchUi"
             [color]="color"
           >
-            <mat-radio-button
-              class="example-radio-button"
-              *ngFor="let option of options"
-              [value]="option.value"
-            >
-              {{ option.label }}</mat-radio-button
-            >
+            @for (option of options; track option) {
+              <mat-radio-button
+                class="example-radio-button"
+                [value]="option.value"
+              >
+                {{ option.label }}</mat-radio-button
+              >
+            }
           </mat-radio-group>
         </div>
 
@@ -406,13 +410,14 @@
             [(ngModel)]="hideTime"
             [color]="color"
           >
-            <mat-radio-button
-              class="example-radio-button"
-              *ngFor="let option of options"
-              [value]="option.value"
-            >
-              {{ option.label }}</mat-radio-button
-            >
+            @for (option of options; track option) {
+              <mat-radio-button
+                class="example-radio-button"
+                [value]="option.value"
+              >
+                {{ option.label }}</mat-radio-button
+              >
+            }
           </mat-radio-group>
         </div>
 
@@ -423,13 +428,14 @@
             [(ngModel)]="enableMeridian"
             [color]="color"
           >
-            <mat-radio-button
-              class="example-radio-button"
-              *ngFor="let option of options"
-              [value]="option.value"
-            >
-              {{ option.label }}</mat-radio-button
-            >
+            @for (option of options; track option) {
+              <mat-radio-button
+                class="example-radio-button"
+                [value]="option.value"
+              >
+                {{ option.label }}</mat-radio-button
+              >
+            }
           </mat-radio-group>
         </div>
 
@@ -438,27 +444,33 @@
           <mat-form-field [color]="color">
             <mat-label>hour (default: 1)</mat-label>
             <mat-select [(ngModel)]="stepHour">
-              <mat-option *ngFor="let step of stepHours" [value]="step">
-                {{ step }}
-              </mat-option>
+              @for (step of stepHours; track step) {
+                <mat-option [value]="step">
+                  {{ step }}
+                </mat-option>
+              }
             </mat-select>
           </mat-form-field>
 
           <mat-form-field [color]="color">
             <mat-label>minute (default: 1)</mat-label>
             <mat-select [(ngModel)]="stepMinute">
-              <mat-option *ngFor="let step of stepMinutes" [value]="step">
-                {{ step }}
-              </mat-option>
+              @for (step of stepMinutes; track step) {
+                <mat-option [value]="step">
+                  {{ step }}
+                </mat-option>
+              }
             </mat-select>
           </mat-form-field>
 
           <mat-form-field [color]="color">
             <mat-label>second (default: 1)</mat-label>
             <mat-select [(ngModel)]="stepSecond">
-              <mat-option *ngFor="let step of stepSeconds" [value]="step">
-                {{ step }}
-              </mat-option>
+              @for (step of stepSeconds; track step) {
+                <mat-option [value]="step">
+                  {{ step }}
+                </mat-option>
+              }
             </mat-select>
           </mat-form-field>
         </div>
@@ -468,9 +480,11 @@
           <mat-form-field [color]="color">
             <mat-label>Select color</mat-label>
             <mat-select [(ngModel)]="color">
-              <mat-option *ngFor="let item of listColors" [value]="item">
-                {{ item }}
-              </mat-option>
+              @for (item of listColors; track item) {
+                <mat-option [value]="item">
+                  {{ item }}
+                </mat-option>
+              }
             </mat-select>
           </mat-form-field>
         </div>
@@ -557,9 +571,7 @@
             [disabled]="disabled"
           />
           <ngx-plusify-datepicker-toggle matSuffix [for]="pickerCustomIcon">
-            <mat-icon ngxPlusifyDatepickerToggleIcon
-              >keyboard_arrow_down</mat-icon
-            >
+            <mat-icon ngxPlusifyDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
           </ngx-plusify-datepicker-toggle>
           <ngx-plusify-datetime-picker
             #pickerCustomIcon

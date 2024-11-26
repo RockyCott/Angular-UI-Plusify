@@ -16,13 +16,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   Input,
   OnDestroy,
   Optional,
-  Output,
-  ViewChild,
   ViewEncapsulation,
+  input,
+  output,
+  viewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -50,6 +50,8 @@ export const yearsPerRow = 4;
   exportAs: 'ngxPlusifyMultiYearView',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgxPlusifyCalendarBody],
 })
 export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;
@@ -65,14 +67,9 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
   set activeDate(value: D) {
     let oldActiveDate = this._activeDate;
     const validDate =
-      this._dateAdapter.getValidDateOrNull(
-        this._dateAdapter.deserialize(value),
-      ) || this._dateAdapter.today();
-    this._activeDate = this._dateAdapter.clampDate(
-      validDate,
-      this.minDate,
-      this.maxDate,
-    );
+      this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value)) ||
+      this._dateAdapter.today();
+    this._activeDate = this._dateAdapter.clampDate(validDate, this.minDate, this.maxDate);
 
     if (
       !isSameMultiYearView(
@@ -97,9 +94,7 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
     if (value instanceof NgxDateRange) {
       this._selected = value;
     } else {
-      this._selected = this._dateAdapter.getValidDateOrNull(
-        this._dateAdapter.deserialize(value),
-      );
+      this._selected = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
     }
 
     this._setSelectedYear(value);
@@ -112,9 +107,7 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
     return this._minDate;
   }
   set minDate(value: D | null) {
-    this._minDate = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value),
-    );
+    this._minDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
   private _minDate: D | null;
 
@@ -124,29 +117,27 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
     return this._maxDate;
   }
   set maxDate(value: D | null) {
-    this._maxDate = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value),
-    );
+    this._maxDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
   private _maxDate: D | null;
 
   /** A function used to filter which dates are selectable. */
-  @Input() dateFilter: (date: D) => boolean;
+  dateFilter = input<(date: D) => boolean>();
 
   /** Function that can be used to add custom CSS classes to date cells. */
-  @Input() dateClass: NgxPlusifyCalendarCellClassFunction<D>;
+  dateClass = input<NgxPlusifyCalendarCellClassFunction<D>>();
 
   /** Emits when a new year is selected. */
-  @Output() readonly selectedChange: EventEmitter<D> = new EventEmitter<D>();
+  readonly selectedChange = output<D>();
 
   /** Emits the selected year. This doesn't imply a change on the selected date */
-  @Output() readonly yearSelected: EventEmitter<D> = new EventEmitter<D>();
+  readonly yearSelected = output<D>();
 
   /** Emits when any date is activated. */
-  @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
+  readonly activeDateChange = output<D>();
 
   /** The body of calendar table */
-  @ViewChild(NgxPlusifyCalendarBody) _matCalendarBody: NgxPlusifyCalendarBody;
+  _matCalendarBody = viewChild(NgxPlusifyCalendarBody);
 
   /** Grid of calendar cells representing the currently displayed years. */
   _years: NgxPlusifyCalendarCell[][];
@@ -191,13 +182,7 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
     // *actual* first rendered year in the multi-year view.
     const activeYear = this._dateAdapter.getYear(this._activeDate);
     const minYearOfPage =
-      activeYear -
-      getActiveOffset(
-        this._dateAdapter,
-        this.activeDate,
-        this.minDate,
-        this.maxDate,
-      );
+      activeYear - getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate);
 
     this._years = [];
     for (let i = 0, row: number[] = []; i < yearsPerPage; i++) {
@@ -247,50 +232,28 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
 
     switch (event.keyCode) {
       case LEFT_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarYears(
-          this._activeDate,
-          isRtl ? 1 : -1,
-        );
+        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, isRtl ? 1 : -1);
         break;
       case RIGHT_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarYears(
-          this._activeDate,
-          isRtl ? -1 : 1,
-        );
+        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, isRtl ? -1 : 1);
         break;
       case UP_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarYears(
-          this._activeDate,
-          -yearsPerRow,
-        );
+        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, -yearsPerRow);
         break;
       case DOWN_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarYears(
-          this._activeDate,
-          yearsPerRow,
-        );
+        this.activeDate = this._dateAdapter.addCalendarYears(this._activeDate, yearsPerRow);
         break;
       case HOME:
         this.activeDate = this._dateAdapter.addCalendarYears(
           this._activeDate,
-          -getActiveOffset(
-            this._dateAdapter,
-            this.activeDate,
-            this.minDate,
-            this.maxDate,
-          ),
+          -getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate),
         );
         break;
       case END:
         this.activeDate = this._dateAdapter.addCalendarYears(
           this._activeDate,
           yearsPerPage -
-            getActiveOffset(
-              this._dateAdapter,
-              this.activeDate,
-              this.minDate,
-              this.maxDate,
-            ) -
+            getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate) -
             1,
         );
         break;
@@ -342,22 +305,17 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
   }
 
   _getActiveCell(): number {
-    return getActiveOffset(
-      this._dateAdapter,
-      this.activeDate,
-      this.minDate,
-      this.maxDate,
-    );
+    return getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate);
   }
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell() {
-    this._matCalendarBody._focusActiveCell();
+    this._matCalendarBody()._focusActiveCell();
   }
 
   /** Focuses the active cell after change detection has run and the microtask queue is empty. */
   _focusActiveCellAfterViewChecked() {
-    this._matCalendarBody._scheduleFocusActiveCellAfterViewChecked();
+    this._matCalendarBody()._scheduleFocusActiveCellAfterViewChecked();
   }
 
   /**
@@ -381,9 +339,7 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
   private _createCellForYear(year: number) {
     const date = this._dateAdapter.createDate(year, 0, 1);
     const yearName = this._dateAdapter.getYearName(date);
-    const cellClasses = this.dateClass
-      ? this.dateClass(date, 'multi-year')
-      : undefined;
+    const cellClasses = this.dateClass() ? this.dateClass()!(date, 'multi-year') : undefined;
 
     return new NgxPlusifyCalendarCell(
       year,
@@ -407,7 +363,7 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
     }
 
     // enable if it reaches here and there's no filter defined
-    if (!this.dateFilter) {
+    if (!this.dateFilter()) {
       return true;
     }
 
@@ -419,7 +375,7 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
       this._dateAdapter.getYear(date) == year;
       date = this._dateAdapter.addCalendarDays(date, 1)
     ) {
-      if (this.dateFilter(date)) {
+      if (this.dateFilter()(date)) {
         return true;
       }
     }
@@ -476,10 +432,7 @@ export function getActiveOffset<D>(
   maxDate: D | null,
 ): number {
   const activeYear = dateAdapter.getYear(activeDate);
-  return euclideanModulo(
-    activeYear - getStartingYear(dateAdapter, minDate, maxDate),
-    yearsPerPage,
-  );
+  return euclideanModulo(activeYear - getStartingYear(dateAdapter, minDate, maxDate), yearsPerPage);
 }
 
 /**

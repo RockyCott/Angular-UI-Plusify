@@ -1,10 +1,4 @@
-import {
-  FactoryProvider,
-  Injectable,
-  InjectionToken,
-  Optional,
-  SkipSelf,
-} from '@angular/core';
+import { FactoryProvider, Injectable, InjectionToken, Optional, SkipSelf } from '@angular/core';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
 import { NgxDateRange } from './date-selection-model';
 
@@ -22,11 +16,7 @@ export interface NgxPlusifyDateRangeSelectionStrategy<D> {
    * @param event DOM event that triggered the selection. Currently only corresponds to a `click`
    *    event, but it may get expanded in the future.
    */
-  selectionFinished(
-    date: D | null,
-    currentRange: NgxDateRange<D>,
-    event: Event,
-  ): NgxDateRange<D>;
+  selectionFinished(date: D | null, currentRange: NgxDateRange<D>, event: Event): NgxDateRange<D>;
 
   /**
    * Called when the user has activated a new date (e.g. by hovering over
@@ -38,11 +28,7 @@ export interface NgxPlusifyDateRangeSelectionStrategy<D> {
    * @param event DOM event that caused the preview to be changed. Will be either a
    *    `mouseenter`/`mouseleave` or `focus`/`blur` depending on how the user is navigating.
    */
-  createPreview(
-    activeDate: D | null,
-    currentRange: NgxDateRange<D>,
-    event: Event,
-  ): NgxDateRange<D>;
+  createPreview(activeDate: D | null, currentRange: NgxDateRange<D>, event: Event): NgxDateRange<D>;
 
   /**
    * Called when the user has dragged a date in the currently selected range to another
@@ -64,9 +50,7 @@ export interface NgxPlusifyDateRangeSelectionStrategy<D> {
 
 /** Provides the default date range selection behavior. */
 @Injectable()
-export class DefaultNgxPlusifyCalendarRangeStrategy<D>
-  implements NgxPlusifyDateRangeSelectionStrategy<D>
-{
+export class DefaultNgxPlusifyCalendarRangeStrategy<D> implements NgxPlusifyDateRangeSelectionStrategy<D> {
   constructor(private _dateAdapter: NgxPlusifyDateAdapter<D>) {}
 
   selectionFinished(date: D, currentRange: NgxDateRange<D>) {
@@ -74,11 +58,7 @@ export class DefaultNgxPlusifyCalendarRangeStrategy<D>
 
     if (start == null) {
       start = date;
-    } else if (
-      end == null &&
-      date &&
-      this._dateAdapter.compareDate(date, start) >= 0
-    ) {
+    } else if (end == null && date && this._dateAdapter.compareDate(date, start) >= 0) {
       end = date;
     } else {
       start = date;

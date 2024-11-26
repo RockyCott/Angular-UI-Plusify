@@ -1,0 +1,33 @@
+.app-content {
+  padding: 20px;
+}
+
+:host {
+  ::ng-deep mat-sidenav-container {
+    mat-sidenav {
+      .mat-mdc-nav-list {
+        padding: 0;
+
+        .sidebar-item {
+          .mdc-list-item__content {
+            .mdc-list-item__primary-text {
+              display: flex;
+              align-items: center;
+              column-gap: 8px;
+            }
+          }
+
+          &.active {
+            background-color: #009b77;
+
+            .mdc-list-item__content {
+              .mdc-list-item__primary-text {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

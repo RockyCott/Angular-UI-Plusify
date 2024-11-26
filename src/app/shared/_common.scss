@@ -1,0 +1,68 @@
+.config-wrapper {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .label {
+    font-weight: bold;
+    margin-right: 15px;
+    display: block;
+    width: 225px;
+  }
+
+  .mat-radio-button~.mat-radio-button {
+    margin-left: 16px;
+  }
+
+  &_step {
+    .mat-mdc-form-field {
+      margin-right: 20px;
+      width: 100px;
+    }
+  }
+}
+
+.zone {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  &-value {
+    font-weight: bold;
+  }
+
+  &-config {
+    flex-direction: column;
+  }
+}
+
+.api-table-properties {
+  text-align: left;
+  border-radius: 2px;
+  border-spacing: 0;
+  margin: 0 0 32px;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 2px;
+  background-color: white;
+
+  tbody {
+    display: table-row-group;
+    vertical-align: middle;
+
+    tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    td,
+    th {
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      padding: 8px 16px;
+
+      &:first-child {
+        font-weight: bold;
+      }
+    }
+  }
+}

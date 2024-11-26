@@ -21,7 +21,7 @@ export class NgxDateRange<D> {
     /** The start date of the range. */
     readonly start: D | null,
     /** The end date of the range. */
-    readonly end: D | null
+    readonly end: D | null,
   ) {}
 }
 
@@ -29,9 +29,8 @@ export class NgxDateRange<D> {
  * Conditionally picks the date type, if a DateRange is passed in.
  * @docs-private
  */
-export type NgxExtractDateTypeFromSelection<T> = T extends NgxDateRange<infer D>
-  ? D
-  : NonNullable<T>;
+export type NgxExtractDateTypeFromSelection<T> =
+  T extends NgxDateRange<infer D> ? D : NonNullable<T>;
 
 /**
  * Event emitted by the date selection model when its selection changes.
@@ -55,7 +54,7 @@ export interface NgxDateSelectionModelChange<S> {
 @Injectable()
 export abstract class NgxPlusifyDateSelectionModel<
   S,
-  D = NgxExtractDateTypeFromSelection<S>
+  D = NgxExtractDateTypeFromSelection<S>,
 > implements OnDestroy
 {
   private readonly _selectionChanged = new Subject<
@@ -69,7 +68,7 @@ export abstract class NgxPlusifyDateSelectionModel<
   protected constructor(
     /** The current selection. */
     readonly selection: S,
-    protected _adapter: NgxPlusifyDateAdapter<D>
+    protected _adapter: NgxPlusifyDateAdapter<D>,
   ) {
     this.selection = selection;
   }
@@ -111,10 +110,9 @@ export abstract class NgxPlusifyDateSelectionModel<
  * @docs-private
  */
 @Injectable()
-export class NgxPlusifySingleDateSelectionModel<D> extends NgxPlusifyDateSelectionModel<
-  D | null,
-  D
-> {
+export class NgxPlusifySingleDateSelectionModel<
+  D,
+> extends NgxPlusifyDateSelectionModel<D | null, D> {
   constructor(adapter: NgxPlusifyDateAdapter<D>) {
     super(null, adapter);
   }
@@ -153,10 +151,9 @@ export class NgxPlusifySingleDateSelectionModel<D> extends NgxPlusifyDateSelecti
  * @docs-private
  */
 @Injectable()
-export class NgxPlusifyRangeDateSelectionModel<D> extends NgxPlusifyDateSelectionModel<
-  NgxDateRange<D>,
-  D
-> {
+export class NgxPlusifyRangeDateSelectionModel<
+  D,
+> extends NgxPlusifyDateSelectionModel<NgxDateRange<D>, D> {
   constructor(adapter: NgxPlusifyDateAdapter<D>) {
     super(new NgxDateRange<D>(null, null), adapter);
   }
@@ -225,7 +222,7 @@ export class NgxPlusifyRangeDateSelectionModel<D> extends NgxPlusifyDateSelectio
 /** @docs-private */
 export function NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_FACTORY(
   parent: NgxPlusifySingleDateSelectionModel<unknown>,
-  adapter: NgxPlusifyDateAdapter<unknown>
+  adapter: NgxPlusifyDateAdapter<unknown>,
 ) {
   return parent || new NgxPlusifySingleDateSelectionModel(adapter);
 }
@@ -234,19 +231,20 @@ export function NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_FACTORY(
  * Used to provide a single selection model to a component.
  * @docs-private
  */
-export const NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER: FactoryProvider = {
-  provide: NgxPlusifyDateSelectionModel,
-  deps: [
-    [new Optional(), new SkipSelf(), NgxPlusifyDateSelectionModel],
-    NgxPlusifyDateAdapter,
-  ],
-  useFactory: NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_FACTORY,
-};
+export const NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER: FactoryProvider =
+  {
+    provide: NgxPlusifyDateSelectionModel,
+    deps: [
+      [new Optional(), new SkipSelf(), NgxPlusifyDateSelectionModel],
+      NgxPlusifyDateAdapter,
+    ],
+    useFactory: NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_FACTORY,
+  };
 
 /** @docs-private */
 export function NGX_PLUSIFY_RANGE_DATE_SELECTION_MODEL_FACTORY(
   parent: NgxPlusifySingleDateSelectionModel<unknown>,
-  adapter: NgxPlusifyDateAdapter<unknown>
+  adapter: NgxPlusifyDateAdapter<unknown>,
 ) {
   return parent || new NgxPlusifyRangeDateSelectionModel(adapter);
 }
@@ -255,11 +253,12 @@ export function NGX_PLUSIFY_RANGE_DATE_SELECTION_MODEL_FACTORY(
  * Used to provide a range selection model to a component.
  * @docs-private
  */
-export const NGX_PLUSIFY_RANGE_DATE_SELECTION_MODEL_PROVIDER: FactoryProvider = {
-  provide: NgxPlusifyDateSelectionModel,
-  deps: [
-    [new Optional(), new SkipSelf(), NgxPlusifyDateSelectionModel],
-    NgxPlusifyDateAdapter,
-  ],
-  useFactory: NGX_PLUSIFY_RANGE_DATE_SELECTION_MODEL_FACTORY,
-};
+export const NGX_PLUSIFY_RANGE_DATE_SELECTION_MODEL_PROVIDER: FactoryProvider =
+  {
+    provide: NgxPlusifyDateSelectionModel,
+    deps: [
+      [new Optional(), new SkipSelf(), NgxPlusifyDateSelectionModel],
+      NgxPlusifyDateAdapter,
+    ],
+    useFactory: NGX_PLUSIFY_RANGE_DATE_SELECTION_MODEL_FACTORY,
+  };

@@ -25,7 +25,7 @@ export interface NgxPlusifyDateRangeSelectionStrategy<D> {
   selectionFinished(
     date: D | null,
     currentRange: NgxDateRange<D>,
-    event: Event
+    event: Event,
   ): NgxDateRange<D>;
 
   /**
@@ -41,7 +41,7 @@ export interface NgxPlusifyDateRangeSelectionStrategy<D> {
   createPreview(
     activeDate: D | null,
     currentRange: NgxDateRange<D>,
-    event: Event
+    event: Event,
   ): NgxDateRange<D>;
 
   /**
@@ -58,7 +58,7 @@ export interface NgxPlusifyDateRangeSelectionStrategy<D> {
     dragOrigin: D,
     originalRange: NgxDateRange<D>,
     newDate: D,
-    event: Event
+    event: Event,
   ): NgxDateRange<D> | null;
 }
 
@@ -146,7 +146,7 @@ export class DefaultNgxPlusifyCalendarRangeStrategy<D>
 /** @docs-private */
 export function NGX_PLUSIFY_CALENDAR_RANGE_STRATEGY_PROVIDER_FACTORY(
   parent: NgxPlusifyDateRangeSelectionStrategy<unknown>,
-  adapter: NgxPlusifyDateAdapter<unknown>
+  adapter: NgxPlusifyDateAdapter<unknown>,
 ) {
   return parent || new DefaultNgxPlusifyCalendarRangeStrategy(adapter);
 }

@@ -35,6 +35,7 @@ An advanced datetime picker built on Angular Material, designed to simplify date
 #### Compatibility Matrix:
 | Angular Version | datetime-picker Version |
 |------------------|-------------------------|
+| 17+             | 0.0.2+                   |
 | 16+             | 0.0.1+                   |
 
 ---

@@ -23,9 +23,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -193,7 +191,6 @@
       "skipTests": true
     },
     "@schematics/angular:pipe": {
-      "prefix": "ngx-plusify",
       "skipTests": true
     },
     "@schematics/angular:service": {
@@ -201,6 +198,7 @@
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

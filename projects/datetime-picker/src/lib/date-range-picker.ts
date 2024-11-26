@@ -39,7 +39,10 @@ export interface NgxPlusifyDateRangePickerInput<D>
   providers: [
     NGX_PLUSIFY_RANGE_DATE_SELECTION_MODEL_PROVIDER,
     NGX_PLUSIFY_CALENDAR_RANGE_STRATEGY_PROVIDER,
-    { provide: NgxPlusifyDatepickerBase, useExisting: NgxPlusifyDateRangePicker },
+    {
+      provide: NgxPlusifyDatepickerBase,
+      useExisting: NgxPlusifyDateRangePicker,
+    },
   ],
 })
 export class NgxPlusifyDateRangePicker<D> extends NgxPlusifyDatepickerBase<
@@ -48,7 +51,7 @@ export class NgxPlusifyDateRangePicker<D> extends NgxPlusifyDatepickerBase<
   D
 > {
   protected override _forwardContentValues(
-    instance: NgxPlusifyDatepickerContent<NgxDateRange<D>, D>
+    instance: NgxPlusifyDatepickerContent<NgxDateRange<D>, D>,
   ) {
     super._forwardContentValues(instance);
 

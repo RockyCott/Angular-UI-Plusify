@@ -93,7 +93,7 @@ export class NgxPlusifyDatepickerToggle<D>
   constructor(
     public _intl: NgxPlusifyDatepickerIntl,
     private _changeDetectorRef: ChangeDetectorRef,
-    @Attribute('tabindex') defaultTabIndex: string
+    @Attribute('tabindex') defaultTabIndex: string,
   ) {
     const parsedTabIndex = Number(defaultTabIndex);
     this.tabIndex =
@@ -138,7 +138,7 @@ export class NgxPlusifyDatepickerToggle<D>
       this._intl.changes,
       datepickerStateChanged as Observable<void>,
       inputStateChanged,
-      datepickerToggled
+      datepickerToggled,
     ).subscribe(() => this._changeDetectorRef.markForCheck());
   }
 }

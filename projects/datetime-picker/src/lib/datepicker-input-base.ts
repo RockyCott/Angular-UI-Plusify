@@ -24,7 +24,10 @@ import {
 import { ThemePalette } from '@angular/material/core';
 import { Subject, Subscription } from 'rxjs';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
-import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
+import {
+  NGX_PLUSIFY_DATE_FORMATS,
+  NgxPlusifyDateFormats,
+} from './core/date-formats';
 import {
   NgxDateSelectionModelChange,
   NgxExtractDateTypeFromSelection,
@@ -45,7 +48,7 @@ export class NgxPlusifyDatepickerInputEvent<D, S = unknown> {
     /** Reference to the datepicker input component that emitted the event. */
     public target: NgxPlusifyDatepickerInputBase<S, D>,
     /** Reference to the native input element associated with the datepicker input. */
-    public targetElement: HTMLElement
+    public targetElement: HTMLElement,
   ) {
     this.value = this.target.value;
   }
@@ -71,9 +74,10 @@ export interface _NgxPlusifyFormFieldPartial {
 /** Base class for datepicker inputs. */
 @Directive()
 export abstract class NgxPlusifyDatepickerInputBase<
-  S,
-  D = NgxExtractDateTypeFromSelection<S>
-> implements
+    S,
+    D = NgxExtractDateTypeFromSelection<S>,
+  >
+  implements
     ControlValueAccessor,
     AfterViewInit,
     OnChanges,
@@ -128,8 +132,9 @@ export abstract class NgxPlusifyDatepickerInputBase<
   > = new EventEmitter<NgxPlusifyDatepickerInputEvent<D, S>>();
 
   /** Emits when an `input` event is fired on this `<input>`. */
-  @Output() readonly dateInput: EventEmitter<NgxPlusifyDatepickerInputEvent<D, S>> =
-    new EventEmitter<NgxPlusifyDatepickerInputEvent<D, S>>();
+  @Output() readonly dateInput: EventEmitter<
+    NgxPlusifyDatepickerInputEvent<D, S>
+  > = new EventEmitter<NgxPlusifyDatepickerInputEvent<D, S>>();
 
   /** Emits when the internal state has changed */
   readonly stateChanges = new Subject<void>();
@@ -157,10 +162,10 @@ export abstract class NgxPlusifyDatepickerInputBase<
 
   /** The form control validator for the date filter. */
   private _filterValidator: ValidatorFn = (
-    control: AbstractControl
+    control: AbstractControl,
   ): ValidationErrors | null => {
     const controlValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value)
+      this._dateAdapter.deserialize(control.value),
     );
     return !controlValue || this._matchesFilter(controlValue)
       ? null
@@ -169,10 +174,10 @@ export abstract class NgxPlusifyDatepickerInputBase<
 
   /** The form control validator for the min date. */
   private _minValidator: ValidatorFn = (
-    control: AbstractControl
+    control: AbstractControl,
   ): ValidationErrors | null => {
     const controlValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value)
+      this._dateAdapter.deserialize(control.value),
     );
     const min = this._getMinDate();
     return !min ||
@@ -184,10 +189,10 @@ export abstract class NgxPlusifyDatepickerInputBase<
 
   /** The form control validator for the max date. */
   private _maxValidator: ValidatorFn = (
-    control: AbstractControl
+    control: AbstractControl,
   ): ValidationErrors | null => {
     const controlValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value)
+      this._dateAdapter.deserialize(control.value),
     );
     const max = this._getMaxDate();
     return !max ||
@@ -234,13 +239,19 @@ export abstract class NgxPlusifyDatepickerInputBase<
           this._onTouched();
           this._formatValue(value);
           this.dateInput.emit(
-            new NgxPlusifyDatepickerInputEvent(this, this._elementRef.nativeElement)
+            new NgxPlusifyDatepickerInputEvent(
+              this,
+              this._elementRef.nativeElement,
+            ),
           );
           this.dateChange.emit(
-            new NgxPlusifyDatepickerInputEvent(this, this._elementRef.nativeElement)
+            new NgxPlusifyDatepickerInputEvent(
+              this,
+              this._elementRef.nativeElement,
+            ),
           );
         }
-      }
+      },
     );
   }
 
@@ -258,7 +269,7 @@ export abstract class NgxPlusifyDatepickerInputBase<
 
   /** Predicate that determines whether the input should handle a particular change event. */
   protected abstract _shouldHandleChangeEvent(
-    event: NgxDateSelectionModelChange<S>
+    event: NgxDateSelectionModelChange<S>,
   ): boolean;
 
   /** Whether the last value set on the input was valid. */
@@ -269,7 +280,7 @@ export abstract class NgxPlusifyDatepickerInputBase<
     @Optional() public _dateAdapter: NgxPlusifyDateAdapter<D>,
     @Optional()
     @Inject(NGX_PLUSIFY_DATE_FORMATS)
-    private _dateFormats: NgxPlusifyDateFormats
+    private _dateFormats: NgxPlusifyDateFormats,
   ) {
     if (!this._dateAdapter) {
       throw createMissingDateImplError('NgxPlusifyDateAdapter');
@@ -341,7 +352,7 @@ export abstract class NgxPlusifyDatepickerInputBase<
       event.keyCode === DOWN_ARROW &&
       ctrlShiftMetaModifiers.every(
         (modifier: ListKeyManagerModifierKey) =>
-          !hasModifierKey(event, modifier)
+          !hasModifierKey(event, modifier),
       );
 
     if (isAltDownArrow && !this._elementRef.nativeElement.readOnly) {
@@ -354,7 +365,7 @@ export abstract class NgxPlusifyDatepickerInputBase<
     const lastValueWasValid = this._lastValueValid;
     let date = this._dateAdapter.parse(
       value,
-      this._dateFormats.parse.dateInput
+      this._dateFormats.parse.dateInput,
     );
     this._lastValueValid = this._isValidValue(date);
     date = this._dateAdapter.getValidDateOrNull(date);
@@ -384,14 +395,17 @@ export abstract class NgxPlusifyDatepickerInputBase<
     if (hasChanged) {
       this._assignValue(date);
       this.dateInput.emit(
-        new NgxPlusifyDatepickerInputEvent(this, this._elementRef.nativeElement)
+        new NgxPlusifyDatepickerInputEvent(
+          this,
+          this._elementRef.nativeElement,
+        ),
       );
     }
   }
 
   _onChange() {
     this.dateChange.emit(
-      new NgxPlusifyDatepickerInputEvent(this, this._elementRef.nativeElement)
+      new NgxPlusifyDatepickerInputEvent(this, this._elementRef.nativeElement),
     );
   }
 
@@ -460,7 +474,7 @@ export abstract class NgxPlusifyDatepickerInputBase<
  */
 export function dateInputsHaveChanged(
   changes: SimpleChanges,
-  adapter: NgxPlusifyDateAdapter<unknown>
+  adapter: NgxPlusifyDateAdapter<unknown>,
 ): boolean {
   const keys = Object.keys(changes);
 

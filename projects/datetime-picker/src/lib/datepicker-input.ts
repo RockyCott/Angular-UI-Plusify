@@ -18,7 +18,10 @@ import { MAT_FORM_FIELD } from '@angular/material/form-field';
 import { MAT_INPUT_VALUE_ACCESSOR } from '@angular/material/input';
 import { Subscription } from 'rxjs';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
-import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
+import {
+  NGX_PLUSIFY_DATE_FORMATS,
+  NgxPlusifyDateFormats,
+} from './core/date-formats';
 import { NgxDateSelectionModelChange } from './date-selection-model';
 import {
   NgxPlusifyDatepickerControl,
@@ -50,7 +53,10 @@ export const NGX_PLUSIFY_DATEPICKER_VALIDATORS: any = {
   providers: [
     NGX_PLUSIFY_DATEPICKER_VALUE_ACCESSOR,
     NGX_PLUSIFY_DATEPICKER_VALIDATORS,
-    { provide: MAT_INPUT_VALUE_ACCESSOR, useExisting: NgxPlusifyDatepickerInput },
+    {
+      provide: MAT_INPUT_VALUE_ACCESSOR,
+      useExisting: NgxPlusifyDatepickerInput,
+    },
   ],
   host: {
     class: 'mat-datepicker-input',
@@ -78,17 +84,25 @@ export class NgxPlusifyDatepickerInput<D>
   /** The datepicker that this input is associated with. */
   @Input()
   set ngxPlusifyDatetimePicker(
-    datepicker: NgxPlusifyDatepickerPanel<NgxPlusifyDatepickerControl<D>, D | null, D>
+    datepicker: NgxPlusifyDatepickerPanel<
+      NgxPlusifyDatepickerControl<D>,
+      D | null,
+      D
+    >,
   ) {
     if (datepicker) {
       this._datepicker = datepicker;
       this._closedSubscription = datepicker.closedStream.subscribe(() =>
-        this._onTouched()
+        this._onTouched(),
       );
       this._registerModel(datepicker.registerInput(this));
     }
   }
-  _datepicker: NgxPlusifyDatepickerPanel<NgxPlusifyDatepickerControl<D>, D | null, D>;
+  _datepicker: NgxPlusifyDatepickerPanel<
+    NgxPlusifyDatepickerControl<D>,
+    D | null,
+    D
+  >;
 
   /** The minimum valid date. */
   @Input()
@@ -97,7 +111,7 @@ export class NgxPlusifyDatepickerInput<D>
   }
   set min(value: D | null) {
     const validValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value)
+      this._dateAdapter.deserialize(value),
     );
 
     if (!this._dateAdapter.sameDate(validValue, this._min)) {
@@ -114,7 +128,7 @@ export class NgxPlusifyDatepickerInput<D>
   }
   set max(value: D | null) {
     const validValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value)
+      this._dateAdapter.deserialize(value),
     );
 
     if (!this._dateAdapter.sameDate(validValue, this._max)) {
@@ -145,10 +159,12 @@ export class NgxPlusifyDatepickerInput<D>
   constructor(
     elementRef: ElementRef<HTMLInputElement>,
     @Optional() dateAdapter: NgxPlusifyDateAdapter<D>,
-    @Optional() @Inject(NGX_PLUSIFY_DATE_FORMATS) dateFormats: NgxPlusifyDateFormats,
+    @Optional()
+    @Inject(NGX_PLUSIFY_DATE_FORMATS)
+    dateFormats: NgxPlusifyDateFormats,
     @Optional()
     @Inject(MAT_FORM_FIELD)
-    private _formField?: _NgxPlusifyFormFieldPartial
+    private _formField?: _NgxPlusifyFormFieldPartial,
   ) {
     super(elementRef, dateAdapter, dateFormats);
     this._validator = Validators.compose(super._getValidators());

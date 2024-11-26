@@ -40,7 +40,7 @@ export const NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS =
     {
       providedIn: 'root',
       factory: NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS_FACTORY,
-    }
+    },
   );
 
 /** @docs-private */
@@ -81,7 +81,7 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
     @Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string,
     @Optional()
     @Inject(NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS)
-    private _options?: NgxPlusifyMomentDateAdapterOptions
+    private _options?: NgxPlusifyMomentDateAdapterOptions,
   ) {
     super();
     this.setLocale(dateLocale || moment.locale());
@@ -160,7 +160,7 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
     // explicitly check each case so we can throw more descriptive errors.
     if (month < 0 || month > 11) {
       throw Error(
-        `Invalid month index "${month}". Month index has to be between 0 and 11.`
+        `Invalid month index "${month}". Month index has to be between 0 and 11.`,
       );
     }
 
@@ -169,7 +169,7 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
     }
 
     const result = this._createMoment({ year, month, date }).locale(
-      this.locale
+      this.locale,
     );
 
     // If the result isn't valid, the date must have been out of bounds for this month.
@@ -275,7 +275,7 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
   private _createMoment(
     date?: MomentInput,
     format?: MomentFormatSpecification,
-    locale?: string
+    locale?: string,
   ): Moment {
     const { strict, useUtc }: NgxPlusifyMomentDateAdapterOptions =
       this._options || {};

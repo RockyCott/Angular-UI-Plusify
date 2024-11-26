@@ -25,7 +25,7 @@ export class NgxPlusifyDatepickerApply {
     private _datepicker: NgxPlusifyDatepickerBase<
       NgxPlusifyDatepickerControl<any>,
       unknown
-    >
+    >,
   ) {}
 
   _applySelection() {
@@ -44,7 +44,7 @@ export class NgxPlusifyDatepickerCancel {
     public _datepicker: NgxPlusifyDatepickerBase<
       NgxPlusifyDatepickerControl<any>,
       unknown
-    >
+    >,
   ) {}
 }
 
@@ -53,7 +53,8 @@ export class NgxPlusifyDatepickerCancel {
  * to the bottom of a datepicker or date range picker.
  */
 @Component({
-  selector: 'ngx-plusify-datepicker-actions, ngx-plusify-date-range-picker-actions',
+  selector:
+    'ngx-plusify-datepicker-actions, ngx-plusify-date-range-picker-actions',
   styleUrls: ['datepicker-actions.scss'],
   template: `
     <ng-template>
@@ -74,7 +75,7 @@ export class NgxPlusifyDatepickerActions implements AfterViewInit, OnDestroy {
       NgxPlusifyDatepickerControl<any>,
       unknown
     >,
-    private _viewContainerRef: ViewContainerRef
+    private _viewContainerRef: ViewContainerRef,
   ) {}
 
   ngAfterViewInit() {

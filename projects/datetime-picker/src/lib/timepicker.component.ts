@@ -100,7 +100,7 @@ export class NgxPlusifyTimepickerComponent<D>
   constructor(
     @Optional() public _dateAdapter: NgxPlusifyDateAdapter<D>,
     private cd: ChangeDetectorRef,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {
     if (!this._dateAdapter) {
       throw createMissingDateImplError('NgxPlusifyDateAdapter');
@@ -220,7 +220,7 @@ export class NgxPlusifyTimepickerComponent<D>
       },
       {
         emitEvent: false,
-      }
+      },
     );
   }
 

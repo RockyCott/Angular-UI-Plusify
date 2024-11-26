@@ -48,7 +48,7 @@
  *  @return expected ARIA accessible name of argument &lt;input/&gt;
  */
 export function _computeAriaAccessibleName(
-  element: HTMLInputElement | HTMLTextAreaElement
+  element: HTMLInputElement | HTMLTextAreaElement,
 ): string {
   return _computeAriaAccessibleNameInternal(element, true);
 }
@@ -89,7 +89,7 @@ function ssrSafeIsHTMLTextAreaElement(node: Node): node is HTMLTextAreaElement {
  */
 function _computeAriaAccessibleNameInternal(
   currentNode: Node,
-  isDirectlyReferenced: boolean
+  isDirectlyReferenced: boolean,
 ): string {
   // NOTE: this differs from accname-1.2 specification.
   //  - Does not implement Step 1. of accname-1.2: '''If `currentNode`'s role prohibits naming,

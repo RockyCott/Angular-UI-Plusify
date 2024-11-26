@@ -16,7 +16,6 @@ import {
 @Component({
   selector: 'ngx-plusify-datetime-picker',
   template: '',
-  styleUrls: ['./datetime-picker.styles.scss'],
   exportAs: 'ngxPlusifyDatetimePicker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

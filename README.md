@@ -29,12 +29,14 @@ An advanced datetime picker built on Angular Material, designed to simplify date
 #### Key Features:
 - Fully integrated with **Angular Material** design system.
 - Supports **date**, **time**, and **datetime** selection.
+- **Standalone Component** structure for easy integration and modular use.
 - Customizable themes and formats.
 - Continuous support and updates for Angular versions.
 
 #### Compatibility Matrix:
 | Angular Version | datetime-picker Version |
 |------------------|-------------------------|
+| 18+             | 0.0.3+                   |
 | 17+             | 0.0.2+                   |
 | 16+             | 0.0.1+                   |
 

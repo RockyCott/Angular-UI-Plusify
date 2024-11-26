@@ -12,7 +12,15 @@ Choose the version corresponding to your Angular version:
 
  Angular     | @angular-ui-plusify/datetime-picker
  ----------- | -------------------
+ 18          | 0.0.3+
+ 17          | 0.0.2+
  16          | 0.0.1+
+
+## Features
+
+- Now built as a **Standalone Component**, making it easier to import and integrate into your Angular projects.
+- Full compatibility with Angular Material's theming and design system.
+- Continuous updates for Angular versions 16+ with a simplified modular architecture.
 
 ## Getting started
 
@@ -24,20 +32,20 @@ npm install --save  @angular-ui-plusify/datetime-picker
 Basically the same way the @angular/material Datepicker is configured and imported.
 
 ```
-import { NgxPlusifyDatetimePickerModule, NgxPlusifyTimepickerModule } from '@angular-ui-plusify/datetime-picker';
+import { NgxPlusifyDatetimePickerComponent, NgxPlusifyTimepickerComponent } from '@angular-ui-plusify/datetime-picker';
 @NgModule({
    ...
    imports: [
       BrowserModule,
       HttpClientModule,
       BrowserAnimationsModule,
-      MatDatepickerModule,
+      MatDatepickerComponent,
       MatInputModule,
-      NgxPlusifyTimepickerModule,
+      NgxPlusifyTimepickerComponent,
       FormsModule,
       ReactiveFormsModule,
       MatButtonModule,
-      NgxPlusifyDatetimePickerModule,
+      NgxPlusifyDatetimePickerComponent,
    ],
    ...
 })

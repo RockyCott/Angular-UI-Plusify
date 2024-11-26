@@ -49,17 +49,16 @@ export interface NgxPlusifyCalendarUserEvent<D> {
 let calendarBodyId = 1;
 
 @Component({
-  selector: '[ngx-plusify-calendar-body]',
-  templateUrl: 'calendar-body.html',
-  styleUrls: ['calendar-body.scss'],
-  host: {
-    class: 'ngx-plusify-calendar-body',
-  },
-  exportAs: 'matCalendarBody',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgClass],
+    selector: '[ngx-plusify-calendar-body]',
+    templateUrl: 'calendar-body.html',
+    styleUrls: ['calendar-body.scss'],
+    host: {
+        class: 'ngx-plusify-calendar-body',
+    },
+    exportAs: 'matCalendarBody',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgClass]
 })
 export class NgxPlusifyCalendarBody<D = any> implements OnDestroy, AfterViewChecked {
   private _platform = inject(Platform);

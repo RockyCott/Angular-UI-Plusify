@@ -1,9 +1,6 @@
 @use "sass:math";
 @use "@angular/cdk";
-@import "./vendor-prefixes";
-
-// @use '../core/style/variables';
-// @use '../core/style/vendor-prefixes';
+@use "./vendor-prefixes" as vp;
 
 $swift-ease-out-duration: 400ms !default;
 $swift-ease-out-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
@@ -15,10 +12,8 @@ $date-range-input-part-max-width: calc(
 );
 
 @mixin placeholder-transition($property) {
-  transition: #{$property} $swift-ease-out-duration math.div(
-      $swift-ease-out-duration,
-      3
-    ) $swift-ease-out-timing-function;
+  transition: #{$property} $swift-ease-out-duration
+    math.div($swift-ease-out-duration, 3) $swift-ease-out-timing-function;
 }
 
 // Host of the date range input.
@@ -46,7 +41,7 @@ $date-range-input-part-max-width: calc(
 .mat-date-range-input-separator-hidden {
   // Disable text selection, because the user can click
   // through the main label when the input is disabled.
-  @include user-select(none);
+  user-select: none;
 
   // Use opacity to hide the text, because `color: transparent` will be shown in high contrast mode.
   opacity: 0;
@@ -81,7 +76,7 @@ $date-range-input-part-max-width: calc(
   margin: 0;
   vertical-align: bottom;
   text-align: inherit;
-  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
 
   // Does nothing on Chrome, but necessary for the text
@@ -96,10 +91,10 @@ $date-range-input-part-max-width: calc(
 
   .mat-form-field-hide-placeholder &,
   .mat-date-range-input-hide-placeholders & {
-    @include input-placeholder {
+    @include vp.input-placeholder {
       // Disable text selection, because the user can click
       // through the main label when the input is disabled.
-      @include user-select(none);
+      user-select: none;
 
       // Needs to be !important, because the placeholder will end up inheriting the
       // input color in IE, if the consumer overrides it with a higher specificity.
@@ -116,7 +111,7 @@ $date-range-input-part-max-width: calc(
   }
 
   ._mat-animation-noopable & {
-    @include input-placeholder {
+    @include vp.input-placeholder {
       transition: none;
     }
   }
@@ -131,7 +126,7 @@ $date-range-input-part-max-width: calc(
 // to stretch and the input with it.
 .mat-date-range-input-mirror {
   // Disable user selection so users don't accidentally copy the text via ctrl + A.
-  @include user-select(none);
+  user-select: none;
 
   // Hide the element so it doesn't get read out by screen
   // readers and it doesn't show up behind the input.

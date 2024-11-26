@@ -45,13 +45,12 @@ export const yearsPerRow = 4;
  * @docs-private
  */
 @Component({
-  selector: 'ngx-plusify-multi-year-view',
-  templateUrl: 'multi-year-view.html',
-  exportAs: 'ngxPlusifyMultiYearView',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgxPlusifyCalendarBody],
+    selector: 'ngx-plusify-multi-year-view',
+    templateUrl: 'multi-year-view.html',
+    exportAs: 'ngxPlusifyMultiYearView',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgxPlusifyCalendarBody]
 })
 export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;

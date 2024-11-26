@@ -120,36 +120,35 @@ const _NgxPlusifyDatepickerContentBase = mixinColor(
  * @docs-private
  */
 @Component({
-  selector: 'ngx-plusify-datepicker-content',
-  templateUrl: 'datepicker-content.html',
-  styleUrls: ['datepicker-content.scss'],
-  host: {
-    class: 'mat-datepicker-content',
-    '[@transformPanel]': '_animationState',
-    '(@transformPanel.start)': '_handleAnimationEvent($event)',
-    '(@transformPanel.done)': '_handleAnimationEvent($event)',
-    '[class.mat-datepicker-content-touch]': 'datepicker.touchUi',
-    '[class.mat-datepicker-content-touch-with-time]': '!datepicker.hideTime',
-  },
-  animations: [
-    ngxPlusifyDatepickerAnimations.transformPanel,
-    ngxPlusifyDatepickerAnimations.fadeInCalendar,
-  ],
-  exportAs: 'ngxPlusifyDatepickerContent',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  inputs: ['color'],
-  standalone: true,
-  imports: [
-    CdkTrapFocus,
-    NgxPlusifyCalendar,
-    NgClass,
-    NgxPlusifyTimepickerComponent,
-    ReactiveFormsModule,
-    FormsModule,
-    CdkPortalOutlet,
-    MatButton,
-  ],
+    selector: 'ngx-plusify-datepicker-content',
+    templateUrl: 'datepicker-content.html',
+    styleUrls: ['datepicker-content.scss'],
+    host: {
+        class: 'mat-datepicker-content',
+        '[@transformPanel]': '_animationState',
+        '(@transformPanel.start)': '_handleAnimationEvent($event)',
+        '(@transformPanel.done)': '_handleAnimationEvent($event)',
+        '[class.mat-datepicker-content-touch]': 'datepicker.touchUi',
+        '[class.mat-datepicker-content-touch-with-time]': '!datepicker.hideTime',
+    },
+    animations: [
+        ngxPlusifyDatepickerAnimations.transformPanel,
+        ngxPlusifyDatepickerAnimations.fadeInCalendar,
+    ],
+    exportAs: 'ngxPlusifyDatepickerContent',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    inputs: ['color'],
+    imports: [
+        CdkTrapFocus,
+        NgxPlusifyCalendar,
+        NgClass,
+        NgxPlusifyTimepickerComponent,
+        ReactiveFormsModule,
+        FormsModule,
+        CdkPortalOutlet,
+        MatButton,
+    ]
 })
 export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<S>>
   extends _NgxPlusifyDatepickerContentBase
@@ -201,7 +200,7 @@ export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<
 
   get isViewMonth(): boolean {
     if (!this._calendar() || this._calendar().currentView == null) return true;
-    return this._calendar().currentView == 'month';
+    return this._calendar().currentView() == 'month';
   }
 
   _modelTime: D | null;

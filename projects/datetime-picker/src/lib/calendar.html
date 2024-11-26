@@ -1,7 +1,7 @@
 <ng-template [cdkPortalOutlet]="_calendarHeaderPortal" />
 
 <div class="mat-calendar-content" cdkMonitorSubtreeFocus tabindex="-1">
-  @switch (currentView) {
+  @switch (currentView()) {
     @case ("month") {
       <ngx-plusify-month-view
         [(activeDate)]="activeDate"

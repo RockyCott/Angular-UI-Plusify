@@ -53,13 +53,12 @@ const DAYS_PER_WEEK = 7;
  * @docs-private
  */
 @Component({
-  selector: 'ngx-plusify-month-view',
-  templateUrl: 'month-view.html',
-  exportAs: 'ngxPlusifyMonthView',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgxPlusifyCalendarBody],
+    selector: 'ngx-plusify-month-view',
+    templateUrl: 'month-view.html',
+    exportAs: 'ngxPlusifyMonthView',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgxPlusifyCalendarBody]
 })
 export class NgxPlusifyMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;

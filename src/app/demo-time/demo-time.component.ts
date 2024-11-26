@@ -1,28 +1,24 @@
-import { Component } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatCardModule } from "@angular/material/card";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { ThemePalette } from "@angular/material/core";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatRadioModule } from "@angular/material/radio";
-import { MatSelectModule } from "@angular/material/select";
-import { RouterLink } from "@angular/router";
-import {
-  NgxPlusifyDatepickerInput,
-  NgxPlusifyNativeDateModule,
-} from "projects/datetime-picker/src";
-import { NgxPlusifyTimepickerComponent } from "../../../projects/datetime-picker/src/lib/timepicker.component";
-import { NgxPlusifyHighlightDirective } from "../shared/NgxMatHighlightDirective";
+import { Component } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ThemePalette } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { RouterLink } from '@angular/router';
+import { NgxPlusifyNativeDateModule } from 'projects/datetime-picker/src';
+import { NgxPlusifyTimepickerComponent } from '../../../projects/datetime-picker/src/lib/timepicker.component';
+import { NgxPlusifyHighlightDirective } from '../shared/NgxPlusifyHighlightDirective';
 
 @Component({
-  selector: "app-demo-time",
-  templateUrl: "./demo-time.component.html",
-  styleUrls: ["./demo-time.component.scss"],
-  standalone: true,
+  selector: 'app-demo-time',
+  templateUrl: './demo-time.component.html',
+  styleUrls: ['./demo-time.component.scss'],
   imports: [
     FormsModule,
     MatButtonModule,
@@ -34,7 +30,6 @@ import { NgxPlusifyHighlightDirective } from "../shared/NgxMatHighlightDirective
     MatInputModule,
     MatRadioModule,
     MatSelectModule,
-    NgxPlusifyDatepickerInput,
     NgxPlusifyHighlightDirective,
     NgxPlusifyNativeDateModule,
     NgxPlusifyTimepickerComponent,
@@ -51,7 +46,7 @@ export class DemoTimeComponent {
   public stepHour = 1;
   public stepMinute = 1;
   public stepSecond = 1;
-  public color: ThemePalette = "primary";
+  public color: ThemePalette = 'primary';
 
   public codeTimePicker = `<ngx-plusify-timepicker
               [(ngModel)]="date" [disabled]="disabled"
@@ -65,11 +60,11 @@ export class DemoTimeComponent {
   public date: Date = new Date();
 
   public options = [
-    { value: true, label: "True" },
-    { value: false, label: "False" },
+    { value: true, label: 'True' },
+    { value: false, label: 'False' },
   ];
 
-  public listColors = ["primary", "accent", "warn"];
+  public listColors = ['primary', 'accent', 'warn'];
 
   public stepHours = [1, 2, 3, 4, 5];
   public stepMinutes = [1, 5, 10, 15, 20, 25];

@@ -43,13 +43,12 @@ import { createMissingDateImplError } from './datepicker-errors';
  * @docs-private
  */
 @Component({
-  selector: 'ngx-plusify-year-view',
-  templateUrl: 'year-view.html',
-  exportAs: 'ngxPlusifyYearView',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgxPlusifyCalendarBody],
+    selector: 'ngx-plusify-year-view',
+    templateUrl: 'year-view.html',
+    exportAs: 'ngxPlusifyYearView',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgxPlusifyCalendarBody]
 })
 export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;

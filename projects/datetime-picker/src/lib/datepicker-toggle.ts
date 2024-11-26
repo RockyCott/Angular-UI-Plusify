@@ -27,27 +27,26 @@ import { NgxPlusifyDatepickerIntl } from './datepicker-intl';
 export class NgxPlusifyDatepickerToggleIcon {}
 
 @Component({
-  selector: 'ngx-plusify-datepicker-toggle',
-  templateUrl: 'datepicker-toggle.html',
-  styleUrls: ['datepicker-toggle.scss'],
-  host: {
-    class: 'mat-datepicker-toggle',
-    '[attr.tabindex]': 'null',
-    '[class.mat-datepicker-toggle-active]': 'datepicker && datepicker.opened',
-    '[class.mat-accent]': 'datepicker && datepicker.color === "accent"',
-    '[class.mat-warn]': 'datepicker && datepicker.color === "warn"',
-    // Used by the test harness to tie this toggle to its datepicker.
-    '[attr.data-mat-calendar]': 'datepicker ? datepicker.id : null',
-    // Bind the `click` on the host, rather than the inner `button`, so that we can call
-    // `stopPropagation` on it without affecting the user's `click` handlers. We need to stop
-    // it so that the input doesn't get focused automatically by the form field (See #21836).
-    '(click)': '_open($event)',
-  },
-  exportAs: 'ngxPlusifyDatepickerToggle',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [MatIconButton],
+    selector: 'ngx-plusify-datepicker-toggle',
+    templateUrl: 'datepicker-toggle.html',
+    styleUrls: ['datepicker-toggle.scss'],
+    host: {
+        class: 'mat-datepicker-toggle',
+        '[attr.tabindex]': 'null',
+        '[class.mat-datepicker-toggle-active]': 'datepicker && datepicker.opened',
+        '[class.mat-accent]': 'datepicker && datepicker.color === "accent"',
+        '[class.mat-warn]': 'datepicker && datepicker.color === "warn"',
+        // Used by the test harness to tie this toggle to its datepicker.
+        '[attr.data-mat-calendar]': 'datepicker ? datepicker.id : null',
+        // Bind the `click` on the host, rather than the inner `button`, so that we can call
+        // `stopPropagation` on it without affecting the user's `click` handlers. We need to stop
+        // it so that the input doesn't get focused automatically by the form field (See #21836).
+        '(click)': '_open($event)',
+    },
+    exportAs: 'ngxPlusifyDatepickerToggle',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MatIconButton]
 })
 export class NgxPlusifyDatepickerToggle<D> implements AfterContentInit, OnDestroy {
   private _stateChanges = Subscription.EMPTY;

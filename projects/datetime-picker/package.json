@@ -1,6 +1,6 @@
 {
   "name": "@angular-ui-plusify/datetime-picker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Angular Material Datetime Picker",
   "author": "RockyCott",
   "repository": {
@@ -15,6 +15,7 @@
     "angular 16",
     "angular 17",
     "angular 18",
+    "angular 19",
     "angular-material",
     "angular material datetime picker",
     "datetime-picker",
@@ -26,11 +27,11 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@angular/platform-browser": "^18.0.0",
-    "@angular/common": "^18.0.0",
-    "@angular/core": "^18.0.0",
-    "@angular/forms": "^18.0.0",
-    "@angular/material": "^18.0.0",
+    "@angular/platform-browser": "^19.0.0",
+    "@angular/common": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "@angular/forms": "^19.0.0",
+    "@angular/material": "^19.0.0",
     "@angular/cdk": "^18.0.0"
   },
   "devDependencies": {

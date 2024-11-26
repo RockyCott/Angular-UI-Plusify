@@ -63,18 +63,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-ui-plusify:build"
+            "buildTarget": "angular-ui-plusify:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-ui-plusify:build:production"
+              "buildTarget": "angular-ui-plusify:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-ui-plusify:build"
+            "buildTarget": "angular-ui-plusify:build"
           }
         },
         "test": {

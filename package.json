@@ -81,7 +81,7 @@
     "codecov": "^3.6.1",
     "codelyzer": "^0.0.28",
     "eslint": "^8.57.0",
-    "eslint-config-prettier": "8.3.0",
+    "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsdoc": "48.0.2",
     "eslint-plugin-prefer-arrow": "1.2.3",

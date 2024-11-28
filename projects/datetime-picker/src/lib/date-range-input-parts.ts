@@ -7,6 +7,7 @@ import {
   Inject,
   InjectionToken,
   Injector,
+  OnDestroy,
   OnInit,
   Optional,
   inject,
@@ -22,7 +23,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { CanUpdateErrorState, ErrorStateMatcher, mixinErrorState } from '@angular/material/core';
+import { _ErrorStateTracker, CanUpdateErrorState, ErrorStateMatcher } from '@angular/material/core';
 import { _computeAriaAccessibleName } from './aria-accessible-name';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
 import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
@@ -60,16 +61,31 @@ export const NGX_PLUSIFY_DATE_RANGE_INPUT_PARENT = new InjectionToken<
 @Directive()
 abstract class NgxPlusifyDateRangeInputPartBase<D>
   extends NgxPlusifyDatepickerInputBase<NgxDateRange<D>>
-  implements OnInit, DoCheck
+  implements OnInit, DoCheck, OnDestroy
 {
+  private _tracker: _ErrorStateTracker;
+
+  /** Whether the component is in an error state. */
+  get errorState(): boolean {
+    return this._tracker.errorState;
+  }
+  set errorState(value: boolean) {
+    this._tracker.errorState = value;
+  }
+
+  /** An object used to control the error state of the component. */
+  get errorStateMatcher(): ErrorStateMatcher {
+    return this._tracker.matcher;
+  }
+  set errorStateMatcher(value: ErrorStateMatcher) {
+    this._tracker.matcher = value;
+  }
+
   /**
    * Form control bound to this input part.
    * @docs-private
    */
-  ngControl: NgControl;
-
-  /** @docs-private */
-  abstract updateErrorState(): void;
+  ngControl: NgControl | null = null;
 
   protected abstract override _validator: ValidatorFn | null;
   protected abstract override _assignValueToModel(value: D | null): void;
@@ -89,6 +105,13 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
     @Optional() @Inject(NGX_PLUSIFY_DATE_FORMATS) dateFormats: NgxPlusifyDateFormats,
   ) {
     super(_elementRef, dateAdapter, dateFormats);
+    this._tracker = new _ErrorStateTracker(
+      this._defaultErrorStateMatcher,
+      this.ngControl,
+      this._parentFormGroup,
+      this._parentForm,
+      this.stateChanges,
+    );
   }
 
   ngOnInit() {
@@ -109,6 +132,10 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
     }
   }
 
+  ngOnDestroy() {
+    this.stateChanges.complete();
+  }
+
   ngDoCheck() {
     if (this.ngControl) {
       // We need to re-evaluate this on every change detection cycle, because there are some
@@ -116,6 +143,10 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
       // that whatever logic is in here has to be super lean or we risk destroying the performance.
       this.updateErrorState();
     }
+  }
+
+  updateErrorState(): void {
+    this._tracker.updateErrorState();
   }
 
   /** Gets whether the input is empty. */
@@ -192,8 +223,6 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
   }
 }
 
-const _NgxPlusifyDateRangeInputBase = mixinErrorState(NgxPlusifyDateRangeInputPartBase);
-
 /** Input for entering the start date in a `mat-date-range-input`. */
 @Directive({
   selector: 'input[ngxPlusifyStartDate]',
@@ -221,7 +250,7 @@ const _NgxPlusifyDateRangeInputBase = mixinErrorState(NgxPlusifyDateRangeInputPa
   standalone: true,
 })
 export class NgxPlusifyStartDate<D>
-  extends _NgxPlusifyDateRangeInputBase<D>
+  extends NgxPlusifyDateRangeInputPartBase<D>
   implements CanUpdateErrorState
 {
   /** Validator that checks that the start date isn't after the end date. */
@@ -338,10 +367,7 @@ export class NgxPlusifyStartDate<D>
   inputs: ['errorStateMatcher'],
   standalone: true,
 })
-export class NgxPlusifyEndDate<D>
-  extends _NgxPlusifyDateRangeInputBase<D>
-  implements CanUpdateErrorState
-{
+export class NgxPlusifyEndDate<D> extends NgxPlusifyDateRangeInputPartBase<D> {
   /** Validator that checks that the end date isn't before the start date. */
   private _endValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const end = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(control.value));
@@ -372,9 +398,24 @@ export class NgxPlusifyEndDate<D>
       dateAdapter,
       dateFormats,
     );
+    this.errorStateMatcher = defaultErrorStateMatcher;
+    this.ngControl = injector.get(NgControl, null);
   }
 
   protected _validator = Validators.compose([...super._getValidators(), this._endValidator]);
+
+  /** Updates the error state based on the provided error state matcher. */
+  updateErrorState(): void {
+    const control = this.ngControl.control || null;
+    const oldState = this.errorState;
+    const newState = control
+      ? this.errorStateMatcher.isErrorState(control, this._parentFormGroup)
+      : false;
+
+    if (newState !== oldState) {
+      this.errorState = newState;
+    }
+  }
 
   protected _getValueFromModel(modelValue: NgxDateRange<D>) {
     return modelValue.end;

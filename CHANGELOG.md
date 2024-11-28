@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented here.
 
+## [0.0.4] - 2024-11-27
+### Fixed
+- Migrated the project to Angular 19 and Angular Material 19.
+- Adjusted the implementation of mixinColor due to its removal in Material 19.
+- Created a custom mixin to manage the color property in components, properly using ElementRef.
+- Updated MatDatepickerContent class to work with the new color logic without relying on mixinColor.
+
 ## [0.0.3] - 2024-11-26
 ### Added
 - Transitioned **Datetime Picker** and library modules to **Standalone Components** for enhanced modularity and simplified usage.

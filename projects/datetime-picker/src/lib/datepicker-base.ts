@@ -77,8 +77,6 @@ import { NgxDateFilterFn } from './datepicker-input-base';
 import { NgxPlusifyDatepickerIntl } from './datepicker-intl';
 import { NgxPlusifyTimepickerComponent } from './timepicker.component';
 import { DEFAULT_STEP } from './utils/date-utils';
-import { CanColor } from './canColor';
-
 /** Used to generate a unique ID for each datepicker instance. */
 let datepickerUid = 0;
 
@@ -106,14 +104,6 @@ export const NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER = {
   deps: [Overlay],
   useFactory: NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY_FACTORY,
 };
-
-// Boilerplate for applying mixins to MatDatepickerContent.
-/** @docs-private */
-const _NgxPlusifyDatepickerContentBase = mixinColor(
-  class {
-    constructor(public _elementRef: ElementRef) {}
-  },
-);
 
 /**
  * Component used as the content for the datepicker overlay. We use this instead of using
@@ -154,12 +144,11 @@ const _NgxPlusifyDatepickerContentBase = mixinColor(
   ],
 })
 export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<S>>
-  extends _NgxPlusifyDatepickerContentBase
   implements OnInit, AfterViewInit, OnDestroy
 {
 
   /** Theme color palette for the component. */
-  color: ThemePalette;
+  _color: ThemePalette;
 
   /** Default color to fall back to if no value is set. */
   defaultColor: ThemePalette | undefined;
@@ -216,7 +205,7 @@ export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<
   _modelTime: D | null;
 
   constructor(
-    elementRef: ElementRef,
+    private elementRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
     private _globalModel: NgxPlusifyDateSelectionModel<S, D>,
     private _dateAdapter: NgxPlusifyDateAdapter<D>,
@@ -225,7 +214,6 @@ export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<
     private _rangeSelectionStrategy: NgxPlusifyDateRangeSelectionStrategy<D>,
     intl: NgxPlusifyDatepickerIntl,
   ) {
-    super(elementRef);
     this._closeButtonText = intl.closeCalendarLabel;
 
     this.color = 'primary';
@@ -254,6 +242,23 @@ export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<
   ngOnDestroy() {
     this._subscriptions.unsubscribe();
     this._animationDone.complete();
+  }
+
+  get color(): ThemePalette {
+    return this._color;
+  }
+
+  set color(value: ThemePalette) {
+    const colorPalette = value || this.defaultColor;
+    if (colorPalette !== this._color) {
+      if (this._color) {
+        this.elementRef.nativeElement.classList.remove(`mat-${this._color}`);
+      }
+      if (colorPalette) {
+        this.elementRef.nativeElement.classList.add(`mat-${colorPalette}`);
+      }
+      this._color = colorPalette;
+    }
   }
 
   onTimeChanged(selectedDateWithTime: D | null) {

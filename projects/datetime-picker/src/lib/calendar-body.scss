@@ -161,6 +161,9 @@ $calendar-range-end-body-cell-size: $calendar-body-cell-content-size +
   .mat-calendar-body-comparison-bridge-end.mat-calendar-body-range-start::after {
     @include _range-right-radius;
   }
+  .mat-calendar-body-label {
+    text-align: right;
+  }
 }
 
 // Prevents the extra overlap range indication from showing up when it's not supposed to.
@@ -323,8 +326,15 @@ $calendar-range-end-body-cell-size: $calendar-body-cell-content-size +
   }
 }
 
-[dir='rtl'] {
-  .mat-calendar-body-label {
-    text-align: right;
+// Utility mixin to target cells that aren't selected. Used to make selector easier to follow.
+@mixin _unselected-cell {
+  &:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    @content;
+  }
+}
+
+.mat-calendar-body-disabled > .mat-calendar-body-cell-content {
+  @include _unselected-cell {
+    color: var(--mat-datepicker-calendar-date-disabled-state-text-color);
   }
 }

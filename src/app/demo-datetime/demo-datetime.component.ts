@@ -67,7 +67,7 @@ export class DemoDatetimeComponent {
   public disableMinute = false;
   public hideTime = false;
 
-  public dateControl = new FormControl<Date>(null);
+  public dateControl = new FormControl<Date>(new Date());
 
   public options = [
     { value: true, label: 'True' },

@@ -23,7 +23,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { _ErrorStateTracker, CanUpdateErrorState, ErrorStateMatcher } from '@angular/material/core';
+import { _ErrorStateTracker, ErrorStateMatcher } from '@angular/material/core';
 import { _computeAriaAccessibleName } from './aria-accessible-name';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
 import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
@@ -251,7 +251,6 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
 })
 export class NgxPlusifyStartDate<D>
   extends NgxPlusifyDateRangeInputPartBase<D>
-  implements CanUpdateErrorState
 {
   /** Validator that checks that the start date isn't after the end date. */
   private _startValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -285,9 +284,25 @@ export class NgxPlusifyStartDate<D>
       dateAdapter,
       dateFormats,
     );
+
+    this.errorStateMatcher = defaultErrorStateMatcher;
+    this.ngControl = injector.get(NgControl, null);
   }
 
   protected _validator = Validators.compose([...super._getValidators(), this._startValidator]);
+
+  /** Updates the error state based on the provided error state matcher. */
+  updateErrorState(): void {
+    const control = this.ngControl.control || null;
+    const oldState = this.errorState;
+    const newState = control
+      ? this.errorStateMatcher.isErrorState(control, this._parentFormGroup)
+      : false;
+
+    if (newState !== oldState) {
+      this.errorState = newState;
+    }
+  }
 
   protected _getValueFromModel(modelValue: NgxDateRange<D>) {
     return modelValue.start;

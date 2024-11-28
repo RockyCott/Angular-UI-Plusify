@@ -56,7 +56,7 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { CanColor, ThemePalette, mixinColor } from '@angular/material/core';
+import { ThemePalette } from '@angular/material/core';
 import { Observable, Subject, Subscription, merge } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { NgxPlusifyCalendar, NgxPlusifyCalendarView } from './calendar';
@@ -77,6 +77,7 @@ import { NgxDateFilterFn } from './datepicker-input-base';
 import { NgxPlusifyDatepickerIntl } from './datepicker-intl';
 import { NgxPlusifyTimepickerComponent } from './timepicker.component';
 import { DEFAULT_STEP } from './utils/date-utils';
+import { CanColor } from './canColor';
 
 /** Used to generate a unique ID for each datepicker instance. */
 let datepickerUid = 0;
@@ -154,8 +155,15 @@ const _NgxPlusifyDatepickerContentBase = mixinColor(
 })
 export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<S>>
   extends _NgxPlusifyDatepickerContentBase
-  implements OnInit, AfterViewInit, OnDestroy, CanColor
+  implements OnInit, AfterViewInit, OnDestroy
 {
+
+  /** Theme color palette for the component. */
+  color: ThemePalette;
+
+  /** Default color to fall back to if no value is set. */
+  defaultColor: ThemePalette | undefined;
+
   private _subscriptions = new Subscription();
   private _model: NgxPlusifyDateSelectionModel<S, D>;
   /** Reference to the internal calendar component. */
@@ -219,6 +227,9 @@ export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<
   ) {
     super(elementRef);
     this._closeButtonText = intl.closeCalendarLabel;
+
+    this.color = 'primary';
+    this.defaultColor = undefined;
 
     effect(() => {
       const calendar = this._calendar();

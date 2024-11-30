@@ -26,17 +26,17 @@ export interface NgxPlusifyMomentDateAdapterOptions {
 }
 
 /** InjectionToken for moment date adapter to configure options. */
-export const NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS =
+export const NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS =
   new InjectionToken<NgxPlusifyMomentDateAdapterOptions>(
-    'NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS',
+    'NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS',
     {
       providedIn: 'root',
-      factory: NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS_FACTORY,
+      factory: NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS_FACTORY,
     },
   );
 
 /** @docs-private */
-export function NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS_FACTORY(): NgxPlusifyMomentDateAdapterOptions {
+export function NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS_FACTORY(): NgxPlusifyMomentDateAdapterOptions {
   return {
     useUtc: false,
   };
@@ -72,7 +72,7 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
   constructor(
     @Optional() @Inject(MAT_DATE_LOCALE) private dateLocale: string,
     @Optional()
-    @Inject(NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS)
+    @Inject(NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS)
     private _options?: NgxPlusifyMomentDateAdapterOptions,
   ) {
     super();

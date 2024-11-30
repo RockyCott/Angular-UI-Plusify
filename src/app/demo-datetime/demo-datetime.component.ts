@@ -18,13 +18,12 @@ import {
   NgxPlusifyDatepickerToggle,
   NgxPlusifyDatetimepicker,
 } from 'projects/datetime-picker/src';
-import { NgxPlusifyHighlightDirective } from '../shared/NgxMatHighlightDirective';
+import { NgxPlusifyHighlightDirective } from '../shared/NgxPlusifyHighlightDirective';
 
 @Component({
   selector: 'app-demo-datetime',
   templateUrl: './demo-datetime.component.html',
   styleUrls: ['./demo-datetime.component.scss'],
-  standalone: true,
   imports: [
     FormsModule,
     MatButtonModule,
@@ -68,7 +67,7 @@ export class DemoDatetimeComponent {
   public disableMinute = false;
   public hideTime = false;
 
-  public dateControl = new FormControl<Date>(null);
+  public dateControl = new FormControl<Date>(new Date());
 
   public options = [
     { value: true, label: 'True' },

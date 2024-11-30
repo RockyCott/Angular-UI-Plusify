@@ -11,19 +11,18 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatListModule,
-    MatCardModule,
-    RouterModule,
-  ],
+    selector: "app-root",
+    templateUrl: "./app.component.html",
+    styleUrls: ["./app.component.scss"],
+    imports: [
+        MatButtonModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatListModule,
+        MatCardModule,
+        RouterModule,
+    ]
 })
 export class AppComponent implements OnDestroy {
   public nameApp = "angular-ui-plusify";

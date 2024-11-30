@@ -132,10 +132,7 @@ function _computeAriaAccessibleNameInternal(
   // NOTE: this differs from accname-1.2 specification.
   // Only implements Step 2.D. for `<label>`,`<input/>`, and `<textarea/>` element. Does not
   // implement other elements that have an attribute or element that defines a text alternative.
-  if (
-    ssrSafeIsHTMLInputElement(currentNode) ||
-    ssrSafeIsHTMLTextAreaElement(currentNode)
-  ) {
+  if (ssrSafeIsHTMLInputElement(currentNode) || ssrSafeIsHTMLTextAreaElement(currentNode)) {
     // use label with a `for` attribute referencing the current node
     if (currentNode.labels?.length) {
       return Array.from(currentNode.labels)

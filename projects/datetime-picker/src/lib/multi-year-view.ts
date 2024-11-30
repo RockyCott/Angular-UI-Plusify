@@ -50,7 +50,6 @@ export const yearsPerRow = 4;
   exportAs: 'ngxPlusifyMultiYearView',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgxPlusifyCalendarBody],
 })
 export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
@@ -137,7 +136,7 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
   readonly activeDateChange = output<D>();
 
   /** The body of calendar table */
-  _matCalendarBody = viewChild(NgxPlusifyCalendarBody);
+  _plusifyCalendarBody = viewChild(NgxPlusifyCalendarBody);
 
   /** Grid of calendar cells representing the currently displayed years. */
   _years: NgxPlusifyCalendarCell[][];
@@ -310,12 +309,12 @@ export class NgxPlusifyMultiYearView<D> implements AfterContentInit, OnDestroy {
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell() {
-    this._matCalendarBody()._focusActiveCell();
+    this._plusifyCalendarBody()._focusActiveCell();
   }
 
   /** Focuses the active cell after change detection has run and the microtask queue is empty. */
   _focusActiveCellAfterViewChecked() {
-    this._matCalendarBody()._scheduleFocusActiveCellAfterViewChecked();
+    this._plusifyCalendarBody()._scheduleFocusActiveCellAfterViewChecked();
   }
 
   /**

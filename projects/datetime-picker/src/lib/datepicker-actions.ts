@@ -4,10 +4,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   Directive,
+  Input,
   OnDestroy,
   TemplateRef,
   ViewContainerRef,
   ViewEncapsulation,
+  booleanAttribute,
   viewChild,
 } from '@angular/core';
 import { NgxPlusifyDatepickerBase, NgxPlusifyDatepickerControl } from './datepicker-base';
@@ -20,12 +22,38 @@ import { NgxPlusifyDatepickerBase, NgxPlusifyDatepickerControl } from './datepic
 })
 export class NgxPlusifyDatepickerApply {
   constructor(
-    public readonly _datepicker: NgxPlusifyDatepickerBase<NgxPlusifyDatepickerControl<any>, unknown>,
+    public readonly _datepicker: NgxPlusifyDatepickerBase<
+      NgxPlusifyDatepickerControl<any>,
+      unknown
+    >,
   ) {}
 
   _applySelection() {
     this._datepicker._applyPendingSelection();
     this._datepicker.close();
+  }
+}
+
+@Directive({
+  selector: '[ngxMatDatepickerClear], [ngxMatDateRangePickerClear]',
+  host: { '(click)': '_clearSelection()' },
+  standalone: true,
+})
+export class NgxMatDatepickerClear {
+  constructor(
+    public readonly _datepicker: NgxPlusifyDatepickerBase<NgxPlusifyDatepickerControl<any>, unknown>,
+  ) {}
+
+  @Input({
+    transform: booleanAttribute,
+  })
+  close: boolean = false;
+
+  _clearSelection() {
+    this._datepicker._clearSelection();
+    if (this.close) {
+      this._datepicker.close();
+    }
   }
 }
 
@@ -37,7 +65,10 @@ export class NgxPlusifyDatepickerApply {
 })
 export class NgxPlusifyDatepickerCancel {
   constructor(
-    public readonly _datepicker: NgxPlusifyDatepickerBase<NgxPlusifyDatepickerControl<any>, unknown>,
+    public readonly _datepicker: NgxPlusifyDatepickerBase<
+      NgxPlusifyDatepickerControl<any>,
+      unknown
+    >,
   ) {}
 }
 
@@ -57,7 +88,6 @@ export class NgxPlusifyDatepickerCancel {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
 })
 export class NgxPlusifyDatepickerActions implements AfterViewInit, OnDestroy {
   _template = viewChild<TemplateRef<unknown>>(TemplateRef);

@@ -99,7 +99,10 @@ export abstract class NgxPlusifyDateSelectionModel<S, D = NgxExtractDateTypeFrom
  * @docs-private
  */
 @Injectable()
-export class NgxPlusifySingleDateSelectionModel<D> extends NgxPlusifyDateSelectionModel<D | null, D> {
+export class NgxPlusifySingleDateSelectionModel<D> extends NgxPlusifyDateSelectionModel<
+  D | null,
+  D
+> {
   constructor(adapter: NgxPlusifyDateAdapter<D>) {
     super(null, adapter);
   }
@@ -138,7 +141,10 @@ export class NgxPlusifySingleDateSelectionModel<D> extends NgxPlusifyDateSelecti
  * @docs-private
  */
 @Injectable()
-export class NgxPlusifyRangeDateSelectionModel<D> extends NgxPlusifyDateSelectionModel<NgxDateRange<D>, D> {
+export class NgxPlusifyRangeDateSelectionModel<D> extends NgxPlusifyDateSelectionModel<
+  NgxDateRange<D>,
+  D
+> {
   constructor(adapter: NgxPlusifyDateAdapter<D>) {
     super(new NgxDateRange<D>(null, null), adapter);
   }

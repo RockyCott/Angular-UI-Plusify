@@ -46,16 +46,18 @@ export class NgxPlusifyDatepickerToggleIcon {}
   exportAs: 'ngxPlusifyDatepickerToggle',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatIconButton],
 })
 export class NgxPlusifyDatepickerToggle<D> implements AfterContentInit, OnDestroy {
   private _stateChanges = Subscription.EMPTY;
 
   /** Datepicker instance that the button will toggle. */
-  readonly datepicker = input<NgxPlusifyDatepickerPanel<NgxPlusifyDatepickerControl<any>, D>>(undefined, {
-    alias: 'for',
-  });
+  readonly datepicker = input<NgxPlusifyDatepickerPanel<NgxPlusifyDatepickerControl<any>, D>>(
+    undefined,
+    {
+      alias: 'for',
+    },
+  );
 
   @Input()
   /** Tabindex for the toggle. */

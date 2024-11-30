@@ -6,18 +6,17 @@ import { MatListItem, MatNavList } from "@angular/material/list";
 import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: "ngx-plusify-home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"],
-  standalone: true,
-  imports: [
-    MatCard,
-    MatCardContent,
-    MatDivider,
-    MatIcon,
-    MatListItem,
-    MatNavList,
-    RouterLink,
-  ],
+    selector: "ngx-plusify-home",
+    templateUrl: "./home.component.html",
+    styleUrls: ["./home.component.scss"],
+    imports: [
+        MatCard,
+        MatCardContent,
+        MatDivider,
+        MatIcon,
+        MatListItem,
+        MatNavList,
+        RouterLink,
+    ]
 })
 export class HomeComponent {}

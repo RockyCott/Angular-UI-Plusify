@@ -48,7 +48,6 @@ import { createMissingDateImplError } from './datepicker-errors';
   exportAs: 'ngxPlusifyYearView',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgxPlusifyCalendarBody],
 })
 export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
@@ -126,7 +125,7 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
   readonly activeDateChange = output<D>();
 
   /** The body of calendar table */
-  _matCalendarBody = viewChild(NgxPlusifyCalendarBody);
+  _plusifyCalendarBody = viewChild(NgxPlusifyCalendarBody);
 
   /** Grid of calendar cells representing the months of the year. */
   _months: NgxPlusifyCalendarCell[][];
@@ -307,12 +306,12 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell() {
-    this._matCalendarBody()._focusActiveCell();
+    this._plusifyCalendarBody()._focusActiveCell();
   }
 
-  /** Schedules the matCalendarBody to focus the active cell after change detection has run */
+  /** Schedules the plusifyCalendarBody to focus the active cell after change detection has run */
   _focusActiveCellAfterViewChecked() {
-    this._matCalendarBody()._scheduleFocusActiveCellAfterViewChecked();
+    this._plusifyCalendarBody()._scheduleFocusActiveCellAfterViewChecked();
   }
 
   /**

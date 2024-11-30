@@ -53,7 +53,6 @@ import {
   ],
   exportAs: 'ngxPlusifyTimepicker',
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,

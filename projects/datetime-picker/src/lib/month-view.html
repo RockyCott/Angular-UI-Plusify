@@ -9,11 +9,7 @@
       }
     </tr>
     <tr>
-      <th
-        aria-hidden="true"
-        class="mat-calendar-table-header-divider"
-        colspan="7"
-      ></th>
+      <th aria-hidden="true" class="mat-calendar-table-header-divider" colspan="7"></th>
     </tr>
   </thead>
   <tbody
@@ -38,6 +34,5 @@
     (dragStarted)="dragStarted.emit($event)"
     (dragEnded)="_dragEnded($event)"
     (keyup)="_handleCalendarBodyKeyup($event)"
-    (keydown)="_handleCalendarBodyKeydown($event)"
-  ></tbody>
+    (keydown)="_handleCalendarBodyKeydown($event)"></tbody>
 </table>

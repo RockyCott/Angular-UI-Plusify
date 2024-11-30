@@ -15,6 +15,7 @@ import {
   ViewEncapsulation,
   forwardRef,
   input,
+  linkedSignal,
   output,
   viewChild,
 } from '@angular/core';
@@ -23,7 +24,10 @@ import { Subject, Subscription } from 'rxjs';
 import { NgxPlusifyCalendarCellClassFunction, NgxPlusifyCalendarUserEvent } from './calendar-body';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
 import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
-import { NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER, NgxDateRange } from './date-selection-model';
+import {
+  NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER,
+  NgxDateRange,
+} from './date-selection-model';
 import { createMissingDateImplError } from './datepicker-errors';
 import { NgxPlusifyDatepickerIntl } from './datepicker-intl';
 import { NgxPlusifyMonthView } from './month-view';
@@ -34,8 +38,8 @@ import {
   yearsPerPage,
 } from './multi-year-view';
 import { NgxPlusifyYearView } from './year-view';
-
 import { CdkMonitorFocus } from '@angular/cdk/a11y';
+import { outputFromObservable, toObservable } from '@angular/core/rxjs-interop';
 
 let calendarHeaderId = 1;
 
@@ -52,7 +56,6 @@ export type NgxPlusifyCalendarView = 'month' | 'year' | 'multi-year';
   exportAs: 'ngxPlusifyCalendarHeader',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatButton, MatIconButton],
 })
 export class NgxPlusifyCalendarHeader<D> {
@@ -71,12 +74,12 @@ export class NgxPlusifyCalendarHeader<D> {
 
   /** The display text for the current calendar view. */
   get periodButtonText(): string {
-    if (this.calendar.currentView == 'month') {
+    if (this.calendar.currentView() == 'month') {
       return this._dateAdapter
         .format(this.calendar.activeDate, this._dateFormats.display.monthYearLabel)
         .toLocaleUpperCase();
     }
-    if (this.calendar.currentView == 'year') {
+    if (this.calendar.currentView() == 'year') {
       return this._dateAdapter.getYearName(this.calendar.activeDate);
     }
 
@@ -85,12 +88,12 @@ export class NgxPlusifyCalendarHeader<D> {
 
   /** The aria description for the current calendar view. */
   get periodButtonDescription(): string {
-    if (this.calendar.currentView == 'month') {
+    if (this.calendar.currentView() == 'month') {
       return this._dateAdapter
         .format(this.calendar.activeDate, this._dateFormats.display.monthYearLabel)
         .toLocaleUpperCase();
     }
-    if (this.calendar.currentView == 'year') {
+    if (this.calendar.currentView() == 'year') {
       return this._dateAdapter.getYearName(this.calendar.activeDate);
     }
 
@@ -101,7 +104,7 @@ export class NgxPlusifyCalendarHeader<D> {
 
   /** The `aria-label` for changing the calendar view. */
   get periodButtonLabel(): string {
-    return this.calendar.currentView == 'month'
+    return this.calendar.currentView() == 'month'
       ? this._intl.switchToMultiYearViewLabel
       : this._intl.switchToMonthViewLabel;
   }
@@ -112,7 +115,7 @@ export class NgxPlusifyCalendarHeader<D> {
       month: this._intl.prevMonthLabel,
       year: this._intl.prevYearLabel,
       'multi-year': this._intl.prevMultiYearLabel,
-    }[this.calendar.currentView];
+    }[this.calendar.currentView()];
   }
 
   /** The label for the next button. */
@@ -121,33 +124,33 @@ export class NgxPlusifyCalendarHeader<D> {
       month: this._intl.nextMonthLabel,
       year: this._intl.nextYearLabel,
       'multi-year': this._intl.nextMultiYearLabel,
-    }[this.calendar.currentView];
+    }[this.calendar.currentView()];
   }
 
   /** Handles user clicks on the period label. */
   currentPeriodClicked(): void {
-    this.calendar.currentView = this.calendar.currentView == 'month' ? 'multi-year' : 'month';
+    this.calendar.currentView.set(this.calendar.currentView() == 'month' ? 'multi-year' : 'month');
   }
 
   /** Handles user clicks on the previous button. */
   previousClicked(): void {
     this.calendar.activeDate =
-      this.calendar.currentView == 'month'
+      this.calendar.currentView() == 'month'
         ? this._dateAdapter.addCalendarMonths(this.calendar.activeDate, -1)
         : this._dateAdapter.addCalendarYears(
             this.calendar.activeDate,
-            this.calendar.currentView == 'year' ? -1 : -yearsPerPage,
+            this.calendar.currentView() == 'year' ? -1 : -yearsPerPage,
           );
   }
 
   /** Handles user clicks on the next button. */
   nextClicked(): void {
     this.calendar.activeDate =
-      this.calendar.currentView == 'month'
+      this.calendar.currentView() == 'month'
         ? this._dateAdapter.addCalendarMonths(this.calendar.activeDate, 1)
         : this._dateAdapter.addCalendarYears(
             this.calendar.activeDate,
-            this.calendar.currentView == 'year' ? 1 : yearsPerPage,
+            this.calendar.currentView() == 'year' ? 1 : yearsPerPage,
           );
   }
 
@@ -170,13 +173,13 @@ export class NgxPlusifyCalendarHeader<D> {
 
   /** Whether the two dates represent the same view in the current view mode (month or year). */
   private _isSameView(date1: D, date2: D): boolean {
-    if (this.calendar.currentView == 'month') {
+    if (this.calendar.currentView() == 'month') {
       return (
         this._dateAdapter.getYear(date1) == this._dateAdapter.getYear(date2) &&
         this._dateAdapter.getMonth(date1) == this._dateAdapter.getMonth(date2)
       );
     }
-    if (this.calendar.currentView == 'year') {
+    if (this.calendar.currentView() == 'year') {
       return this._dateAdapter.getYear(date1) == this._dateAdapter.getYear(date2);
     }
     // Otherwise we are in 'multi-year' view.
@@ -235,10 +238,17 @@ export class NgxPlusifyCalendarHeader<D> {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER],
-  standalone: true,
-  imports: [CdkPortalOutlet, CdkMonitorFocus, NgxPlusifyMonthView, NgxPlusifyYearView, NgxPlusifyMultiYearView],
+  imports: [
+    CdkPortalOutlet,
+    CdkMonitorFocus,
+    NgxPlusifyMonthView,
+    NgxPlusifyYearView,
+    NgxPlusifyMultiYearView,
+  ],
 })
-export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked, OnDestroy, OnChanges {
+export class NgxPlusifyCalendar<D>
+  implements AfterContentInit, AfterViewChecked, OnDestroy, OnChanges
+{
   /** An input indicating the type of the header component, if set. */
   headerComponent = input<ComponentType<any>>();
 
@@ -252,7 +262,7 @@ export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked
    * We need to schedule it, rather than do it immediately, because we have to wait
    * for Angular to re-evaluate the view children.
    */
-  private _moveFocusOnNextTick = false;
+  private readonly _moveFocusOnNextTick = linkedSignal(() => Boolean(this.currentView()));
 
   /** A date representing the period (month or year) to start the calendar in. */
   @Input()
@@ -265,7 +275,7 @@ export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked
   private _startAt: D | null;
 
   /** Whether the calendar should be started in month or year view. */
-  startView = input<NgxPlusifyCalendarView>('month');
+  readonly startView = input<NgxPlusifyCalendarView>('month');
 
   /** The currently selected date. */
   @Input()
@@ -319,6 +329,8 @@ export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked
   /** ARIA Accessible name of the `<input matEndDate/>` */
   endDateAccessibleName = input<string | null>();
 
+  readonly currentView = linkedSignal(() => this.startView());
+
   /** Emits when the currently selected date changes. */
   readonly selectedChange = output<D | null>();
 
@@ -337,7 +349,9 @@ export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked
   /**
    * Emits when the current view changes.
    */
-  readonly viewChanged = output<NgxPlusifyCalendarView>();
+  readonly viewChanged = outputFromObservable<NgxPlusifyCalendarView>(
+    toObservable(this.currentView),
+  );
 
   /** Emits when any date is selected. */
   readonly _userSelection = output<NgxPlusifyCalendarUserEvent<D | null>>();
@@ -367,21 +381,6 @@ export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked
     this._changeDetectorRef.markForCheck();
   }
   private _clampedActiveDate: D;
-
-  /** Whether the calendar is in month view. */
-  get currentView(): NgxPlusifyCalendarView {
-    return this._currentView;
-  }
-  set currentView(value: NgxPlusifyCalendarView) {
-    const viewChangedResult = this._currentView !== value ? value : null;
-    this._currentView = value;
-    this._moveFocusOnNextTick = true;
-    this._changeDetectorRef.markForCheck();
-    if (viewChangedResult) {
-      this.viewChanged.emit(viewChangedResult);
-    }
-  }
-  private _currentView: NgxPlusifyCalendarView;
 
   /** Origin of active drag, or null when dragging is not active. */
   protected _activeDrag: NgxPlusifyCalendarUserEvent<D> | null = null;
@@ -418,14 +417,11 @@ export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked
       this.headerComponent() || NgxPlusifyCalendarHeader,
     );
     this.activeDate = this.startAt || this._dateAdapter.today();
-
-    // Assign to the private property since we don't want to move focus on init.
-    this._currentView = this.startView();
   }
 
   ngAfterViewChecked() {
-    if (this._moveFocusOnNextTick) {
-      this._moveFocusOnNextTick = false;
+    if (this._moveFocusOnNextTick()) {
+      this._moveFocusOnNextTick.set(false);
       this.focusActiveCell();
     }
   }
@@ -469,7 +465,7 @@ export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked
   /** Focuses the active date. */
   focusActiveCell() {
     const view = this._getCurrentViewComponent();
-    view._focusActiveCell(false);
+    view?._focusActiveCell(false);
   }
 
   /** Updates today's date after an update of the active date */
@@ -506,9 +502,9 @@ export class NgxPlusifyCalendar<D> implements AfterContentInit, AfterViewChecked
   }
 
   /** Handles year/month selection in the multi-year/year views. */
-  _goToDateInView(date: D, view: 'month' | 'year' | 'multi-year'): void {
+  _goToDateInView(date: D, view: NgxPlusifyCalendarView): void {
     this.activeDate = date;
-    this.currentView = view;
+    this.currentView.set(view);
   }
 
   /** Called when the user starts dragging to change a date range. */

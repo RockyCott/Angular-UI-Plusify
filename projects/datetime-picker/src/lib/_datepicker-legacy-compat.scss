@@ -1,5 +1,5 @@
-@use "../button/button-theme";
-@use "../button/icon-button-theme";
+@use '../button/button-theme';
+@use '../button/icon-button-theme';
 
 @mixin legacy-button-compat-theme($theme) {
   .mat-datepicker-content {
@@ -21,7 +21,7 @@
     .mat-button-base + .mat-button-base {
       margin-left: $spacing;
 
-      [dir="rtl"] & {
+      [dir='rtl'] & {
         margin-left: 0;
         margin-right: $spacing;
       }
@@ -38,6 +38,14 @@
         height: 40px;
         padding: 8px 0;
       }
+    }
+
+    .mat-datepicker-toggle .mat-mdc-button-base {
+      vertical-align: middle;
+    }
+
+    &:not(.mat-form-field-appearance-legacy) .mat-datepicker-toggle .mat-mdc-button-base {
+      vertical-align: baseline;
     }
 
     .mat-datepicker-toggle .mat-mdc-icon-button .mat-icon {
@@ -70,18 +78,6 @@
         line-height: 1.5em;
         margin: 0;
       }
-    }
-  }
-
-  .mat-form-field {
-    .mat-datepicker-toggle .mat-mdc-button-base {
-      vertical-align: middle;
-    }
-
-    &:not(.mat-form-field-appearance-legacy)
-      .mat-datepicker-toggle
-      .mat-mdc-button-base {
-      vertical-align: baseline;
     }
   }
 }

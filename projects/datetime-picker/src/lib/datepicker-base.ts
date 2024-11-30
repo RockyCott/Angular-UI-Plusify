@@ -56,7 +56,7 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { CanColor, ThemePalette, mixinColor } from '@angular/material/core';
+import { ThemePalette } from '@angular/material/core';
 import { Observable, Subject, Subscription, merge } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { NgxPlusifyCalendar, NgxPlusifyCalendarView } from './calendar';
@@ -77,7 +77,6 @@ import { NgxDateFilterFn } from './datepicker-input-base';
 import { NgxPlusifyDatepickerIntl } from './datepicker-intl';
 import { NgxPlusifyTimepickerComponent } from './timepicker.component';
 import { DEFAULT_STEP } from './utils/date-utils';
-
 /** Used to generate a unique ID for each datepicker instance. */
 let datepickerUid = 0;
 
@@ -87,7 +86,9 @@ export const NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY = new InjectionToken<() => S
 );
 
 /** @docs-private */
-export function NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY_FACTORY(overlay: Overlay): () => ScrollStrategy {
+export function NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY_FACTORY(
+  overlay: Overlay,
+): () => ScrollStrategy {
   return () => overlay.scrollStrategies.reposition();
 }
 
@@ -104,14 +105,6 @@ export const NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER = {
   useFactory: NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY_FACTORY,
 };
 
-// Boilerplate for applying mixins to MatDatepickerContent.
-/** @docs-private */
-const _NgxPlusifyDatepickerContentBase = mixinColor(
-  class {
-    constructor(public _elementRef: ElementRef) {}
-  },
-);
-
 /**
  * Component used as the content for the datepicker overlay. We use this instead of using
  * MatCalendar directly as the content so we can control the initial focus. This also gives us a
@@ -121,8 +114,8 @@ const _NgxPlusifyDatepickerContentBase = mixinColor(
  */
 @Component({
   selector: 'ngx-plusify-datepicker-content',
-  templateUrl: 'datepicker-content.html',
-  styleUrls: ['datepicker-content.scss'],
+  templateUrl: './datepicker-content.html',
+  styleUrls: ['./datepicker-content.scss'],
   host: {
     class: 'mat-datepicker-content',
     '[@transformPanel]': '_animationState',
@@ -139,7 +132,6 @@ const _NgxPlusifyDatepickerContentBase = mixinColor(
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   inputs: ['color'],
-  standalone: true,
   imports: [
     CdkTrapFocus,
     NgxPlusifyCalendar,
@@ -152,9 +144,15 @@ const _NgxPlusifyDatepickerContentBase = mixinColor(
   ],
 })
 export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<S>>
-  extends _NgxPlusifyDatepickerContentBase
-  implements OnInit, AfterViewInit, OnDestroy, CanColor
+  implements OnInit, AfterViewInit, OnDestroy
 {
+
+  /** Theme color palette for the component. */
+  _color: ThemePalette;
+
+  /** Default color to fall back to if no value is set. */
+  defaultColor: ThemePalette | undefined;
+
   private _subscriptions = new Subscription();
   private _model: NgxPlusifyDateSelectionModel<S, D>;
   /** Reference to the internal calendar component. */
@@ -201,13 +199,13 @@ export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<
 
   get isViewMonth(): boolean {
     if (!this._calendar() || this._calendar().currentView == null) return true;
-    return this._calendar().currentView == 'month';
+    return this._calendar().currentView() == 'month';
   }
 
   _modelTime: D | null;
 
   constructor(
-    elementRef: ElementRef,
+    private elementRef: ElementRef,
     private _changeDetectorRef: ChangeDetectorRef,
     private _globalModel: NgxPlusifyDateSelectionModel<S, D>,
     private _dateAdapter: NgxPlusifyDateAdapter<D>,
@@ -216,8 +214,10 @@ export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<
     private _rangeSelectionStrategy: NgxPlusifyDateRangeSelectionStrategy<D>,
     intl: NgxPlusifyDatepickerIntl,
   ) {
-    super(elementRef);
     this._closeButtonText = intl.closeCalendarLabel;
+
+    this.color = 'primary';
+    this.defaultColor = undefined;
 
     effect(() => {
       const calendar = this._calendar();
@@ -242,6 +242,23 @@ export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<
   ngOnDestroy() {
     this._subscriptions.unsubscribe();
     this._animationDone.complete();
+  }
+
+  get color(): ThemePalette {
+    return this._color;
+  }
+
+  set color(value: ThemePalette) {
+    const colorPalette = value || this.defaultColor;
+    if (colorPalette !== this._color) {
+      if (this._color) {
+        this.elementRef.nativeElement.classList.remove(`mat-${this._color}`);
+      }
+      if (colorPalette) {
+        this.elementRef.nativeElement.classList.add(`mat-${colorPalette}`);
+      }
+      this._color = colorPalette;
+    }
   }
 
   onTimeChanged(selectedDateWithTime: D | null) {
@@ -319,6 +336,10 @@ export class NgxPlusifyDatepickerContent<S, D = NgxExtractDateTypeFromSelection<
     if (this._model !== this._globalModel) {
       this._globalModel.updateSelection(this._model.selection, this);
     }
+  }
+
+  _clearSelection() {
+    this._globalModel.updateSelection(null, this);
   }
 
   /**
@@ -827,6 +848,10 @@ export abstract class NgxPlusifyDatepickerBase<
   /** Applies the current pending selection on the overlay to the model. */
   _applyPendingSelection() {
     this._componentRef?.instance?._applyPendingSelection();
+  }
+
+  _clearSelection() {
+    this._componentRef?.instance?._clearSelection();
   }
 
   /** Forwards relevant values from the datepicker to the datepicker content inside the overlay. */

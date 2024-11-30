@@ -4,7 +4,6 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 // Since Moment.js doesn't have a default export, we normally need to import using the `* as`
 // syntax. However, rollup creates a synthetic default module and we thus need to import it using
 // the `default as` syntax.
-// TODO(mmalerba): See if we can clean this up at some point.
 import moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { NgxPlusifyDateAdapter } from '@angular-ui-plusify/datetime-picker';
@@ -27,17 +26,17 @@ export interface NgxPlusifyMomentDateAdapterOptions {
 }
 
 /** InjectionToken for moment date adapter to configure options. */
-export const NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS =
+export const NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS =
   new InjectionToken<NgxPlusifyMomentDateAdapterOptions>(
-    'NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS',
+    'NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS',
     {
       providedIn: 'root',
-      factory: NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS_FACTORY,
+      factory: NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS_FACTORY,
     },
   );
 
 /** @docs-private */
-export function NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS_FACTORY(): NgxPlusifyMomentDateAdapterOptions {
+export function NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS_FACTORY(): NgxPlusifyMomentDateAdapterOptions {
   return {
     useUtc: false,
   };
@@ -71,9 +70,9 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
   };
 
   constructor(
-    @Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string,
+    @Optional() @Inject(MAT_DATE_LOCALE) private dateLocale: string,
     @Optional()
-    @Inject(NGX_PLUSIFY_MOMENT_DATE_ADAPTER_OPTIONS)
+    @Inject(NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS)
     private _options?: NgxPlusifyMomentDateAdapterOptions,
   ) {
     super();
@@ -145,7 +144,7 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
   }
 
   clone(date: Moment): Moment {
-    return date.clone().locale(this.locale);
+    return date.clone().locale(this.dateLocale);
   }
 
   createDate(year: number, month: number, date: number): Moment {
@@ -162,7 +161,7 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
     }
 
     const result = this._createMoment({ year, month, date }).locale(
-      this.locale,
+      this.dateLocale,
     );
 
     // If the result isn't valid, the date must have been out of bounds for this month.
@@ -174,14 +173,14 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
   }
 
   today(): Moment {
-    return this._createMoment().locale(this.locale);
+    return this._createMoment().locale(this.dateLocale);
   }
 
   parse(value: any, parseFormat: string | string[]): Moment | null {
     if (value && typeof value == 'string') {
-      return this._createMoment(value, parseFormat, this.locale);
+      return this._createMoment(value, parseFormat, this.dateLocale);
     }
-    return value ? this._createMoment(value).locale(this.locale) : null;
+    return value ? this._createMoment(value).locale(this.dateLocale) : null;
   }
 
   format(date: Moment, displayFormat: string): string {
@@ -216,7 +215,7 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
   deserialize(value: any): Moment | null {
     let date;
     if (value instanceof Date) {
-      date = this._createMoment(value).locale(this.locale);
+      date = this._createMoment(value).locale(this.dateLocale);
     } else if (this.isDateInstance(value)) {
       // Note: assumes that cloning also sets the correct locale.
       return this.clone(value);
@@ -225,10 +224,10 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
       if (!value) {
         return null;
       }
-      date = this._createMoment(value, moment.ISO_8601).locale(this.locale);
+      date = this._createMoment(value, moment.ISO_8601).locale(this.dateLocale);
     }
     if (date && this.isValid(date)) {
-      return this._createMoment(date).locale(this.locale);
+      return this._createMoment(date).locale(this.dateLocale);
     }
     return super.deserialize(value);
   }

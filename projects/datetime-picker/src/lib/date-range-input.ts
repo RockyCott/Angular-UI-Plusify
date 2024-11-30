@@ -65,7 +65,6 @@ let nextUniqueId = 0;
       useExisting: NgxPlusifyDateRangeInput,
     },
   ],
-  standalone: true,
   imports: [CdkMonitorFocus],
 })
 export class NgxPlusifyDateRangeInput<D>
@@ -129,7 +128,11 @@ export class NgxPlusifyDateRangeInput<D>
       this._registerModel(this._model!);
     }
   }
-  private _rangePicker: NgxPlusifyDatepickerPanel<NgxPlusifyDatepickerControl<D>, NgxDateRange<D>, D>;
+  private _rangePicker: NgxPlusifyDatepickerPanel<
+    NgxPlusifyDatepickerControl<D>,
+    NgxDateRange<D>,
+    D
+  >;
 
   /** Whether the input is required. */
   @Input()

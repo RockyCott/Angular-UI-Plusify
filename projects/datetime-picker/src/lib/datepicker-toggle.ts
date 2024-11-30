@@ -5,26 +5,24 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChild,
   Directive,
   Input,
-  OnChanges,
   OnDestroy,
-  SimpleChanges,
-  ViewChild,
   ViewEncapsulation,
+  effect,
+  input,
+  untracked,
+  viewChild,
 } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { Observable, Subscription, merge, of as observableOf } from 'rxjs';
-import {
-  NgxPlusifyDatepickerControl,
-  NgxPlusifyDatepickerPanel,
-} from './datepicker-base';
+import { NgxPlusifyDatepickerControl, NgxPlusifyDatepickerPanel } from './datepicker-base';
 import { NgxPlusifyDatepickerIntl } from './datepicker-intl';
 
 /** Can be used to override the icon of a `matDatepickerToggle`. */
 @Directive({
   selector: '[ngxPlusifyDatepickerToggleIcon]',
+  standalone: true,
 })
 export class NgxPlusifyDatepickerToggleIcon {}
 
@@ -48,29 +46,29 @@ export class NgxPlusifyDatepickerToggleIcon {}
   exportAs: 'ngxPlusifyDatepickerToggle',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatIconButton],
 })
-export class NgxPlusifyDatepickerToggle<D>
-  implements AfterContentInit, OnChanges, OnDestroy
-{
+export class NgxPlusifyDatepickerToggle<D> implements AfterContentInit, OnDestroy {
   private _stateChanges = Subscription.EMPTY;
 
   /** Datepicker instance that the button will toggle. */
-  @Input('for') datepicker: NgxPlusifyDatepickerPanel<
-    NgxPlusifyDatepickerControl<any>,
-    D
-  >;
+  readonly datepicker = input<NgxPlusifyDatepickerPanel<NgxPlusifyDatepickerControl<any>, D>>(undefined, {
+    alias: 'for',
+  });
 
+  @Input()
   /** Tabindex for the toggle. */
-  @Input() tabIndex: number | null;
+  tabIndex: number | null = null;
 
   /** Screen-reader label for the button. */
-  @Input('aria-label') ariaLabel: string;
+  readonly ariaLabel = input<string>(undefined, { alias: 'aria-label' });
 
   /** Whether the toggle button is disabled. */
   @Input()
   get disabled(): boolean {
-    if (this._disabled === undefined && this.datepicker) {
-      return this.datepicker.disabled;
+    if (this._disabled === undefined && this.datepicker()) {
+      return this.datepicker().disabled;
     }
 
     return !!this._disabled;
@@ -81,14 +79,10 @@ export class NgxPlusifyDatepickerToggle<D>
   private _disabled: boolean;
 
   /** Whether ripples on the toggle should be disabled. */
-  @Input() disableRipple: boolean;
-
-  /** Custom icon set by the consumer. */
-  @ContentChild(NgxPlusifyDatepickerToggleIcon)
-  _customIcon: NgxPlusifyDatepickerToggleIcon;
+  disableRipple = input<boolean>();
 
   /** Underlying button element. */
-  @ViewChild('button') _button: MatButton;
+  _button = viewChild<MatButton>('button');
 
   constructor(
     public _intl: NgxPlusifyDatepickerIntl,
@@ -96,14 +90,12 @@ export class NgxPlusifyDatepickerToggle<D>
     @Attribute('tabindex') defaultTabIndex: string,
   ) {
     const parsedTabIndex = Number(defaultTabIndex);
-    this.tabIndex =
-      parsedTabIndex || parsedTabIndex === 0 ? parsedTabIndex : null;
-  }
+    this.tabIndex = parsedTabIndex || parsedTabIndex === 0 ? parsedTabIndex : null;
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['datepicker']) {
-      this._watchStateChanges();
-    }
+    effect(() => {
+      this.datepicker();
+      untracked(() => this._watchStateChanges());
+    });
   }
 
   ngOnDestroy() {
@@ -115,22 +107,22 @@ export class NgxPlusifyDatepickerToggle<D>
   }
 
   _open(event: Event): void {
-    if (this.datepicker && !this.disabled) {
-      this.datepicker.open();
+    if (this.datepicker() && !this.disabled) {
+      this.datepicker().open();
       event.stopPropagation();
     }
   }
 
   private _watchStateChanges() {
-    const datepickerStateChanged = this.datepicker
-      ? this.datepicker.stateChanges
+    const datepickerStateChanged = this.datepicker()
+      ? this.datepicker()!.stateChanges
       : observableOf();
     const inputStateChanged =
-      this.datepicker && this.datepicker.datepickerInput
-        ? this.datepicker.datepickerInput.stateChanges
+      this.datepicker()! && this.datepicker()!.datepickerInput
+        ? this.datepicker()!.datepickerInput.stateChanges
         : observableOf();
-    const datepickerToggled = this.datepicker
-      ? merge(this.datepicker.openedStream, this.datepicker.closedStream)
+    const datepickerToggled = this.datepicker()
+      ? merge(this.datepicker()!.openedStream, this.datepicker()!.closedStream)
       : observableOf();
 
     this._stateChanges.unsubscribe();

@@ -18,7 +18,7 @@ import { NgxPlusifyMomentModule } from '@angular-ui-plusify/moment-adapter';
    ...
    imports: [
       NgxPlusifyMomentModule,
-      NgxPlusifyDatetimePickerModule,
+      NgxPlusifyDatetimePickerComponent,
    ],
    ...
 })

@@ -1,10 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER } from './date-selection-model';
 import {
+  NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   NgxPlusifyDatepickerBase,
   NgxPlusifyDatepickerControl,
 } from './datepicker-base';
@@ -16,17 +13,15 @@ import {
 @Component({
   selector: 'ngx-plusify-datetime-picker',
   template: '',
-  styleUrls: ['./datetime-picker.styles.scss'],
   exportAs: 'ngxPlusifyDatetimePicker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     NGX_PLUSIFY_SINGLE_DATE_SELECTION_MODEL_PROVIDER,
-    {
-      provide: NgxPlusifyDatepickerBase,
-      useExisting: NgxPlusifyDatetimepicker,
-    },
+    NGX_PLUSIFY_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
+    { provide: NgxPlusifyDatepickerBase, useExisting: NgxPlusifyDatetimepicker },
   ],
+  standalone: true,
 })
 export class NgxPlusifyDatetimepicker<D> extends NgxPlusifyDatepickerBase<
   NgxPlusifyDatepickerControl<D>,

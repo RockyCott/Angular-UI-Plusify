@@ -2,7 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   forwardRef,
-  Input,
+  input,
   OnChanges,
   OnInit,
   Optional,
@@ -14,9 +14,14 @@ import {
   FormBuilder,
   FormGroup,
   NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { ThemePalette } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
@@ -48,39 +53,45 @@ import {
   ],
   exportAs: 'ngxPlusifyTimepicker',
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
-export class NgxPlusifyTimepickerComponent<D>
-  implements ControlValueAccessor, OnInit, OnChanges
-{
+export class NgxPlusifyTimepickerComponent<D> implements ControlValueAccessor, OnInit, OnChanges {
   public form: FormGroup;
 
-  @Input() disabled = false;
-  @Input() showSpinners = true;
-  @Input() stepHour: number = DEFAULT_STEP;
-  @Input() stepMinute: number = DEFAULT_STEP;
-  @Input() stepSecond: number = DEFAULT_STEP;
-  @Input() showSeconds = false;
-  @Input() disableMinute = false;
-  @Input() enableMeridian = false;
-  @Input() defaultTime: number[];
-  @Input() color: ThemePalette = 'primary';
+  readonly disabled = input<boolean>(false);
+  readonly showSpinners = input<boolean>(true);
+  readonly stepHour = input<number>(DEFAULT_STEP);
+  readonly stepMinute = input<number>(DEFAULT_STEP);
+  readonly stepSecond = input<number>(DEFAULT_STEP);
+  readonly showSeconds = input<boolean>(false);
+  readonly disableMinute = input<boolean>(false);
+  readonly enableMeridian = input<boolean>(false);
+  readonly defaultTime = input<number[]>();
+  readonly color = input<ThemePalette>('primary');
 
   public meridian: string = MERIDIANS.AM;
 
   /** Hour */
   private get hour() {
     let val = Number(this.form.controls['hour'].value);
-    return isNaN(val) ? 0 : val;
+    return Number.isNaN(val) ? 0 : val;
   }
 
   private get minute() {
     let val = Number(this.form.controls['minute'].value);
-    return isNaN(val) ? 0 : val;
+    return Number.isNaN(val) ? 0 : val;
   }
 
   private get second() {
     let val = Number(this.form.controls['second'].value);
-    return isNaN(val) ? 0 : val;
+    return Number.isNaN(val) ? 0 : val;
   }
 
   /** Whether or not the form is valid */
@@ -107,26 +118,24 @@ export class NgxPlusifyTimepickerComponent<D>
     }
     this.form = this.formBuilder.group({
       hour: [
-        { value: null, disabled: this.disabled },
+        { value: null, disabled: this.disabled() },
         [Validators.required, Validators.pattern(PATTERN_INPUT_HOUR)],
       ],
       minute: [
-        { value: null, disabled: this.disabled },
+        { value: null, disabled: this.disabled() },
         [Validators.required, Validators.pattern(PATTERN_INPUT_MINUTE)],
       ],
       second: [
-        { value: null, disabled: this.disabled },
+        { value: null, disabled: this.disabled() },
         [Validators.required, Validators.pattern(PATTERN_INPUT_SECOND)],
       ],
     });
   }
 
   ngOnInit() {
-    this.form.valueChanges
-      .pipe(takeUntil(this._destroyed), debounceTime(400))
-      .subscribe((val) => {
-        this._updateModel();
-      });
+    this.form.valueChanges.pipe(takeUntil(this._destroyed), debounceTime(400)).subscribe((val) => {
+      this._updateModel();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -179,13 +188,12 @@ export class NgxPlusifyTimepickerComponent<D>
 
   /** Toggle meridian */
   public toggleMeridian() {
-    this.meridian =
-      this.meridian === MERIDIANS.AM ? MERIDIANS.PM : MERIDIANS.AM;
+    this.meridian = this.meridian === MERIDIANS.AM ? MERIDIANS.PM : MERIDIANS.AM;
     this.change('hour');
   }
 
   /** Change property of time */
-  public change(prop: string, up?: boolean) {
+  public change(prop: 'hour' | 'minute' | 'second', up?: boolean) {
     const next = this._getNextValueByProp(prop, up);
     this.form.controls[prop].setValue(formatTwoDigitTimeValue(next), {
       onlySelf: false,
@@ -200,7 +208,7 @@ export class NgxPlusifyTimepickerComponent<D>
     const _minute = this._dateAdapter.getMinute(this._model);
     const _second = this._dateAdapter.getSecond(this._model);
 
-    if (this.enableMeridian) {
+    if (this.enableMeridian()) {
       if (_hour >= LIMIT_TIMES.meridian) {
         _hour = _hour - LIMIT_TIMES.meridian;
         this.meridian = MERIDIANS.PM;
@@ -228,13 +236,10 @@ export class NgxPlusifyTimepickerComponent<D>
   private _updateModel() {
     let _hour = this.hour;
 
-    if (this.enableMeridian) {
+    if (this.enableMeridian()) {
       if (this.meridian === MERIDIANS.AM && _hour === LIMIT_TIMES.meridian) {
         _hour = 0;
-      } else if (
-        this.meridian === MERIDIANS.PM &&
-        _hour !== LIMIT_TIMES.meridian
-      ) {
+      } else if (this.meridian === MERIDIANS.PM && _hour !== LIMIT_TIMES.meridian) {
         _hour = _hour + LIMIT_TIMES.meridian;
       }
     }
@@ -259,21 +264,19 @@ export class NgxPlusifyTimepickerComponent<D>
     const min = LIMIT_TIMES[`min${keyProp}`];
     let max = LIMIT_TIMES[`max${keyProp}`];
 
-    if (prop === 'hour' && this.enableMeridian) {
+    if (prop === 'hour' && this.enableMeridian()!) {
       max = LIMIT_TIMES.meridian;
     }
 
     let next;
     if (up == null) {
       next = this[prop] % max;
-      if (prop === 'hour' && this.enableMeridian) {
+      if (prop === 'hour' && this.enableMeridian()!) {
         if (next === 0) next = max;
       }
     } else {
-      next = up
-        ? this[prop] + this[`step${keyProp}`]
-        : this[prop] - this[`step${keyProp}`];
-      if (prop === 'hour' && this.enableMeridian) {
+      next = up ? this[prop] + this[`step${keyProp}`]() : this[prop] - this[`step${keyProp}`]();
+      if (prop === 'hour' && this.enableMeridian()!) {
         next = next % (max + 1);
         if (next === 0) next = up ? 1 : max;
       } else {
@@ -293,13 +296,13 @@ export class NgxPlusifyTimepickerComponent<D>
    * Set disable states
    */
   private _setDisableStates() {
-    if (this.disabled) {
+    if (this.disabled()) {
       this.form.disable();
     } else {
       this.form.enable();
-      if (this.disableMinute) {
+      if (this.disableMinute()) {
         this.form.get('minute').disable();
-        if (this.showSeconds) {
+        if (this.showSeconds()) {
           this.form.get('second').disable();
         }
       }

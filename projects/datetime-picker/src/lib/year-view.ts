@@ -16,14 +16,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   Inject,
   Input,
   OnDestroy,
   Optional,
-  Output,
-  ViewChild,
   ViewEncapsulation,
+  input,
+  output,
+  viewChild,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -34,10 +34,7 @@ import {
   NgxPlusifyCalendarUserEvent,
 } from './calendar-body';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
-import {
-  NGX_PLUSIFY_DATE_FORMATS,
-  NgxPlusifyDateFormats,
-} from './core/date-formats';
+import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
 import { NgxDateRange } from './date-selection-model';
 import { createMissingDateImplError } from './datepicker-errors';
 
@@ -51,6 +48,8 @@ import { createMissingDateImplError } from './datepicker-errors';
   exportAs: 'ngxPlusifyYearView',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgxPlusifyCalendarBody],
 })
 export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;
@@ -66,18 +65,10 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
   set activeDate(value: D) {
     let oldActiveDate = this._activeDate;
     const validDate =
-      this._dateAdapter.getValidDateOrNull(
-        this._dateAdapter.deserialize(value),
-      ) || this._dateAdapter.today();
-    this._activeDate = this._dateAdapter.clampDate(
-      validDate,
-      this.minDate,
-      this.maxDate,
-    );
-    if (
-      this._dateAdapter.getYear(oldActiveDate) !==
-      this._dateAdapter.getYear(this._activeDate)
-    ) {
+      this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value)) ||
+      this._dateAdapter.today();
+    this._activeDate = this._dateAdapter.clampDate(validDate, this.minDate, this.maxDate);
+    if (this._dateAdapter.getYear(oldActiveDate) !== this._dateAdapter.getYear(this._activeDate)) {
       this._init();
     }
   }
@@ -92,9 +83,7 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
     if (value instanceof NgxDateRange) {
       this._selected = value;
     } else {
-      this._selected = this._dateAdapter.getValidDateOrNull(
-        this._dateAdapter.deserialize(value),
-      );
+      this._selected = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
     }
 
     this._setSelectedMonth(value);
@@ -107,9 +96,7 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
     return this._minDate;
   }
   set minDate(value: D | null) {
-    this._minDate = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value),
-    );
+    this._minDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
   private _minDate: D | null;
 
@@ -119,29 +106,27 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
     return this._maxDate;
   }
   set maxDate(value: D | null) {
-    this._maxDate = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value),
-    );
+    this._maxDate = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
   }
   private _maxDate: D | null;
 
   /** A function used to filter which dates are selectable. */
-  @Input() dateFilter: (date: D) => boolean;
+  dateFilter = input<(date: D) => boolean>();
 
   /** Function that can be used to add custom CSS classes to date cells. */
-  @Input() dateClass: NgxPlusifyCalendarCellClassFunction<D>;
+  dateClass = input<NgxPlusifyCalendarCellClassFunction<D>>();
 
   /** Emits when a new month is selected. */
-  @Output() readonly selectedChange: EventEmitter<D> = new EventEmitter<D>();
+  readonly selectedChange = output<D>();
 
   /** Emits the selected month. This doesn't imply a change on the selected date */
-  @Output() readonly monthSelected: EventEmitter<D> = new EventEmitter<D>();
+  readonly monthSelected = output<D>();
 
   /** Emits when any date is activated. */
-  @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
+  readonly activeDateChange = output<D>();
 
   /** The body of calendar table */
-  @ViewChild(NgxPlusifyCalendarBody) _matCalendarBody: NgxPlusifyCalendarBody;
+  _matCalendarBody = viewChild(NgxPlusifyCalendarBody);
 
   /** Grid of calendar cells representing the months of the year. */
   _months: NgxPlusifyCalendarCell[][];
@@ -233,28 +218,16 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
 
     switch (event.keyCode) {
       case LEFT_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarMonths(
-          this._activeDate,
-          isRtl ? 1 : -1,
-        );
+        this.activeDate = this._dateAdapter.addCalendarMonths(this._activeDate, isRtl ? 1 : -1);
         break;
       case RIGHT_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarMonths(
-          this._activeDate,
-          isRtl ? -1 : 1,
-        );
+        this.activeDate = this._dateAdapter.addCalendarMonths(this._activeDate, isRtl ? -1 : 1);
         break;
       case UP_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarMonths(
-          this._activeDate,
-          -4,
-        );
+        this.activeDate = this._dateAdapter.addCalendarMonths(this._activeDate, -4);
         break;
       case DOWN_ARROW:
-        this.activeDate = this._dateAdapter.addCalendarMonths(
-          this._activeDate,
-          4,
-        );
+        this.activeDate = this._dateAdapter.addCalendarMonths(this._activeDate, 4);
         break;
       case HOME:
         this.activeDate = this._dateAdapter.addCalendarMonths(
@@ -328,20 +301,18 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
       [0, 1, 2, 3],
       [4, 5, 6, 7],
       [8, 9, 10, 11],
-    ].map((row) =>
-      row.map((month) => this._createCellForMonth(month, monthNames[month])),
-    );
+    ].map((row) => row.map((month) => this._createCellForMonth(month, monthNames[month])));
     this._changeDetectorRef.markForCheck();
   }
 
   /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell() {
-    this._matCalendarBody._focusActiveCell();
+    this._matCalendarBody()._focusActiveCell();
   }
 
   /** Schedules the matCalendarBody to focus the active cell after change detection has run */
   _focusActiveCellAfterViewChecked() {
-    this._matCalendarBody._scheduleFocusActiveCellAfterViewChecked();
+    this._matCalendarBody()._scheduleFocusActiveCellAfterViewChecked();
   }
 
   /**
@@ -349,9 +320,7 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
    * Returns null if the given Date is in another year.
    */
   private _getMonthInCurrentYear(date: D | null) {
-    return date &&
-      this._dateAdapter.getYear(date) ==
-        this._dateAdapter.getYear(this.activeDate)
+    return date && this._dateAdapter.getYear(date) == this._dateAdapter.getYear(this.activeDate)
       ? this._dateAdapter.getMonth(date)
       : null;
   }
@@ -378,18 +347,9 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
 
   /** Creates an MatCalendarCell for the given month. */
   private _createCellForMonth(month: number, monthName: string) {
-    const date = this._dateAdapter.createDate(
-      this._dateAdapter.getYear(this.activeDate),
-      month,
-      1,
-    );
-    const ariaLabel = this._dateAdapter.format(
-      date,
-      this._dateFormats.display.monthYearA11yLabel,
-    );
-    const cellClasses = this.dateClass
-      ? this.dateClass(date, 'year')
-      : undefined;
+    const date = this._dateAdapter.createDate(this._dateAdapter.getYear(this.activeDate), month, 1);
+    const ariaLabel = this._dateAdapter.format(date, this._dateFormats.display.monthYearA11yLabel);
+    const cellClasses = this.dateClass() ? this.dateClass()!(date, 'year') : undefined;
 
     return new NgxPlusifyCalendarCell(
       month,
@@ -413,7 +373,7 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
       return false;
     }
 
-    if (!this.dateFilter) {
+    if (!this.dateFilter()) {
       return true;
     }
 
@@ -425,7 +385,7 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
       this._dateAdapter.getMonth(date) == month;
       date = this._dateAdapter.addCalendarDays(date, 1)
     ) {
-      if (this.dateFilter(date)) {
+      if (this.dateFilter()(date)) {
         return true;
       }
     }
@@ -472,8 +432,7 @@ export class NgxPlusifyYearView<D> implements AfterContentInit, OnDestroy {
   private _setSelectedMonth(value: NgxDateRange<D> | D | null) {
     if (value instanceof NgxDateRange) {
       this._selectedMonth =
-        this._getMonthInCurrentYear(value.start) ||
-        this._getMonthInCurrentYear(value.end);
+        this._getMonthInCurrentYear(value.start) || this._getMonthInCurrentYear(value.end);
     } else {
       this._selectedMonth = this._getMonthInCurrentYear(value);
     }

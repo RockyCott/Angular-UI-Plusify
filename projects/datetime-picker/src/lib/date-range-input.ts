@@ -1,4 +1,4 @@
-import { FocusOrigin } from '@angular/cdk/a11y';
+import { CdkMonitorFocus, FocusOrigin } from '@angular/cdk/a11y';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
@@ -18,10 +18,7 @@ import {
 } from '@angular/core';
 import { ControlContainer, NgControl, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
-import {
-  MAT_FORM_FIELD,
-  MatFormFieldControl,
-} from '@angular/material/form-field';
+import { MAT_FORM_FIELD, MatFormFieldControl } from '@angular/material/form-field';
 import { Subject, Subscription, merge } from 'rxjs';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
 import {
@@ -31,14 +28,8 @@ import {
   NgxPlusifyStartDate,
 } from './date-range-input-parts';
 import { NgxPlusifyDateRangePickerInput } from './date-range-picker';
-import {
-  NgxDateRange,
-  NgxPlusifyDateSelectionModel,
-} from './date-selection-model';
-import {
-  NgxPlusifyDatepickerControl,
-  NgxPlusifyDatepickerPanel,
-} from './datepicker-base';
+import { NgxDateRange, NgxPlusifyDateSelectionModel } from './date-selection-model';
+import { NgxPlusifyDatepickerControl, NgxPlusifyDatepickerPanel } from './datepicker-base';
 import { createMissingDateImplError } from './datepicker-errors';
 import {
   NgxDateFilterFn,
@@ -55,8 +46,7 @@ let nextUniqueId = 0;
   exportAs: 'ngxPlusifyDateRangeInput',
   host: {
     class: 'mat-date-range-input',
-    '[class.mat-date-range-input-hide-placeholders]':
-      '_shouldHidePlaceholders()',
+    '[class.mat-date-range-input-hide-placeholders]': '_shouldHidePlaceholders()',
     '[class.mat-date-range-input-required]': 'required',
     '[attr.id]': 'id',
     role: 'group',
@@ -75,6 +65,8 @@ let nextUniqueId = 0;
       useExisting: NgxPlusifyDateRangeInput,
     },
   ],
+  standalone: true,
+  imports: [CdkMonitorFocus],
 })
 export class NgxPlusifyDateRangeInput<D>
   implements
@@ -124,11 +116,7 @@ export class NgxPlusifyDateRangeInput<D>
     return this._rangePicker;
   }
   set rangePicker(
-    rangePicker: NgxPlusifyDatepickerPanel<
-      NgxPlusifyDatepickerControl<D>,
-      NgxDateRange<D>,
-      D
-    >,
+    rangePicker: NgxPlusifyDatepickerPanel<NgxPlusifyDatepickerControl<D>, NgxDateRange<D>, D>,
   ) {
     if (rangePicker) {
       this._model = rangePicker.registerInput(this);
@@ -141,11 +129,7 @@ export class NgxPlusifyDateRangeInput<D>
       this._registerModel(this._model!);
     }
   }
-  private _rangePicker: NgxPlusifyDatepickerPanel<
-    NgxPlusifyDatepickerControl<D>,
-    NgxDateRange<D>,
-    D
-  >;
+  private _rangePicker: NgxPlusifyDatepickerPanel<NgxPlusifyDatepickerControl<D>, NgxDateRange<D>, D>;
 
   /** Whether the input is required. */
   @Input()
@@ -191,9 +175,7 @@ export class NgxPlusifyDateRangeInput<D>
     return this._min;
   }
   set min(value: D | null) {
-    const validValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value),
-    );
+    const validValue = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
 
     if (!this._dateAdapter.sameDate(validValue, this._min)) {
       this._min = validValue;
@@ -208,9 +190,7 @@ export class NgxPlusifyDateRangeInput<D>
     return this._max;
   }
   set max(value: D | null) {
-    const validValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value),
-    );
+    const validValue = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(value));
 
     if (!this._dateAdapter.sameDate(validValue, this._max)) {
       this._max = validValue;
@@ -269,7 +249,6 @@ export class NgxPlusifyDateRangeInput<D>
 
   @ContentChild(NgxPlusifyStartDate) _startInput: NgxPlusifyStartDate<D>;
   @ContentChild(NgxPlusifyEndDate) _endInput: NgxPlusifyEndDate<D>;
-
   /**
    * Implemented as a part of `MatFormFieldControl`.
    * TODO(crisbeto): change type to `AbstractControlDirective` after #18206 lands.
@@ -295,11 +274,7 @@ export class NgxPlusifyDateRangeInput<D>
 
     // The datepicker module can be used both with MDC and non-MDC form fields. We have
     // to conditionally add the MDC input class so that the range picker looks correctly.
-    if (
-      _formField?._elementRef.nativeElement.classList.contains(
-        'mat-mdc-form-field',
-      )
-    ) {
+    if (_formField?._elementRef.nativeElement.classList.contains('mat-mdc-form-field')) {
       _elementRef.nativeElement.classList.add(
         'mat-mdc-input-element',
         'mat-mdc-form-field-input-control',
@@ -348,11 +323,9 @@ export class NgxPlusifyDateRangeInput<D>
 
     // We don't need to unsubscribe from this, because we
     // know that the input streams will be completed on destroy.
-    merge(this._startInput.stateChanges, this._endInput.stateChanges).subscribe(
-      () => {
-        this.stateChanges.next(undefined);
-      },
-    );
+    merge(this._startInput.stateChanges, this._endInput.stateChanges).subscribe(() => {
+      this.stateChanges.next(undefined);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -378,9 +351,7 @@ export class NgxPlusifyDateRangeInput<D>
 
   /** Gets the element to which the calendar overlay should be attached. */
   getConnectedOverlayOrigin(): ElementRef {
-    return this._formField
-      ? this._formField.getConnectedOverlayOrigin()
-      : this._elementRef;
+    return this._formField ? this._formField.getConnectedOverlayOrigin() : this._elementRef;
   }
 
   /** Gets the ID of an element that should be used a description for the calendar overlay. */
@@ -398,7 +369,6 @@ export class NgxPlusifyDateRangeInput<D>
   _shouldHidePlaceholders() {
     return this._startInput ? !this._startInput.isEmpty() : false;
   }
-
   /** Handles the value in one of the child inputs changing. */
   _handleChildValueChange() {
     this.stateChanges.next(undefined);
@@ -416,8 +386,7 @@ export class NgxPlusifyDateRangeInput<D>
   _shouldHideSeparator() {
     return (
       (!this._formField ||
-        (this._formField.getLabelId() &&
-          !this._formField._shouldLabelFloat())) &&
+        (this._formField.getLabelId() && !this._formField._shouldLabelFloat())) &&
       this.empty
     );
   }
@@ -425,9 +394,7 @@ export class NgxPlusifyDateRangeInput<D>
   /** Gets the value for the `aria-labelledby` attribute of the inputs. */
   _getAriaLabelledby() {
     const formField = this._formField;
-    return formField && formField._hasFloatingLabel()
-      ? formField._labelId
-      : null;
+    return formField && formField._hasFloatingLabel() ? formField._labelId : null;
   }
 
   _getStartDateAccessibleName(): string {
@@ -467,9 +434,7 @@ export class NgxPlusifyDateRangeInput<D>
   }
 
   /** Checks whether a specific range input directive is required. */
-  private _isTargetRequired(
-    target: { ngControl: NgControl | null } | null,
-  ): boolean | undefined {
+  private _isTargetRequired(target: { ngControl: NgControl | null } | null): boolean | undefined {
     return target?.ngControl?.control?.hasValidator(Validators.required);
   }
 }

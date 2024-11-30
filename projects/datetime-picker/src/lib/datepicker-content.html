@@ -4,7 +4,9 @@
   [attr.aria-modal]="true"
   [attr.aria-labelledby]="_dialogLabelId ?? undefined"
   class="mat-datepicker-content-container"
-  [class.mat-datepicker-content-container-with-custom-header]="datepicker.calendarHeaderComponent"
+  [class.mat-datepicker-content-container-with-custom-header]="
+    datepicker.calendarHeaderComponent()
+  "
   [class.mat-datepicker-content-container-with-actions]="_actionsPortal"
   [class.mat-datepicker-content-container-with-time]="!datepicker._hideTime"
 >
@@ -12,13 +14,13 @@
     [id]="datepicker.id"
     [ngClass]="datepicker.panelClass"
     [startAt]="datepicker.startAt"
-    [startView]="datepicker.startView"
+    [startView]="datepicker.startView()"
     [minDate]="datepicker._getMinDate()"
     [maxDate]="datepicker._getMaxDate()"
     [dateFilter]="datepicker._getDateFilter()"
-    [headerComponent]="datepicker.calendarHeaderComponent"
+    [headerComponent]="datepicker.calendarHeaderComponent()"
     [selected]="_getSelected()"
-    [dateClass]="datepicker.dateClass"
+    [dateClass]="datepicker.dateClass()"
     [comparisonStart]="comparisonStart"
     [comparisonEnd]="comparisonEnd"
     [@fadeInCalendar]="'enter'"
@@ -29,32 +31,32 @@
     (viewChanged)="datepicker._viewChanged($event)"
     (_userSelection)="_handleUserSelection($event)"
     (_userDragDrop)="_handleUserDragDrop($event)"
-  ></ngx-plusify-calendar>
+  />
 
-  <ng-container *ngIf="isViewMonth">
-    <div
-      *ngIf="!datepicker._hideTime"
-      class="time-container"
-      [class.disable-seconds]="!datepicker._showSeconds"
-    >
-      <ngx-plusify-timepicker
-        [showSpinners]="datepicker._showSpinners"
-        [showSeconds]="datepicker._showSeconds"
-        [disabled]="datepicker._disabled || !_modelTime"
-        [stepHour]="datepicker._stepHour"
-        [stepMinute]="datepicker._stepMinute"
-        [stepSecond]="datepicker._stepSecond"
-        [(ngModel)]="_modelTime"
-        [color]="datepicker._color"
-        [enableMeridian]="datepicker._enableMeridian"
-        [disableMinute]="datepicker._disableMinute"
-        (ngModelChange)="onTimeChanged($event)"
+  @if (isViewMonth) {
+    @if (!datepicker._hideTime) {
+      <div
+        class="time-container"
+        [class.disable-seconds]="!datepicker._showSeconds"
       >
-      </ngx-plusify-timepicker>
-    </div>
-  </ng-container>
+        <ngx-plusify-timepicker
+          [showSpinners]="datepicker._showSpinners"
+          [showSeconds]="datepicker._showSeconds"
+          [disabled]="datepicker._disabled || !_modelTime"
+          [stepHour]="datepicker._stepHour"
+          [stepMinute]="datepicker._stepMinute"
+          [stepSecond]="datepicker._stepSecond"
+          [(ngModel)]="_modelTime"
+          [color]="datepicker._color"
+          [enableMeridian]="datepicker._enableMeridian"
+          [disableMinute]="datepicker._disableMinute"
+          (ngModelChange)="onTimeChanged($event)"
+        />
+      </div>
+    }
+  }
 
-  <ng-template [cdkPortalOutlet]="_actionsPortal"></ng-template>
+  <ng-template [cdkPortalOutlet]="_actionsPortal" />
 
   <!-- Invisible close button for screen reader users. -->
   <button

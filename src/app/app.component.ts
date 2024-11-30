@@ -1,18 +1,35 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { Component, OnDestroy } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatIconModule } from "@angular/material/icon";
+import { MatListModule } from "@angular/material/list";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { RouterModule } from "@angular/router";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
+  standalone: true,
+  imports: [
+    MatButtonModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatListModule,
+    MatCardModule,
+    RouterModule,
+  ],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  public nameApp = 'angular-ui-plusify';
+export class AppComponent implements OnDestroy {
+  public nameApp = "angular-ui-plusify";
 
   isHandset: boolean;
-  sidenavMode: 'side' | 'over' | 'push';
+  sidenavMode: "side" | "over" | "push";
   sidenavHasBackdrop: boolean;
   sidenavOpened: boolean;
 
@@ -32,21 +49,19 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit() {}
-
   ngOnDestroy(): void {
     this._destroyed.next();
     this._destroyed.complete();
   }
 
   protected activateHandsetLayout() {
-    this.sidenavMode = 'over';
+    this.sidenavMode = "over";
     this.sidenavHasBackdrop = true;
     this.sidenavOpened = false;
   }
 
   protected activateWebLayout() {
-    this.sidenavMode = 'side';
+    this.sidenavMode = "side";
     this.sidenavHasBackdrop = false;
     this.sidenavOpened = true;
   }

@@ -4,6 +4,7 @@ $inputWidth: 24px;
 
 .ngx-plusify-timepicker {
   form {
+
     .ngx-plusify-timepicker-table {
       .ngx-plusify-timepicker-tbody {
         tr {
@@ -36,6 +37,10 @@ $inputWidth: 24px;
 
               .mat-icon {
                 font-size: $fontSizeIcon;
+              }
+
+              &:disabled svg {
+                stroke: var(--mdc-icon-button-disabled-icon-color);
               }
             }
 

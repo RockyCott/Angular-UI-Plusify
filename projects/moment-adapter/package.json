@@ -1,6 +1,6 @@
 {
   "name": "@angular-ui-plusify/moment-adapter",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Angular Material Moment Adapter",
   "author": "HO Hong Quan",
   "license": "MIT",
@@ -10,8 +10,8 @@
   },
   "homepage": "https://github.com/h2qutc/angular-ui-plusify",
   "peerDependencies": {
-    "@angular/common": "^17.0.0",
-    "@angular/core": "^17.0.0",
-    "moment": "^2.18.1"
+    "@angular/common": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "moment": "^2.30.1"
   }
 }

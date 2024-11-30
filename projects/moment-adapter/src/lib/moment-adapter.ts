@@ -5,17 +5,10 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 // syntax. However, rollup creates a synthetic default module and we thus need to import it using
 // the `default as` syntax.
 // TODO(mmalerba): See if we can clean this up at some point.
-import * as _moment from 'moment';
+import moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
-import {
-  default as _rollupMoment,
-  Moment,
-  MomentFormatSpecification,
-  MomentInput,
-} from 'moment';
 import { NgxPlusifyDateAdapter } from '@angular-ui-plusify/datetime-picker';
-
-const moment = _rollupMoment || _moment;
+import { Moment, MomentFormatSpecification, MomentInput } from 'moment';
 
 /** Configurable options for {@see MomentDateAdapter}. */
 export interface NgxPlusifyMomentDateAdapterOptions {
@@ -252,22 +245,22 @@ export class NgxPlusifyMomentAdapter extends NgxPlusifyDateAdapter<Moment> {
     return moment.invalid();
   }
 
-  getHour(date: _moment.Moment): number {
+  getHour(date: Moment): number {
     return date.hours();
   }
-  getMinute(date: _moment.Moment): number {
+  getMinute(date: Moment): number {
     return date.minutes();
   }
-  getSecond(date: _moment.Moment): number {
+  getSecond(date: Moment): number {
     return date.seconds();
   }
-  setHour(date: _moment.Moment, value: number): void {
+  setHour(date: Moment, value: number): void {
     date.hours(value);
   }
-  setMinute(date: _moment.Moment, value: number): void {
+  setMinute(date: Moment, value: number): void {
     date.minutes(value);
   }
-  setSecond(date: _moment.Moment, value: number): void {
+  setSecond(date: Moment, value: number): void {
     date.seconds(value);
   }
 

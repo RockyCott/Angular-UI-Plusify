@@ -29,7 +29,10 @@ import {
 } from '@angular/material/core';
 import { _computeAriaAccessibleName } from './aria-accessible-name';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
-import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
+import {
+  NGX_PLUSIFY_DATE_FORMATS,
+  NgxPlusifyDateFormats,
+} from './core/date-formats';
 import {
   NgxDateRange,
   NgxDateSelectionModelChange,
@@ -84,7 +87,7 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
   protected abstract override _validator: ValidatorFn | null;
   protected abstract override _assignValueToModel(value: D | null): void;
   protected abstract override _getValueFromModel(
-    modelValue: NgxDateRange<D>
+    modelValue: NgxDateRange<D>,
   ): D | null;
 
   protected readonly _dir = inject(Directionality, { optional: true });
@@ -98,7 +101,9 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
     @Optional() public _parentForm: NgForm,
     @Optional() public _parentFormGroup: FormGroupDirective,
     @Optional() dateAdapter: NgxPlusifyDateAdapter<D>,
-    @Optional() @Inject(NGX_PLUSIFY_DATE_FORMATS) dateFormats: NgxPlusifyDateFormats
+    @Optional()
+    @Inject(NGX_PLUSIFY_DATE_FORMATS)
+    dateFormats: NgxPlusifyDateFormats,
   ) {
     super(_elementRef, dateAdapter, dateFormats);
   }
@@ -207,7 +212,9 @@ abstract class NgxPlusifyDateRangeInputPartBase<D>
   }
 }
 
-const _NgxPlusifyDateRangeInputBase = mixinErrorState(NgxPlusifyDateRangeInputPartBase);
+const _NgxPlusifyDateRangeInputBase = mixinErrorState(
+  NgxPlusifyDateRangeInputPartBase,
+);
 
 /** Input for entering the start date in a `mat-date-range-input`. */
 @Directive({
@@ -229,7 +236,11 @@ const _NgxPlusifyDateRangeInputBase = mixinErrorState(NgxPlusifyDateRangeInputPa
     type: 'text',
   },
   providers: [
-    { provide: NG_VALUE_ACCESSOR, useExisting: NgxPlusifyStartDate, multi: true },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: NgxPlusifyStartDate,
+      multi: true,
+    },
     { provide: NG_VALIDATORS, useExisting: NgxPlusifyStartDate, multi: true },
   ],
   // These need to be specified explicitly, because some tooling doesn't
@@ -243,10 +254,10 @@ export class NgxPlusifyStartDate<D>
 {
   /** Validator that checks that the start date isn't after the end date. */
   private _startValidator: ValidatorFn = (
-    control: AbstractControl
+    control: AbstractControl,
   ): ValidationErrors | null => {
     const start = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value)
+      this._dateAdapter.deserialize(control.value),
     );
     const end = this._model ? this._model.selection.end : null;
     return !start || !end || this._dateAdapter.compareDate(start, end) <= 0
@@ -263,7 +274,9 @@ export class NgxPlusifyStartDate<D>
     @Optional() parentForm: NgForm,
     @Optional() parentFormGroup: FormGroupDirective,
     @Optional() dateAdapter: NgxPlusifyDateAdapter<D>,
-    @Optional() @Inject(NGX_PLUSIFY_DATE_FORMATS) dateFormats: NgxPlusifyDateFormats
+    @Optional()
+    @Inject(NGX_PLUSIFY_DATE_FORMATS)
+    dateFormats: NgxPlusifyDateFormats,
   ) {
     super(
       rangeInput,
@@ -273,7 +286,7 @@ export class NgxPlusifyStartDate<D>
       parentForm,
       parentFormGroup,
       dateAdapter,
-      dateFormats
+      dateFormats,
     );
   }
 
@@ -287,7 +300,7 @@ export class NgxPlusifyStartDate<D>
   }
 
   protected override _shouldHandleChangeEvent(
-    change: NgxDateSelectionModelChange<NgxDateRange<D>>
+    change: NgxDateSelectionModelChange<NgxDateRange<D>>,
   ): boolean {
     if (!super._shouldHandleChangeEvent(change)) {
       return false;
@@ -297,7 +310,7 @@ export class NgxPlusifyStartDate<D>
         : !change.selection.start ||
             !!this._dateAdapter.compareDate(
               change.oldValue.start,
-              change.selection.start
+              change.selection.start,
             );
     }
   }
@@ -372,10 +385,10 @@ export class NgxPlusifyEndDate<D>
 {
   /** Validator that checks that the end date isn't before the start date. */
   private _endValidator: ValidatorFn = (
-    control: AbstractControl
+    control: AbstractControl,
   ): ValidationErrors | null => {
     const end = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value)
+      this._dateAdapter.deserialize(control.value),
     );
     const start = this._model ? this._model.selection.start : null;
     return !end || !start || this._dateAdapter.compareDate(end, start) >= 0
@@ -392,7 +405,9 @@ export class NgxPlusifyEndDate<D>
     @Optional() parentForm: NgForm,
     @Optional() parentFormGroup: FormGroupDirective,
     @Optional() dateAdapter: NgxPlusifyDateAdapter<D>,
-    @Optional() @Inject(NGX_PLUSIFY_DATE_FORMATS) dateFormats: NgxPlusifyDateFormats
+    @Optional()
+    @Inject(NGX_PLUSIFY_DATE_FORMATS)
+    dateFormats: NgxPlusifyDateFormats,
   ) {
     super(
       rangeInput,
@@ -402,7 +417,7 @@ export class NgxPlusifyEndDate<D>
       parentForm,
       parentFormGroup,
       dateAdapter,
-      dateFormats
+      dateFormats,
     );
   }
 
@@ -416,7 +431,7 @@ export class NgxPlusifyEndDate<D>
   }
 
   protected override _shouldHandleChangeEvent(
-    change: NgxDateSelectionModelChange<NgxDateRange<D>>
+    change: NgxDateSelectionModelChange<NgxDateRange<D>>,
   ): boolean {
     if (!super._shouldHandleChangeEvent(change)) {
       return false;
@@ -426,7 +441,7 @@ export class NgxPlusifyEndDate<D>
         : !change.selection.end ||
             !!this._dateAdapter.compareDate(
               change.oldValue.end,
-              change.selection.end
+              change.selection.end,
             );
     }
   }
@@ -459,7 +474,7 @@ export class NgxPlusifyEndDate<D>
       const endPosition = startInput._elementRef.nativeElement.value.length;
       startInput._elementRef.nativeElement.setSelectionRange(
         endPosition,
-        endPosition
+        endPosition,
       );
       startInput.focus();
     } else {

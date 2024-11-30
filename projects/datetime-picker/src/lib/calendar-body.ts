@@ -26,7 +26,7 @@ export type NgxPlusifyCalendarCellCssClasses =
 /** Function that can generate the extra classes that should be added to a calendar cell. */
 export type NgxPlusifyCalendarCellClassFunction<D> = (
   date: D,
-  view: 'month' | 'year' | 'multi-year'
+  view: 'month' | 'year' | 'multi-year',
 ) => NgxPlusifyCalendarCellCssClasses;
 
 /**
@@ -41,7 +41,7 @@ export class NgxPlusifyCalendarCell<D = any> {
     public enabled: boolean,
     public cssClasses: NgxPlusifyCalendarCellCssClasses = {},
     public compareValue = value,
-    public rawValue?: D
+    public rawValue?: D,
   ) {}
 }
 
@@ -175,7 +175,7 @@ export class NgxPlusifyCalendarBody<D = any>
 
   constructor(
     private _elementRef: ElementRef<HTMLElement>,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
   ) {
     _ngZone.runOutsideAngular(() => {
       const element = _elementRef.nativeElement;
@@ -270,7 +270,7 @@ export class NgxPlusifyCalendarBody<D = any>
         setTimeout(() => {
           const activeCell: HTMLElement | null =
             this._elementRef.nativeElement.querySelector(
-              '.mat-calendar-body-active'
+              '.mat-calendar-body-active',
             );
 
           if (activeCell) {
@@ -363,7 +363,7 @@ export class NgxPlusifyCalendarBody<D = any>
       value,
       this.comparisonStart,
       this.comparisonEnd,
-      this.isRange
+      this.isRange,
     );
   }
 
@@ -423,7 +423,7 @@ export class NgxPlusifyCalendarBody<D = any>
 
       if (cell) {
         this._ngZone.run(() =>
-          this.previewChange.emit({ value: cell.enabled ? cell : null, event })
+          this.previewChange.emit({ value: cell.enabled ? cell : null, event }),
         );
       }
     }
@@ -448,7 +448,7 @@ export class NgxPlusifyCalendarBody<D = any>
     }
 
     this._ngZone.run(() =>
-      this.previewChange.emit({ value: cell?.enabled ? cell : null, event })
+      this.previewChange.emit({ value: cell?.enabled ? cell : null, event }),
     );
   };
 
@@ -472,7 +472,7 @@ export class NgxPlusifyCalendarBody<D = any>
         !(
           (event as MouseEvent).relatedTarget &&
           this._getCellFromElement(
-            (event as MouseEvent).relatedTarget as HTMLElement
+            (event as MouseEvent).relatedTarget as HTMLElement,
           )
         )
       ) {
@@ -543,7 +543,7 @@ export class NgxPlusifyCalendarBody<D = any>
 
   /** Finds the MatCalendarCell that corresponds to a DOM node. */
   private _getCellFromElement(
-    element: HTMLElement
+    element: HTMLElement,
   ): NgxPlusifyCalendarCell | null {
     const cell = getCellElement(element);
 
@@ -568,7 +568,7 @@ export class NgxPlusifyCalendarBody<D = any>
 
 /** Checks whether a node is a table cell element. */
 function isTableCell(
-  node: Node | undefined | null
+  node: Node | undefined | null,
 ): node is HTMLTableCellElement {
   return node?.nodeName === 'TD';
 }
@@ -594,7 +594,7 @@ function getCellElement(element: HTMLElement): HTMLElement | null {
 function isStart(
   value: number,
   start: number | null,
-  end: number | null
+  end: number | null,
 ): boolean {
   return end !== null && start !== end && value < end && value === start;
 }
@@ -603,7 +603,7 @@ function isStart(
 function isEnd(
   value: number,
   start: number | null,
-  end: number | null
+  end: number | null,
 ): boolean {
   return start !== null && start !== end && value >= start && value === end;
 }
@@ -613,7 +613,7 @@ function isInRange(
   value: number,
   start: number | null,
   end: number | null,
-  rangeEnabled: boolean
+  rangeEnabled: boolean,
 ): boolean {
   return (
     rangeEnabled &&
@@ -633,6 +633,6 @@ function getActualTouchTarget(event: TouchEvent): Element | null {
   const touchLocation = event.changedTouches[0];
   return document.elementFromPoint(
     touchLocation.clientX,
-    touchLocation.clientY
+    touchLocation.clientY,
   );
 }

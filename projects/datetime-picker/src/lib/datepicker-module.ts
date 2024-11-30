@@ -9,7 +9,10 @@ import { MatCommonModule } from '@angular/material/core';
 import { NgxPlusifyCalendar, NgxPlusifyCalendarHeader } from './calendar';
 import { NgxPlusifyCalendarBody } from './calendar-body';
 import { NgxPlusifyDateRangeInput } from './date-range-input';
-import { NgxPlusifyEndDate, NgxPlusifyStartDate } from './date-range-input-parts';
+import {
+  NgxPlusifyEndDate,
+  NgxPlusifyStartDate,
+} from './date-range-input-parts';
 import { NgxPlusifyDateRangePicker } from './date-range-picker';
 import { NgxPlusifyDatetimepicker } from './datepicker';
 import {

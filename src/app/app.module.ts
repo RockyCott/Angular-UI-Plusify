@@ -18,7 +18,7 @@ const appRoutes: Routes = [
     path: 'datetimepicker',
     loadChildren: () =>
       import('./demo-datetime/demo-datetime.module').then(
-        (m) => m.DemoDatetimeModule
+        (m) => m.DemoDatetimeModule,
       ),
   },
   {

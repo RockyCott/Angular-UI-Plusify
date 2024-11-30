@@ -38,7 +38,10 @@ import {
   NgxPlusifyCalendarUserEvent,
 } from './calendar-body';
 import { NgxPlusifyDateAdapter } from './core/date-adapter';
-import { NGX_PLUSIFY_DATE_FORMATS, NgxPlusifyDateFormats } from './core/date-formats';
+import {
+  NGX_PLUSIFY_DATE_FORMATS,
+  NgxPlusifyDateFormats,
+} from './core/date-formats';
 import {
   NGX_PLUSIFY_DATE_RANGE_SELECTION_STRATEGY,
   NgxPlusifyDateRangeSelectionStrategy,
@@ -78,12 +81,12 @@ export class NgxPlusifyMonthView<D>
     const oldActiveDate = this._activeDate;
     const validDate =
       this._dateAdapter.getValidDateOrNull(
-        this._dateAdapter.deserialize(value)
+        this._dateAdapter.deserialize(value),
       ) || this._dateAdapter.today();
     this._activeDate = this._dateAdapter.clampDate(
       validDate,
       this.minDate,
-      this.maxDate
+      this.maxDate,
     );
     if (!this._hasSameMonthAndYear(oldActiveDate, this._activeDate)) {
       this._init();
@@ -101,7 +104,7 @@ export class NgxPlusifyMonthView<D>
       this._selected = value;
     } else {
       this._selected = this._dateAdapter.getValidDateOrNull(
-        this._dateAdapter.deserialize(value)
+        this._dateAdapter.deserialize(value),
       );
     }
 
@@ -116,7 +119,7 @@ export class NgxPlusifyMonthView<D>
   }
   set minDate(value: D | null) {
     this._minDate = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value)
+      this._dateAdapter.deserialize(value),
     );
   }
   private _minDate: D | null;
@@ -128,7 +131,7 @@ export class NgxPlusifyMonthView<D>
   }
   set maxDate(value: D | null) {
     this._maxDate = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value)
+      this._dateAdapter.deserialize(value),
     );
   }
   private _maxDate: D | null;
@@ -227,7 +230,7 @@ export class NgxPlusifyMonthView<D>
     @Optional() private _dir?: Directionality,
     @Inject(NGX_PLUSIFY_DATE_RANGE_SELECTION_STRATEGY)
     @Optional()
-    private _rangeStrategy?: NgxPlusifyDateRangeSelectionStrategy<D>
+    private _rangeStrategy?: NgxPlusifyDateRangeSelectionStrategy<D>,
   ) {
     if (!this._dateAdapter) {
       throw createMissingDateImplError('NgxPlusifyDateAdapter');
@@ -274,7 +277,7 @@ export class NgxPlusifyMonthView<D>
       rangeEndDate = this._getDateInCurrentMonth(this._selected.end);
     } else {
       rangeStartDate = rangeEndDate = this._getDateInCurrentMonth(
-        this._selected
+        this._selected,
       );
     }
 
@@ -320,38 +323,38 @@ export class NgxPlusifyMonthView<D>
       case LEFT_ARROW:
         this.activeDate = this._dateAdapter.addCalendarDays(
           this._activeDate,
-          isRtl ? 1 : -1
+          isRtl ? 1 : -1,
         );
         break;
       case RIGHT_ARROW:
         this.activeDate = this._dateAdapter.addCalendarDays(
           this._activeDate,
-          isRtl ? -1 : 1
+          isRtl ? -1 : 1,
         );
         break;
       case UP_ARROW:
         this.activeDate = this._dateAdapter.addCalendarDays(
           this._activeDate,
-          -7
+          -7,
         );
         break;
       case DOWN_ARROW:
         this.activeDate = this._dateAdapter.addCalendarDays(
           this._activeDate,
-          7
+          7,
         );
         break;
       case HOME:
         this.activeDate = this._dateAdapter.addCalendarDays(
           this._activeDate,
-          1 - this._dateAdapter.getDate(this._activeDate)
+          1 - this._dateAdapter.getDate(this._activeDate),
         );
         break;
       case END:
         this.activeDate = this._dateAdapter.addCalendarDays(
           this._activeDate,
           this._dateAdapter.getNumDaysInMonth(this._activeDate) -
-            this._dateAdapter.getDate(this._activeDate)
+            this._dateAdapter.getDate(this._activeDate),
         );
         break;
       case PAGE_UP:
@@ -429,7 +432,7 @@ export class NgxPlusifyMonthView<D>
     this._monthLabel = this._dateFormats.display.monthLabel
       ? this._dateAdapter.format(
           this.activeDate,
-          this._dateFormats.display.monthLabel
+          this._dateFormats.display.monthLabel,
         )
       : this._dateAdapter
           .getMonthNames('short')
@@ -438,7 +441,7 @@ export class NgxPlusifyMonthView<D>
     let firstOfMonth = this._dateAdapter.createDate(
       this._dateAdapter.getYear(this.activeDate),
       this._dateAdapter.getMonth(this.activeDate),
-      1
+      1,
     );
     this._firstWeekOffset =
       (DAYS_PER_WEEK +
@@ -473,7 +476,7 @@ export class NgxPlusifyMonthView<D>
       const previewRange = this._rangeStrategy.createPreview(
         value,
         this.selected as NgxDateRange<D>,
-        event
+        event,
       );
       this._previewStart = this._getCellCompareValue(previewRange.start);
       this._previewEnd = this._getCellCompareValue(previewRange.end);
@@ -483,7 +486,7 @@ export class NgxPlusifyMonthView<D>
           this.activeDrag.value,
           this.selected as NgxDateRange<D>,
           value,
-          event
+          event,
         );
 
         if (dragRange) {
@@ -513,7 +516,7 @@ export class NgxPlusifyMonthView<D>
         this.activeDrag.value,
         this.selected as NgxDateRange<D>,
         event.value,
-        event.event
+        event.event,
       );
 
       this.dragEnded.emit({
@@ -533,7 +536,7 @@ export class NgxPlusifyMonthView<D>
     return this._dateAdapter.createDate(
       this._dateAdapter.getYear(this.activeDate),
       this._dateAdapter.getMonth(this.activeDate),
-      dayOfMonth
+      dayOfMonth,
     );
   }
 
@@ -569,12 +572,12 @@ export class NgxPlusifyMonthView<D>
       const date = this._dateAdapter.createDate(
         this._dateAdapter.getYear(this.activeDate),
         this._dateAdapter.getMonth(this.activeDate),
-        i + 1
+        i + 1,
       );
       const enabled = this._shouldEnableDate(date);
       const ariaLabel = this._dateAdapter.format(
         date,
-        this._dateFormats.display.dateA11yLabel
+        this._dateFormats.display.dateA11yLabel,
       );
       const cellClasses = this.dateClass
         ? this.dateClass(date, 'month')
@@ -588,8 +591,8 @@ export class NgxPlusifyMonthView<D>
           enabled,
           cellClasses,
           this._getCellCompareValue(date)!,
-          date
-        )
+          date,
+        ),
       );
     }
   }
@@ -658,7 +661,7 @@ export class NgxPlusifyMonthView<D>
     }
 
     this._comparisonRangeStart = this._getCellCompareValue(
-      this.comparisonStart
+      this.comparisonStart,
     );
     this._comparisonRangeEnd = this._getCellCompareValue(this.comparisonEnd);
   }

@@ -31,7 +31,10 @@ import {
   NgxPlusifyStartDate,
 } from './date-range-input-parts';
 import { NgxPlusifyDateRangePickerInput } from './date-range-picker';
-import { NgxDateRange, NgxPlusifyDateSelectionModel } from './date-selection-model';
+import {
+  NgxDateRange,
+  NgxPlusifyDateSelectionModel,
+} from './date-selection-model';
 import {
   NgxPlusifyDatepickerControl,
   NgxPlusifyDatepickerPanel,
@@ -125,7 +128,7 @@ export class NgxPlusifyDateRangeInput<D>
       NgxPlusifyDatepickerControl<D>,
       NgxDateRange<D>,
       D
-    >
+    >,
   ) {
     if (rangePicker) {
       this._model = rangePicker.registerInput(this);
@@ -189,7 +192,7 @@ export class NgxPlusifyDateRangeInput<D>
   }
   set min(value: D | null) {
     const validValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value)
+      this._dateAdapter.deserialize(value),
     );
 
     if (!this._dateAdapter.sameDate(validValue, this._min)) {
@@ -206,7 +209,7 @@ export class NgxPlusifyDateRangeInput<D>
   }
   set max(value: D | null) {
     const validValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value)
+      this._dateAdapter.deserialize(value),
     );
 
     if (!this._dateAdapter.sameDate(validValue, this._max)) {
@@ -284,7 +287,7 @@ export class NgxPlusifyDateRangeInput<D>
     @Optional() private _dateAdapter: NgxPlusifyDateAdapter<D>,
     @Optional()
     @Inject(MAT_FORM_FIELD)
-    private _formField?: _NgxPlusifyFormFieldPartial
+    private _formField?: _NgxPlusifyFormFieldPartial,
   ) {
     if (!_dateAdapter) {
       throw createMissingDateImplError('NgxPlusifyDateAdapter');
@@ -294,13 +297,13 @@ export class NgxPlusifyDateRangeInput<D>
     // to conditionally add the MDC input class so that the range picker looks correctly.
     if (
       _formField?._elementRef.nativeElement.classList.contains(
-        'mat-mdc-form-field'
+        'mat-mdc-form-field',
       )
     ) {
       _elementRef.nativeElement.classList.add(
         'mat-mdc-input-element',
         'mat-mdc-form-field-input-control',
-        'mdc-text-field__input'
+        'mdc-text-field__input',
       );
     }
 
@@ -348,7 +351,7 @@ export class NgxPlusifyDateRangeInput<D>
     merge(this._startInput.stateChanges, this._endInput.stateChanges).subscribe(
       () => {
         this.stateChanges.next(undefined);
-      }
+      },
     );
   }
 
@@ -465,7 +468,7 @@ export class NgxPlusifyDateRangeInput<D>
 
   /** Checks whether a specific range input directive is required. */
   private _isTargetRequired(
-    target: { ngControl: NgControl | null } | null
+    target: { ngControl: NgControl | null } | null,
   ): boolean | undefined {
     return target?.ngControl?.control?.hasValidator(Validators.required);
   }

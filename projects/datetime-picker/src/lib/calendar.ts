@@ -68,10 +68,10 @@ export class NgxPlusifyCalendarHeader<D> {
     @Optional()
     @Inject(NGX_PLUSIFY_DATE_FORMATS)
     private _dateFormats: NgxPlusifyDateFormats,
-    changeDetectorRef: ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef,
   ) {
     this.calendar.stateChanges.subscribe(() =>
-      changeDetectorRef.markForCheck()
+      changeDetectorRef.markForCheck(),
     );
   }
 
@@ -81,7 +81,7 @@ export class NgxPlusifyCalendarHeader<D> {
       return this._dateAdapter
         .format(
           this.calendar.activeDate,
-          this._dateFormats.display.monthYearLabel
+          this._dateFormats.display.monthYearLabel,
         )
         .toLocaleUpperCase();
     }
@@ -98,7 +98,7 @@ export class NgxPlusifyCalendarHeader<D> {
       return this._dateAdapter
         .format(
           this.calendar.activeDate,
-          this._dateFormats.display.monthYearLabel
+          this._dateFormats.display.monthYearLabel,
         )
         .toLocaleUpperCase();
     }
@@ -109,7 +109,7 @@ export class NgxPlusifyCalendarHeader<D> {
     // Format a label for the window of years displayed in the multi-year calendar view. Use
     // `formatYearRangeLabel` because it is TTS friendly.
     return this._intl.formatYearRangeLabel(
-      ...this._formatMinAndMaxYearLabels()
+      ...this._formatMinAndMaxYearLabels(),
     );
   }
 
@@ -151,7 +151,7 @@ export class NgxPlusifyCalendarHeader<D> {
         ? this._dateAdapter.addCalendarMonths(this.calendar.activeDate, -1)
         : this._dateAdapter.addCalendarYears(
             this.calendar.activeDate,
-            this.calendar.currentView == 'year' ? -1 : -yearsPerPage
+            this.calendar.currentView == 'year' ? -1 : -yearsPerPage,
           );
   }
 
@@ -162,7 +162,7 @@ export class NgxPlusifyCalendarHeader<D> {
         ? this._dateAdapter.addCalendarMonths(this.calendar.activeDate, 1)
         : this._dateAdapter.addCalendarYears(
             this.calendar.activeDate,
-            this.calendar.currentView == 'year' ? 1 : yearsPerPage
+            this.calendar.currentView == 'year' ? 1 : yearsPerPage,
           );
   }
 
@@ -204,7 +204,7 @@ export class NgxPlusifyCalendarHeader<D> {
       date1,
       date2,
       this.calendar.minDate,
-      this.calendar.maxDate
+      this.calendar.maxDate,
     );
   }
 
@@ -215,7 +215,7 @@ export class NgxPlusifyCalendarHeader<D> {
    */
   private _formatMinAndMaxYearLabels(): [
     minYearLabel: string,
-    maxYearLabel: string
+    maxYearLabel: string,
   ] {
     // The offset from the active year to the "slot" for the starting year is the
     // *actual* first rendered year in the multi-year view, and the last year is
@@ -227,14 +227,14 @@ export class NgxPlusifyCalendarHeader<D> {
         this._dateAdapter,
         this.calendar.activeDate,
         this.calendar.minDate,
-        this.calendar.maxDate
+        this.calendar.maxDate,
       );
     const maxYearOfPage = minYearOfPage + yearsPerPage - 1;
     const minYearLabel = this._dateAdapter.getYearName(
-      this._dateAdapter.createDate(minYearOfPage, 0, 1)
+      this._dateAdapter.createDate(minYearOfPage, 0, 1),
     );
     const maxYearLabel = this._dateAdapter.getYearName(
-      this._dateAdapter.createDate(maxYearOfPage, 0, 1)
+      this._dateAdapter.createDate(maxYearOfPage, 0, 1),
     );
 
     return [minYearLabel, maxYearLabel];
@@ -283,7 +283,7 @@ export class NgxPlusifyCalendar<D>
   }
   set startAt(value: D | null) {
     this._startAt = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value)
+      this._dateAdapter.deserialize(value),
     );
   }
   private _startAt: D | null;
@@ -301,7 +301,7 @@ export class NgxPlusifyCalendar<D>
       this._selected = value;
     } else {
       this._selected = this._dateAdapter.getValidDateOrNull(
-        this._dateAdapter.deserialize(value)
+        this._dateAdapter.deserialize(value),
       );
     }
   }
@@ -314,7 +314,7 @@ export class NgxPlusifyCalendar<D>
   }
   set minDate(value: D | null) {
     this._minDate = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value)
+      this._dateAdapter.deserialize(value),
     );
   }
   private _minDate: D | null;
@@ -326,7 +326,7 @@ export class NgxPlusifyCalendar<D>
   }
   set maxDate(value: D | null) {
     this._maxDate = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(value)
+      this._dateAdapter.deserialize(value),
     );
   }
   private _maxDate: D | null;
@@ -401,7 +401,7 @@ export class NgxPlusifyCalendar<D>
     this._clampedActiveDate = this._dateAdapter.clampDate(
       value,
       this.minDate,
-      this.maxDate
+      this.maxDate,
     );
     this.stateChanges.next();
     this._changeDetectorRef.markForCheck();
@@ -437,7 +437,7 @@ export class NgxPlusifyCalendar<D>
     @Optional()
     @Inject(NGX_PLUSIFY_DATE_FORMATS)
     private _dateFormats: NgxPlusifyDateFormats,
-    private _changeDetectorRef: ChangeDetectorRef
+    private _changeDetectorRef: ChangeDetectorRef,
   ) {
     if (!this._dateAdapter) {
       throw createMissingDateImplError('NgxPlusifyDateAdapter');
@@ -455,7 +455,7 @@ export class NgxPlusifyCalendar<D>
 
   ngAfterContentInit() {
     this._calendarHeaderPortal = new ComponentPortal(
-      this.headerComponent || NgxPlusifyCalendarHeader
+      this.headerComponent || NgxPlusifyCalendarHeader,
     );
     this.activeDate = this.startAt || this._dateAdapter.today();
 
@@ -483,7 +483,7 @@ export class NgxPlusifyCalendar<D>
       changes['minDate'] &&
       !this._dateAdapter.sameDate(
         changes['minDate'].previousValue,
-        changes['minDate'].currentValue
+        changes['minDate'].currentValue,
       )
         ? changes['minDate']
         : undefined;
@@ -491,7 +491,7 @@ export class NgxPlusifyCalendar<D>
       changes['maxDate'] &&
       !this._dateAdapter.sameDate(
         changes['maxDate'].previousValue,
-        changes['maxDate'].currentValue
+        changes['maxDate'].currentValue,
       )
         ? changes['maxDate']
         : undefined;
@@ -570,7 +570,7 @@ export class NgxPlusifyCalendar<D>
 
     if (event.value) {
       this._userDragDrop.emit(
-        event as NgxPlusifyCalendarUserEvent<NgxDateRange<D>>
+        event as NgxPlusifyCalendarUserEvent<NgxDateRange<D>>,
       );
     }
 

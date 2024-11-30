@@ -23,9 +23,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -63,18 +61,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-ui-plusify:build"
+            "buildTarget": "angular-ui-plusify:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-ui-plusify:build:production"
+              "buildTarget": "angular-ui-plusify:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-ui-plusify:build"
+            "buildTarget": "angular-ui-plusify:build"
           }
         },
         "test": {
@@ -142,16 +140,6 @@
             "main": "projects/datetime-picker/src/test.ts",
             "karmaConfig": "projects/datetime-picker/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/datetime-picker/**/*.ts",
-              "projects/datetime-picker/**/*.html"
-            ],
-            "eslintConfig": "projects/datetime-picker/eslint.config.js"
-          }
         }
       }
     },
@@ -193,7 +181,6 @@
       "skipTests": true
     },
     "@schematics/angular:pipe": {
-      "prefix": "ngx-plusify",
       "skipTests": true
     },
     "@schematics/angular:service": {

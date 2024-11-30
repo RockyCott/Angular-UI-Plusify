@@ -12,7 +12,9 @@
 }
 
 .mat-datepicker-content {
-  box-shadow: rgb(0 0 0 / 20%) 0 2px 4px -1px, rgb(0 0 0 / 14%) 0 4px 5px 0,
+  box-shadow:
+    rgb(0 0 0 / 20%) 0 2px 4px -1px,
+    rgb(0 0 0 / 14%) 0 4px 5px 0,
     rgb(0 0 0 / 12%) 0 1px 10px 0;
   display: block;
   border-radius: 4px;
@@ -49,8 +51,10 @@
 }
 
 .mat-datepicker-content-touch {
-  box-shadow: rgb(0 0 0 / 20%) 0 11px 15px -7px,
-    rgb(0 0 0 / 14%) 0 24px 38px 3px, rgb(0 0 0 / 12%) 0 9px 46px 8px;
+  box-shadow:
+    rgb(0 0 0 / 20%) 0 11px 15px -7px,
+    rgb(0 0 0 / 14%) 0 24px 38px 3px,
+    rgb(0 0 0 / 12%) 0 9px 46px 8px;
   display: block;
   max-height: 80vh;
   position: relative;

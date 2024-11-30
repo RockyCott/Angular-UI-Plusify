@@ -12,6 +12,7 @@ Choose the version corresponding to your Angular version:
 
  Angular     | @angular-ui-plusify/datetime-picker
  ----------- | -------------------
+ 19          | 0.0.4+
  18          | 0.0.3+
  17          | 0.0.2+
  16          | 0.0.1+

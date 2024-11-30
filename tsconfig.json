@@ -23,14 +23,13 @@
         "dist/@angular-ui-plusify/datetime-picker/*"
       ]
     },
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
     "enableResourceInlining": true,
     "enableIvy": false
-    "useDefineForClassFields": false,
-    "skipLibCheck": true
   }
 }

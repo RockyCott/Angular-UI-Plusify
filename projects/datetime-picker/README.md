@@ -1,4 +1,4 @@
-# Angular UI Plusify DatetimePicker for @angular/material 16.x, 17.x, 18.x
+# Angular UI Plusify DatetimePicker for @angular/material 16.x, 17.x, 18.x and 19.x
 
 ## Description
 

@@ -35,11 +35,11 @@ export class NgxPlusifyDatepickerApply {
 }
 
 @Directive({
-  selector: '[ngxMatDatepickerClear], [ngxMatDateRangePickerClear]',
+  selector: '[ngxPlusifyDatepickerClear], [ngxPlusifyDateRangePickerClear]',
   host: { '(click)': '_clearSelection()' },
   standalone: true,
 })
-export class NgxMatDatepickerClear {
+export class NgxPlusifyDatepickerClear {
   constructor(
     public readonly _datepicker: NgxPlusifyDatepickerBase<NgxPlusifyDatepickerControl<any>, unknown>,
   ) {}

@@ -1,6 +1,6 @@
 {
   "name": "@plusify/ngx-markdown-editor",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A customizable Markdown editor for Angular with KaTeX support, syntax highlighting, and a modern toolbar.",
   "author": "RockyCott",
   "license": "MIT",

@@ -8,6 +8,9 @@
   - Live preview using `ngx-markdown`, with support for KaTeX and syntax highlighting.
   - Scroll sync support between editor and preview.
   - Custom theme support via CSS variables.
+  - Installation instructions for required `peerDependencies` (`marked`, `prismjs`, `katex`, `clipboard`, `ngx-markdown`, etc.).
+  - Manual `angular.json` configuration for scripts and styles (Prism and KaTeX).
+  - Clear guidance for first-time users to avoid integration issues.
 
 ---
 

@@ -1,44 +1,67 @@
-# 📝 Plusify Markdown Editor
+# Plusify Markdown Editor
 
 A lightweight, extensible, and user-friendly **Markdown Editor** built with Angular. It features a custom toolbar, live preview, support for KaTeX, copy to clipboard, and interactive popovers for inserting images, links, and headings.
 
-![Plusify Markdown Editor](./src/assets/250713_11h37m13s_screenshot.png)
-
-## ✨ Features
-
-- 🧩 Modular architecture with reusable components.
-- 🖋️ Markdown input with syntax helpers (bold, italic, lists, etc.).
-- 🖼️ Insert links and images through popovers.
-- 🔢 Select heading levels with a quick menu.
-- 🔄 Synchronized scrolling (optional).
-- 👀 Live preview powered by [`ngx-markdown`](https://github.com/jfcere/ngx-markdown) and KaTeX.
-- 🎨 Customizable theme with CSS variables.
+![Vista previa](https://raw.githubusercontent.com/RockyCott/Angular-UI-Plusify/main/projects/ngx-markdown-editor/src/assets/markdown-editor.png)
 
 ---
 
-## 🚀 Getting Started
+## ✨ Features
 
-### 1. Install Dependencies
+- Modular architecture with reusable components.
+- Markdown input with syntax helpers (bold, italic, lists, etc.).
+- Insert links and images through popovers.
+- Select heading levels with a quick menu.
+- Synchronized scrolling (optional).
+- Live preview powered by [`ngx-markdown`](https://github.com/jfcere/ngx-markdown) and KaTeX.
+- Customizable theme with CSS variables.
+
+---
+
+## Getting Started
+
+### 1. Install Required Dependencies
+
+Run the following command to install `@plusify/ngx-markdown-editor` along with its peer dependencies:
 
 ```bash
-npm install ngx-markdown katex clipboard
+npm install @plusify/ngx-markdown-editor ngx-markdown marked prismjs katex clipboard
 ```
 
-### 2. Usage in your Component
+### 2. Configure `angular.json`
+
+Add the following entries in your `angular.json` under the corresponding build and test targets:
+
+```json
+"styles": [
+  "node_modules/prismjs/themes/prism-okaidia.css",
+  "node_modules/katex/dist/katex.min.css"
+],
+"scripts": [
+  "node_modules/prismjs/prism.js",
+  "node_modules/clipboard/dist/clipboard.min.js",
+  "node_modules/katex/dist/katex.min.js",
+  "node_modules/katex/dist/contrib/auto-render.min.js"
+]
+```
+
+> **Note:** Angular CLI does not automatically apply these configurations. You must add them manually to enable syntax highlighting and KaTeX rendering.
+
+---
+
+### 3. Use the Component
 
 ```html
 <plusify-markdown-editor
   [config]="config"
   [customTheme]="{ '--color-primary': '#4caf50' }"
   (valueChange)="handleValueChange($event)">
-  </plusify-markdown-editor>
+</plusify-markdown-editor>
 ```
 
 ```typescript
 config: MarkdownEditorConfig = {
    showPreview: false,
-   height: '500px',
-   value: '# Hello World',
    readonly: false,
 };
 
@@ -49,9 +72,9 @@ handleValueChange(newValue: string) {
 
 ---
 
-## 🧱 Components Overview
+## Components Overview
 
-### 📄 `<plusify-markdown-editor>`
+### `<plusify-markdown-editor>`
 
 The main editor wrapper. Provides toolbar, textarea, and live preview.
 
@@ -92,6 +115,8 @@ Or override directly:
 - [ngx-markdown](https://github.com/jfcere/ngx-markdown)
 - [KaTeX](https://katex.org/)
 - [clipboard](https://clipboardjs.com/)
+- [prismjs](https://prismjs.com/)
+- [marked](https://marked.js.org/)
 
 ---
 

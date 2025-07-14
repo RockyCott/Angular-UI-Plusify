@@ -1,6 +1,6 @@
 {
   "name": "angular-ui-plusify",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Angular UI Plusify",
   "author": "RockyCott",
   "repository": {
@@ -38,9 +38,9 @@
     "build:datetime-picker": "ng build ngx-plusify-datetime-picker",
     "build:moment-adapter": "ng build ngx-plusify-moment-adapter",
     "build:markdown-editor": "ng build ngx-markdown-editor --configuration production",
-    "publish:datetime-picker": "ng build ngx-plusify-datetime-picker && cd dist/@angular-ui-plusify/datetime-picker && npm publish --access public && cd .. && cd .. && cd ..",
-    "publish:moment-adapter": "ng build ngx-plusify-moment-adapter && cd dist/@angular-ui-plusify/moment-adapter && npm publish --access public  && cd .. && cd .. && cd ..",
-    "publish:markdown-editor": "ng build ngx-markdown-editor && cd dist/@plusify/markdown-editor && npm publish --access public && cd .. && cd .. && cd ..",
+    "publish:datetime-picker": "ng build ngx-plusify-datetime-picker && cd dist/@angular-ui-plusify/datetime-picker && npm publish --access public && cd ../../../",
+    "publish:moment-adapter": "ng build ngx-plusify-moment-adapter && cd dist/@angular-ui-plusify/moment-adapter && npm publish --access public  && cd ../../../",
+    "publish:markdown-editor": "ng build ngx-markdown-editor && cd dist/@plusify/ngx-markdown-editor && npm publish --access public && cd ../../../",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",

@@ -25,7 +25,7 @@ import { takeUntil } from "rxjs/operators";
     ]
 })
 export class AppComponent implements OnDestroy {
-  public nameApp = "angular-ui-plusify";
+  public nameApp = "Plusify";
 
   isHandset: boolean;
   sidenavMode: "side" | "over" | "push";

@@ -1,0 +1,69 @@
+.markdown-toolbar {
+  display: flex;
+  padding: 0 10px;
+  height: 45px;
+  background-color: #f7f9fc;
+  border: 1px solid #dadde6;
+  border-bottom-color: #ebedf2;
+  border-radius: 3px 3px 0 0;
+  align-items: center;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  border-right: 1px solid #ebedf2;
+  padding: 0 8px;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.toolbar-button {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin: 7px 5px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  &:hover {
+    border-color: #e4e7ee;
+    background-color: #fff;
+  }
+}
+
+.toolbar-options {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 10px;
+}
+
+.toolbar-toggle {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+
+  label {
+    margin-right: 6px;
+  }
+
+  input[type='checkbox'] {
+    transform: scale(1.1);
+    accent-color: var(--primary-color, var(--main-color, #009b77));
+    cursor: pointer;
+  }
+}

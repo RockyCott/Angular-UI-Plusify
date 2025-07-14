@@ -1,0 +1,16 @@
+{
+  "name": "@plusify/ngx-markdown-editor",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "katex": "^0.16.22",
+    "marked": "^16.0.0",
+    "prismjs": "^1.30.0",
+    "clipboard": "^2.0.11"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

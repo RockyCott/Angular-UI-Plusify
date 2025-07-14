@@ -1,45 +1,65 @@
-# Angular UI Plusify 🌟
+# UI Plusify 🌟
 
 A modular library of components and directives for Angular, designed to enhance your UI development experience. 🚀
 
 ## 🚧 Project Status
 
-Angular UI Plusify is in its early stages of development, and the **Datetime Picker** is its first component. This library aims to grow by adding more UI components and directives in the future, making it a one-stop solution for Angular UI development.
+Angular UI Plusify is in active development. It currently includes the **Datetime Picker** and the new **Markdown Editor** components — with plans to continue growing into a comprehensive UI toolkit for Angular developers.
 
 ### Why Angular UI Plusify?
-The **Datetime Picker** is based on the original [`@angular-material-components/datetime-picker`](https://github.com/h2qutc/angular-material-components) but modernized for **Angular 16+**. This ensures compatibility and support for the latest Angular Material updates, providing developers with a reliable, up-to-date solution.
+
+Each component is built for **Angular 16+**, designed with **modularity**, **customization**, and **future compatibility** in mind. For example:
+
+- The **Datetime Picker** is a modern adaptation of [`@angular-material-components/datetime-picker`](https://github.com/h2qutc/angular-material-components), fully compatible with Angular Material 16+ and beyond.
+- The **Markdown Editor** is built with Angular **signals**, fully customizable, and includes a smart toolbar and preview support using `ngx-markdown`.
 
 ---
+
 ## 🎯 Library Goals
 
-- **Modularity:** Import only what you need. Each component and directive is fully independent.
-- **Compatibility:** Built for **Angular 16+** and integrates seamlessly with Angular Material.
-- **Customization:** Fully customizable to adapt to any design system.
-- **Scalability:** Suitable for projects of all sizes.
-- **Future-proof:** Expandable with new components and directives to keep up with modern UI trends.
+- **Modularity:** Import only what you need.
+- **Compatibility:** Built for Angular 16+ (up to 19+).
+- **Customization:** Designed for flexible theming and component behavior.
+- **Scalability:** Great for small apps or large enterprise projects.
+- **Future-proof:** Continually updated to support Angular's latest features.
 
 ---
 
 ## 🛠️ Components
 
-### Datetime Picker 📅
+### ✅ Datetime Picker 📅
 
-An advanced datetime picker built on Angular Material, designed to simplify date and time selection in your projects.
+An advanced datetime picker based on Angular Material, supporting date, time, and combined selection.
 
-#### Key Features:
-- Fully integrated with **Angular Material** design system.
-- Supports **date**, **time**, and **datetime** selection.
-- **Standalone Component** structure for easy integration and modular use.
-- Customizable themes and formats.
-- Continuous support and updates for Angular versions.
+**Features:**
 
-#### Compatibility Matrix:
-| Angular Version | datetime-picker Version |
-|------------------|-------------------------|
-| 19+             | 0.0.4+                   |
-| 18+             | 0.0.3+                   |
-| 17+             | 0.0.2+                   |
-| 16+             | 0.0.1+                   |
+- Angular Material integration
+- Date, time, and datetime support
+- Custom themes and formats
+- Standalone component
+- Future Angular compatibility
+
+### ✅ Markdown Editor 📝
+
+A powerful yet lightweight Markdown editor with a customizable toolbar, live preview, and support for KaTeX, clipboard, and syntax highlighting.
+
+**Features:**
+
+- Uses Angular Signals
+- Toggleable live preview
+- Toolbar with headings, lists, tables, links, images, code blocks, etc.
+- Popover-based UI for inserting advanced blocks
+- Customizable theme using CSS variables
+- `ngx-markdown` powered rendering with support for KaTeX and clipboard
+- Standalone component — easy to drop into any project
+
+---
+
+## 📦 Installation
+
+```bash
+npm install @plusify/ngx-markdown-editor
+```
 
 ---
 
@@ -53,9 +73,10 @@ We welcome contributions! Feel free to:
 
 If you like this project, please support Angular UI Plusify by starring ⭐ the repository.
 
+---
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
+This project is licensed under the MIT License – see the [LICENSE](./LICENSE) file for details.
 
 Thanks for using Angular UI Plusify! 🚀

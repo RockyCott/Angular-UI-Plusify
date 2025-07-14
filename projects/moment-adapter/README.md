@@ -1,4 +1,4 @@
-# NgxPlusifyMomentAdapter
+# Ngx Plusify Moment Adapter
 
 ## Description 
 Moment Adapter for [@angular-ui-plusify/datetime-picker](https://www.npmjs.com/package/@angular-ui-plusify/datetime-picker)

@@ -1,0 +1,10 @@
+<!-- Markdown textarea component -->
+<textarea
+  #textarea
+  class="markdown-textarea scrollable w-100"
+  [readonly]="readonly()"
+  [(ngModel)]="value"
+  (scroll)="onScroll()"
+  (ngModelChange)="valueChange.emit($event)"
+  placeholder="Type your markdown here..."
+  (keydown.tab)="onTabKeyPress($event)"></textarea>

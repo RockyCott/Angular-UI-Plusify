@@ -1,0 +1,202 @@
+:host markdown,
+:host ::ng-deep markdown {
+  color: var(--color-on-surface, #1c1b1f);
+  font-size: 1rem;
+  line-height: 1.6;
+
+  // Headings
+  h1 {
+    color: var(--color-primary, #1976d2);
+  }
+
+  h2 {
+    color: var(--color-on-surface-variant, #3c4043);
+  }
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-on-surface-variant, #5f6368);
+    margin-top: 1rem;
+    transition: color 0.3s ease-in-out;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 1rem 0 0.5rem;
+  }
+
+  // Paragraphs
+  p {
+    margin: 0.5rem 0 1rem;
+  }
+
+  // Blockquotes
+  blockquote {
+    border-left: 4px solid var(--color-outline, #ccc);
+    background-color: var(--color-surface-container, #f9f9f9);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--color-on-surface-variant, #666);
+    border-radius: 6px;
+  }
+
+  // Lists
+  ul,
+  ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  // Links
+  a {
+    color: var(--color-primary, #1976d2);
+    text-decoration: underline;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-primary-hover, #0d47a1);
+    }
+  }
+
+  // Tables
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    border: 1px solid var(--color-outline, #ccc);
+    background: var(--color-surface, #fff);
+    font-size: 0.95rem;
+    color: var(--color-on-surface, #333);
+  }
+
+  th,
+  td {
+    border: 1px solid var(--color-outline, #ccc);
+    padding: 0.75rem;
+    text-align: left;
+  }
+
+  th {
+    background-color: var(--color-surface-container, #f5f5f5);
+    color: var(--color-on-surface, #333);
+
+  }
+
+  // Code blocks
+  // pre {
+  //   overflow-x: auto;
+  //   background-color: var(--color-surface-container, #f5f5f5);
+  //   padding: 1rem;
+  //   border-radius: 4px;
+
+  //   code {
+  //     font-family: 'Fira Code', monospace;
+  //   }
+  // }
+
+  // code {
+  //   background-color: var(--color-surface-container-low, #eeeeee);
+  //   padding: 0.2em 0.4em;
+  //   border-radius: 4px;
+  //   font-family: 'Fira Code', monospace;
+  // }
+
+  // Images
+  img {
+    display: block;
+    max-width: 100%;
+    margin: 1rem auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  // Horizontal Rule
+  hr {
+    border: none;
+    border-top: 1px solid var(--color-outline, #ccc);
+    margin: 2rem 0;
+  }
+
+  // Math (KaTeX)
+  // .katex {
+  //   font-size: 1.1em;
+  //   background: var(--color-surface-container-low, #f0f0f0);
+  //   padding: 0.4rem 0.6rem;
+  //   border-radius: 6px;
+  //   display: inline-block;
+  // }
+
+  // PrismJS Tokens
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: #999;
+  }
+
+  .token.punctuation {
+    color: #ccc;
+  }
+
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol,
+  .token.deleted {
+    color: #e2777a;
+  }
+
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted {
+    color: #a6e22e;
+  }
+
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string {
+    color: #f08d49;
+  }
+
+  .token.atrule,
+  .token.attr-value,
+  .token.keyword {
+    color: #cc99cd;
+  }
+
+  .token.function {
+    color: #66d9ef;
+  }
+
+  .token.regex,
+  .token.important,
+  .token.variable {
+    color: #fd971f;
+  }
+
+  .token.important,
+  .token.bold {
+    font-weight: bold;
+  }
+
+  .token.italic {
+    font-style: italic;
+  }
+
+  .token.entity {
+    cursor: help;
+  }
+}

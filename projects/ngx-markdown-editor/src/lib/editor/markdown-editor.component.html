@@ -1,0 +1,34 @@
+<div class="plusify-markdown-editor">
+  @if (this.internalConfig.showToolbar) {
+    <plusify-markdown-toolbar
+      [textarea]="textareaRef"
+      [showPreview]="this.internalConfig.showPreview"
+      [syncScroll]="this.internalConfig.showToolbar"
+      (toggleSyncScroll)="handleToggleSyncScroll($event)"
+      (togglePreview)="handleTogglePreview($event)">
+    </plusify-markdown-toolbar>
+  }
+
+  <div class="d-flex flex-row flex-1">
+    <div class="flex-1">
+      <plusify-markdown-textarea
+        #textareaRef
+        [(value)]="value"
+        [readonly]="internalConfig.readonly"
+        (valueChange)="handleValueChange($event)"
+        (scrolled)="handleTextareaScroll($event)">
+      </plusify-markdown-textarea>
+    </div>
+
+    @if (this.internalConfig.showPreview) {
+      <div class="flex-1" @swingFromRight>
+        <plusify-markdown-preview
+          #markdownPreview
+          [content]="value"
+          [disableSanitizer]="this.internalConfig.disableSanitizer"
+          (scrolled)="handlePreviewScroll($event)">
+        </plusify-markdown-preview>
+      </div>
+    }
+  </div>
+</div>

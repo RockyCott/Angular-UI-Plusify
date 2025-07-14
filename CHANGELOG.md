@@ -1,6 +1,15 @@
 # Changelog
 
-All notable changes to this project will be documented here.
+## [0.1.0] - 2025-07-12
+### Added
+- Introduced the **Markdown Editor** component:
+  - Built with Angular Signals and Standalone architecture.
+  - Configurable toolbar with support for headings, code, links, images, etc.
+  - Live preview using `ngx-markdown`, with support for KaTeX and syntax highlighting.
+  - Scroll sync support between editor and preview.
+  - Custom theme support via CSS variables.
+
+---
 
 ## [0.0.4] - 2024-11-27
 ### Fixed

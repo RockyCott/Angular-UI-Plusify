@@ -21,6 +21,9 @@
       ],
       "@angular-ui-plusify/datetime-picker/*": [
         "dist/@angular-ui-plusify/datetime-picker/*"
+      ],
+      "@plusify/ngx-markdown-editor/*": [
+        "./dist/@plusify/ngx-markdown-editor"
       ]
     },
     "useDefineForClassFields": false,

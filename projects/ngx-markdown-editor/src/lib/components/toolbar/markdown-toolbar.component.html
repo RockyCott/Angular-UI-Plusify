@@ -1,0 +1,46 @@
+<div class="markdown-toolbar">
+  <!-- Render toolbar button groups -->
+  @for (itemGroup of itemGroups; track $index) {
+    <div class="toolbar-group">
+      @for (item of itemGroup; track item.type) {
+        <button class="toolbar-button" [title]="item.title" #btnRef (click)="onClick(item, btnRef)">
+          @if (item.iconFont) {
+            <mat-icon></mat-icon>
+            <span class="material-symbols-outlined material-symbols-rounded">
+              {{ item.iconFont }}
+            </span>
+          } @else if (item.iconHtml) {
+            <span [innerHTML]="item.iconHtml"></span>
+          } @else {
+            <span>
+              {{ item.icon || item.type }}
+            </span>
+          }
+        </button>
+      }
+    </div>
+  }
+
+  <!-- Preview & sync toggle -->
+  <div class="toolbar-options">
+    <div class="toolbar-toggle">
+      <label for="syncScroll">Scroll</label>
+      <input
+        id="syncScroll"
+        type="checkbox"
+        [checked]="syncScroll()"
+        (change)="toggleSyncScroll.emit($event.target.checked)" />
+    </div>
+    <div class="toolbar-toggle">
+      <label for="showPreview">Preview</label>
+      <input
+        id="showPreview"
+        type="checkbox"
+        [checked]="showPreview()"
+        (change)="togglePreview.emit($event.target.checked)" />
+    </div>
+  </div>
+
+  <!-- Popover container -->
+  <ng-template #popoverHost></ng-template>
+</div>

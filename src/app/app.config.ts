@@ -5,6 +5,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 import { provideNgxPlusifyNativeDate } from 'projects/datetime-picker/src';
 import { APP_ROUTES } from './app.routes';
+import { provideMarkdown } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,5 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(APP_ROUTES),
     provideNgxPlusifyNativeDate(),
     Location,
+    provideMarkdown(),
   ],
 };

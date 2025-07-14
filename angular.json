@@ -21,20 +21,25 @@
               "base": "dist/angular-ui-plusify"
             },
             "index": "src/index.html",
-            "polyfills": [
-              "src/polyfills.ts"
-            ],
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
-            "scripts": [],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/prismjs/themes/prism-okaidia.css",
+              "node_modules/katex/dist/katex.min.css"
+            ],
+            "scripts": [
+              "node_modules/prismjs/prism.js",
+              "node_modules/clipboard/dist/clipboard.min.js",
+              "node_modules/katex/dist/katex.min.js",
+              "node_modules/katex/dist/contrib/auto-render.min.js"
+            ],
             "extractLicenses": false,
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true,
-            "allowedCommonJsDependencies": [
-              "highlight.js"
-            ],
+            "allowedCommonJsDependencies": ["highlight.js"],
             "browser": "src/main.ts"
           },
           "configurations": {
@@ -84,9 +89,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "scripts": [],
             "assets": ["src/favicon.ico", "src/assets"]
           }
@@ -112,7 +115,7 @@
         }
       }
     },
-    "NgxPlusifyDatetimePicker": {
+    "ngx-plusify-datetime-picker": {
       "projectType": "library",
       "root": "projects/datetime-picker",
       "sourceRoot": "projects/datetime-picker/src",
@@ -144,7 +147,7 @@
         }
       }
     },
-    "NgxPlusifyMomentAdapter": {
+    "ngx-plusify-moment-adapter": {
       "root": "projects/moment-adapter",
       "sourceRoot": "projects/moment-adapter/src",
       "projectType": "library",
@@ -163,6 +166,36 @@
             "main": "projects/moment-adapter/src/test.ts",
             "tsConfig": "projects/moment-adapter/tsconfig.spec.json",
             "karmaConfig": "projects/moment-adapter/karma.conf.js"
+          }
+        }
+      }
+    },
+    "ngx-markdown-editor": {
+      "projectType": "library",
+      "root": "projects/ngx-markdown-editor",
+      "sourceRoot": "projects/ngx-markdown-editor/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-markdown-editor/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-markdown-editor/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-markdown-editor/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/ngx-markdown-editor/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         }
       }

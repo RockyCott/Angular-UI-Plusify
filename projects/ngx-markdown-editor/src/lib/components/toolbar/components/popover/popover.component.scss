@@ -1,0 +1,83 @@
+.plusify-popover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: white;
+  border: 1px solid var(--color-outline, #ccc);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  width: 250px;
+  font-size: 0.9rem;
+
+  .popover-field {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    input,
+    textarea {
+      padding: 6px 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  }
+
+  .popover-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    button {
+      padding: 4px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:first-child {
+        background: #eee;
+      }
+
+      &:last-child {
+        background: var(--color-primary, #009b77);
+        color: white;
+      }
+    }
+  }
+}
+
+.menu-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  button {
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 3px 5px;
+    transition: background 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 0;
+      color: var(--color-on-surface, #222);
+    }
+  }
+}

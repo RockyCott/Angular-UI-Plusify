@@ -8,6 +8,7 @@ import {
   input,
   Input,
   InputSignal,
+  output,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -114,16 +115,29 @@ export class NgxMarkdownEditorComponent {
   public showPreviewInput: InputSignal<boolean> = input<boolean>(true, { alias: 'showPreview' });
 
   /**
+   * Output signal for preview visibility changes.
+   * Emits a boolean indicating whether the preview is shown or hidden.
+   */
+  public showPreviewOutput = output<boolean>();
+
+  /**
    * Controls the synchronization of scrolling between the editor and preview.
    * @default true
    */
   public syncScrollInput: InputSignal<boolean> = input<boolean>(true, { alias: 'syncScroll' });
 
   /**
+   * Output signal for scroll synchronization changes.
+   * Emits a boolean indicating whether scroll synchronization is enabled or disabled.
+   */
+  public syncScrollOutput = output<boolean>();
+
+  /**
    * Controls the visibility of the toolbar.
    * @default true
    */
   public showToolbarInput: InputSignal<boolean> = input<boolean>(true, { alias: 'showToolbar' });
+
 
   /**
    * Theme customization input (CSS variables).
@@ -200,6 +214,7 @@ export class NgxMarkdownEditorComponent {
    */
   handleTogglePreview(value: boolean) {
     this.internalConfig.showPreview = value;
+    this.showPreviewOutput.emit(value);
   }
 
   /**
@@ -209,6 +224,7 @@ export class NgxMarkdownEditorComponent {
    */
   handleToggleSyncScroll(value: boolean) {
     this.internalConfig.syncScroll = value;
+    this.syncScrollOutput.emit(value);
   }
 
   /**

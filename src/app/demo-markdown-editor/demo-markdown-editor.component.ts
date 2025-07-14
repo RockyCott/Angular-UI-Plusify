@@ -11,18 +11,10 @@ import { NgxMarkdownEditorComponent } from 'projects/ngx-markdown-editor/src/pub
 })
 export class DemoMarkdownEditorComponent {
   config: MarkdownEditorConfig = {
-    showPreview: false,
-    value: '# Hola Mundo',
+    showPreview: true,
+    value: '# Hello World\n\nThis is a simple markdown editor.',
     readonly: false,
   };
-
-  showPreview = true;
-
-  constructor() {
-    setTimeout(() => {
-      this.showPreview = false;
-    }, 5000);
-  }
 
   handleValueChange(value: string) {
     console.log('Valor actualizado: ', value);

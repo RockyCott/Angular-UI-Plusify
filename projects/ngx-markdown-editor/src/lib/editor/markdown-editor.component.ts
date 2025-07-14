@@ -7,6 +7,7 @@ import {
   HostBinding,
   input,
   Input,
+  InputSignal,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -104,7 +105,25 @@ export class NgxMarkdownEditorComponent {
   /**
    * Configuration input (initialValue, readonly, etc.)
    */
-  readonly config = input<MarkdownEditorConfig>({});
+  public config: InputSignal<MarkdownEditorConfig> = input<MarkdownEditorConfig>({});
+
+  /**
+   * Controls the visibility of the preview pane.
+   * @default true
+   */
+  public showPreviewInput: InputSignal<boolean> = input<boolean>(true, { alias: 'showPreview' });
+
+  /**
+   * Controls the synchronization of scrolling between the editor and preview.
+   * @default true
+   */
+  public syncScrollInput: InputSignal<boolean> = input<boolean>(true, { alias: 'syncScroll' });
+
+  /**
+   * Controls the visibility of the toolbar.
+   * @default true
+   */
+  public showToolbarInput: InputSignal<boolean> = input<boolean>(true, { alias: 'showToolbar' });
 
   /**
    * Theme customization input (CSS variables).
@@ -149,6 +168,9 @@ export class NgxMarkdownEditorComponent {
     effect(() => {
       this.internalConfig = {
         ...DEFAULT_EDITOR_CONFIG,
+        showPreview: this.showPreviewInput() ?? true,
+        syncScroll: this.syncScrollInput() ?? true,
+        showToolbar: this.showToolbarInput() ?? true,
         ...this.config(),
       };
 
@@ -182,7 +204,7 @@ export class NgxMarkdownEditorComponent {
 
   /**
    * Toggles the synchronization of scrolling between the editor and preview.
-   * 
+   *
    * @param value - A boolean indicating whether to enable or disable sync scrolling.
    */
   handleToggleSyncScroll(value: boolean) {
@@ -192,7 +214,7 @@ export class NgxMarkdownEditorComponent {
   /**
    * Handles the scroll synchronization between the textarea and the preview pane.
    * If syncScroll is disabled or a synchronization is already in progress, the method exits early.
-   * 
+   *
    * @param ratio - The scroll ratio of the textarea, typically a value between 0 and 1.
    *                This ratio is used to calculate the corresponding scroll position in the preview pane.
    */

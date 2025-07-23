@@ -5,7 +5,6 @@
       @for (item of itemGroup; track item.type) {
         <button class="toolbar-button" [title]="item.title" #btnRef (click)="onClick(item, btnRef)">
           @if (item.iconFont) {
-            <mat-icon></mat-icon>
             <span class="material-symbols-outlined material-symbols-rounded">
               {{ item.iconFont }}
             </span>

@@ -1,4 +1,9 @@
-import { insertHeading, insertImage, insertLink } from './actions/toolbar-actions';
+import {
+  insertHeading,
+  insertImage,
+  insertLink,
+  toggleTablePopover,
+} from './actions/toolbar-actions';
 import { NgxMarkdownToolbarComponent } from './markdown-toolbar.component';
 
 export interface ToolbarItem {
@@ -75,8 +80,7 @@ export const DEFAULT_TOOLBAR_GROUPS: ToolbarItem[][] = [
       type: 'table',
       title: 'Table',
       iconFont: 'table',
-      action: (tb) =>
-        tb.textarea.insertTextAtCursor(`\n\n| Col 1 | Col 2 |\n|-------|-------|\n| Val 1 | Val 2 |\n`),
+      action: toggleTablePopover,
     },
     {
       type: 'image',

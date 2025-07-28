@@ -10,7 +10,7 @@ export async function insertImage(
   const result = await toolbarComponent.openPopover('image', anchor);
   if (!result) return;
 
-  const { url, alt } = result;
+  const { url, alt } = result as Record<string, string>;
   if (!url) return;
 
   toolbarComponent.textarea.insertTextAtCursor(`\n![${alt || 'Alt Text'}](${url})`);
@@ -26,7 +26,7 @@ export async function insertLink(
   const result = await toolbarComponent.openPopover('link', anchor);
   if (!result) return;
 
-  const { url, text } = result;
+  const { url, text } = result as Record<string, string>;
   if (!url) return;
 
   toolbarComponent.textarea.insertTextAtCursor(`\n[${text || 'Text'}](${url})`);
@@ -39,7 +39,7 @@ export async function insertHeading(
   toolbarComponent: NgxMarkdownToolbarComponent,
   anchor?: HTMLElement,
 ) {
-  const result = await toolbarComponent.openPopover('heading', anchor);
+  const result = (await toolbarComponent.openPopover('heading', anchor)) as Record<string, string>;
   if (!result) return;
 
   const level = parseInt(result.level, 10);
@@ -47,4 +47,17 @@ export async function insertHeading(
 
   const prefix = '#'.repeat(level) + ' ';
   toolbarComponent.textarea.wrapSelection(`\n\n${prefix}`, 'title');
+}
+
+export async function toggleTablePopover(
+  toolbarComponent: NgxMarkdownToolbarComponent,
+  anchor?: HTMLElement,
+) {
+  const result = await toolbarComponent.openPopover('table', anchor);
+  if (!result) return;
+
+  const content = result as string;
+  if (!content) return;
+
+  toolbarComponent.textarea.insertTextAtCursor(content);
 }

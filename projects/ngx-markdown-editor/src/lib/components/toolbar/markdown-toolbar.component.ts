@@ -1,8 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, input, Input, InputSignal, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  Input,
+  InputSignal,
+  Output,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { PopoverComponent, PopoverField } from './components/popover/popover.component';
 import { DEFAULT_TOOLBAR_GROUPS, ToolbarItem } from './toolbar-items';
-import { MatIconModule } from '@angular/material/icon';
 
 export interface MarkdownEditorTextarea {
   insertTextAtCursor(text: string): void;
@@ -81,7 +90,10 @@ export class NgxMarkdownToolbarComponent {
    * @param anchor DOM element to anchor the popover to
    * @returns A promise that resolves with the submitted fields
    */
-  async openPopover(type: string, anchor: HTMLElement): Promise<Record<string, string> | null> {
+  async openPopover(
+    type: string,
+    anchor: HTMLElement,
+  ): Promise<Record<string, string> | string | null> {
     const fields = this.buildPopoverFields(type);
 
     return new Promise((resolve) => {
@@ -89,6 +101,7 @@ export class NgxMarkdownToolbarComponent {
       const ref = this.popoverHost.createComponent(PopoverComponent);
 
       ref.setInput('anchor', anchor);
+      ref.setInput('type', type);
       ref.setInput('fields', fields);
 
       ref.instance.submit.subscribe((result) => {

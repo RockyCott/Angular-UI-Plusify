@@ -1,0 +1,35 @@
+.table-size-popover {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+}
+
+.grid-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-row {
+  display: flex;
+}
+
+.grid-cell {
+  width: 20px; /* Tamaño de cada celda de la cuadrícula */
+  height: 20px;
+  border: 1px solid #eee;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.grid-cell.selected {
+  background-color: #e6f7ff; /* Color cuando una celda está seleccionada/hovered */
+  border: 1px solid #91d5ff;
+}
+
+.size-display {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
+}

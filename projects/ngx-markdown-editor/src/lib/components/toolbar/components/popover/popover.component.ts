@@ -12,18 +12,19 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TableSizeSelectorComponent } from '../table-size-selector/table-size-selector.component';
 
 export interface PopoverField {
   key: string;
   label: string;
   placeholder?: string;
-  type?: 'text' | 'menu';
+  type?: 'text' | 'menu' | 'table';
   options?: { label: string; value: string }[];
 }
 
 /**
  * PopoverComponent
- * 
+ *
  * A reusable popover component that displays a form with various input fields.
  * Supports dynamic fields, menu options, and emits events on submit or cancel.
  * It can be used for various purposes like inserting links, images, or headings in a markdown editor.
@@ -40,7 +41,7 @@ export interface PopoverField {
       transition('* => void', animate('150ms ease-in')),
     ]),
   ],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TableSizeSelectorComponent],
 })
 export class PopoverComponent implements AfterViewInit {
   /**
@@ -54,11 +55,14 @@ export class PopoverComponent implements AfterViewInit {
   @Input()
   anchor!: HTMLElement;
 
+  @Input()
+  type!: 'table' | 'image' | 'link' | 'heading';
+
   /**
    * Event emitted when the user submits the form.
    */
   @Output()
-  submit = new EventEmitter<Record<string, string>>();
+  submit = new EventEmitter<Record<string, string> | string>();
 
   /**
    * Event emitted when the popover is cancelled or dismissed.
@@ -83,10 +87,10 @@ export class PopoverComponent implements AfterViewInit {
   private positionPopover(): void {
     const rect = this.anchor.getBoundingClientRect();
     const popover = this.elementRef.nativeElement.querySelector('.plusify-popover') as HTMLElement;
-    if (popover) {
-      popover.style.top = `${rect.bottom + window.scrollY + 6}px`;
-      popover.style.left = `${rect.left + window.scrollX}px`;
-    }
+    if (!popover) return;
+
+    popover.style.top = `${rect.bottom + window.scrollY + 6}px`;
+    popover.style.left = `${rect.left + window.scrollX}px`;
   }
 
   /**
@@ -132,5 +136,9 @@ export class PopoverComponent implements AfterViewInit {
     ) {
       this.cancel.emit();
     }
+  }
+
+  onTableSizeSelected(content: string): void {
+    this.submit.emit(content);
   }
 }

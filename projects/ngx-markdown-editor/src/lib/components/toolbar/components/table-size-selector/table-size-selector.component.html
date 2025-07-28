@@ -1,0 +1,17 @@
+<div class="table-size-popover" (mouseleave)="onMouseLeave()">
+  <div class="grid-container">
+    @for (row of rowsArray; track $index; let r = $index) {
+      <div class="grid-row">
+        @for (col of colsArray; track $index; let c = $index) {
+          <div
+            class="grid-cell"
+            [class.selected]="r <= hoveredRow && c <= hoveredCol"
+            (mouseenter)="onMouseEnter(r, c)"
+            (click)="selectSize()"
+            (keydown)="(null)"></div>
+        }
+      </div>
+    }
+  </div>
+  <div class="size-display">{{ selectedRows }} x {{ selectedCols }}</div>
+</div>

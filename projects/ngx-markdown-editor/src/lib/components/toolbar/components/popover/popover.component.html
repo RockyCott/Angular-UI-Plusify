@@ -1,44 +1,52 @@
-<div class="plusify-popover" #popover @popoverFade>
-  <form (submit)="onSubmit(); $event.preventDefault()">
-    <div *ngFor="let field of fields()" class="popover-field">
-      @if (!isMenuOnly()) {
-        <label>{{ field.label }}</label>
-      }
+<div class="plusify-popover" #popover @popoverFade [class.no-table-popover]="type !== 'table'">
+  @switch (type) {
+    <!-- Table size selector -->
+    @case ('table') {
+      <app-table-size-selector
+        (tableSelected)="onTableSizeSelected($event)"></app-table-size-selector>
+    }
+    @default {
+      <form (submit)="onSubmit(); $event.preventDefault()">
+        <div *ngFor="let field of fields()" class="popover-field">
+          @if (!isMenuOnly()) {
+            <label>{{ field.label }}</label>
+          }
 
-      <ng-container [ngSwitch]="field.type || 'text'">
-        <!-- Text input -->
-        <input
-          *ngSwitchCase="'text'"
-          type="text"
-          [placeholder]="field.placeholder"
-          [(ngModel)]="formData[field.key]"
-          name="{{ field.key }}"
-          required />
+          <ng-container [ngSwitch]="field.type || 'text'">
+            <!-- Text input -->
+            <input
+              *ngSwitchCase="'text'"
+              type="text"
+              [placeholder]="field.placeholder"
+              [(ngModel)]="formData[field.key]"
+              name="{{ field.key }}"
+              required />
 
-        <!-- Immediate menu -->
-        <div *ngSwitchCase="'menu'" class="menu-options">
-          <button
-            *ngFor="let opt of field.options"
-            type="button"
-            (click)="submitMenuSelection(field.key, opt.value)">
-            <span [ngSwitch]="opt.value">
-              <h1 *ngSwitchCase="'1'">Heading 1</h1>
-              <h2 *ngSwitchCase="'2'">Heading 2</h2>
-              <h3 *ngSwitchCase="'3'">Heading 3</h3>
-              <h4 *ngSwitchCase="'4'">Heading 4</h4>
-              <h5 *ngSwitchCase="'5'">Heading 5</h5>
-              <h6 *ngSwitchCase="'6'">Heading 6</h6>
-              <span *ngSwitchDefault>{{ opt.label }}</span>
-            </span>
-          </button>
+            <!-- Immediate menu -->
+            <div *ngSwitchCase="'menu'" class="menu-options">
+              <button
+                *ngFor="let opt of field.options"
+                type="button"
+                (click)="submitMenuSelection(field.key, opt.value)">
+                <span [ngSwitch]="opt.value">
+                  <h1 *ngSwitchCase="'1'">Heading 1</h1>
+                  <h2 *ngSwitchCase="'2'">Heading 2</h2>
+                  <h3 *ngSwitchCase="'3'">Heading 3</h3>
+                  <h4 *ngSwitchCase="'4'">Heading 4</h4>
+                  <h5 *ngSwitchCase="'5'">Heading 5</h5>
+                  <h6 *ngSwitchCase="'6'">Heading 6</h6>
+                  <span *ngSwitchDefault>{{ opt.label }}</span>
+                </span>
+              </button>
+            </div>
+          </ng-container>
         </div>
-      </ng-container>
-    </div>
-
-    <!-- Actions (only if not menu-only) -->
-    <div class="popover-actions" *ngIf="!isMenuOnly()">
-      <button type="button" (click)="onCancel()">Cancel</button>
-      <button type="submit">Insert</button>
-    </div>
-  </form>
+        <!-- Actions (only if not menu-only) -->
+        <div class="popover-actions" *ngIf="!isMenuOnly()">
+          <button type="button" (click)="onCancel()">Cancel</button>
+          <button type="submit">Insert</button>
+        </div>
+      </form>
+    }
+  }
 </div>

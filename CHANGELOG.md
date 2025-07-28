@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1] - 2025-07-28
+### Added
+- **Table Size Selector**:
+  - New component for selecting table dimensions.
+  - Generates markdown syntax for tables based on user input.
+  - Integrated into the Markdown Toolbar as a popover option.
+
 ## [0.1.0] - 2025-07-12
 ### Added
 - Introduced the **Markdown Editor** component:

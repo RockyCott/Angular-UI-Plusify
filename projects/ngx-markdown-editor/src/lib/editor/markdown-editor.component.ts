@@ -10,7 +10,9 @@ import {
   InputSignal,
   output,
   Output,
+  signal,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { swingFromRight } from '../animations/swing.animation';
 import { NgxMarkdownPreviewComponent } from '../components/preview/preview.component';
@@ -38,6 +40,7 @@ import { MarkdownEditorConfig } from '../types/config.interface';
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 /**
  * The `NgxMarkdownEditorComponent` is a customizable Markdown editor component
@@ -89,10 +92,17 @@ export class NgxMarkdownEditorComponent {
   @ViewChild('textareaRef')
   textareaRef!: NgxMarkdownTextareaComponent;
 
+  /**
+   * Ref to the internal preview component.
+   */
   @ViewChild('markdownPreview')
   previewRef!: NgxMarkdownPreviewComponent;
 
-  private isSyncing = false;
+  private isSyncing = signal(false);
+
+  // ===========================================
+  // Inputs
+  // ===========================================
 
   /**
    * Main markdown content value.
@@ -100,25 +110,26 @@ export class NgxMarkdownEditorComponent {
   @Input()
   value = '';
 
-  @Output()
-  valueChange = new EventEmitter<string>();
+  /**
+   * Theme customization input (CSS variables).
+   */
+  @Input()
+  customTheme: Record<string, string> = {};
+
+  // ===========================================
+  // Signal Inputs
+  // ===========================================
 
   /**
    * Configuration input (initialValue, readonly, etc.)
    */
-  public config: InputSignal<MarkdownEditorConfig> = input<MarkdownEditorConfig>({});
+  public config = input<MarkdownEditorConfig>({});
 
   /**
    * Controls the visibility of the preview pane.
    * @default true
    */
-  public showPreviewInput: InputSignal<boolean> = input<boolean>(true, { alias: 'showPreview' });
-
-  /**
-   * Output signal for preview visibility changes.
-   * Emits a boolean indicating whether the preview is shown or hidden.
-   */
-  public showPreviewOutput = output<boolean>();
+  public showPreviewInput = input<boolean>(true, { alias: 'showPreview' });
 
   /**
    * Controls the synchronization of scrolling between the editor and preview.
@@ -127,33 +138,51 @@ export class NgxMarkdownEditorComponent {
   public syncScrollInput: InputSignal<boolean> = input<boolean>(true, { alias: 'syncScroll' });
 
   /**
+   * Controls the visibility of the toolbar.
+   * @default true
+   */
+  public showToolbarInput: InputSignal<boolean> = input<boolean>(true, { alias: 'showToolbar' });
+
+  // ===========================================
+  // Outputs
+  // ===========================================
+
+  @Output()
+  valueChange = new EventEmitter<string>();
+
+  // ==========================================
+  // Signal Outputs
+  // ==========================================
+
+  /**
+   * Output signal for preview visibility changes.
+   * Emits a boolean indicating whether the preview is shown or hidden.
+   */
+  public showPreviewOutput = output<boolean>();
+
+  /**
    * Output signal for scroll synchronization changes.
    * Emits a boolean indicating whether scroll synchronization is enabled or disabled.
    */
   public syncScrollOutput = output<boolean>();
 
   /**
-   * Controls the visibility of the toolbar.
-   * @default true
-   */
-  public showToolbarInput: InputSignal<boolean> = input<boolean>(true, { alias: 'showToolbar' });
-
-
-  /**
-   * Theme customization input (CSS variables).
-   */
-  @Input()
-  customTheme: Record<string, string> = {};
-
-  /**
    * Host theme class.
    */
-  @Input()
-  themeClass = '';
-
   @HostBinding('class')
   get hostClass() {
-    return this.themeClass;
+    const config = this.internalConfig();
+    const classes = ['plusify-markdown-editor-host'];
+
+    if (config.useDefaultStyles) {
+      classes.push('default-styles');
+    }
+
+    if (config.customStylesClass) {
+      classes.push(config.customStylesClass);
+    }
+
+    return classes.join(' ');
   }
 
   /**
@@ -161,13 +190,18 @@ export class NgxMarkdownEditorComponent {
    */
   @HostBinding('style')
   get hostStyle(): Record<string, string> {
-    const defaults = {
-      '--color-primary': '#009b77',
-      '--color-on-primary': '#ffffff',
-      '--color-outline': '#e0e0e0',
-      '--color-on-surface': '#222',
-      '--color-on-surface-variant': '#666',
-      '--color-primary-hover': '#007b5e',
+    const defaults: Record<string, string> = {
+      '--md-color-primary': '#009b77',
+      '--md-color-on-primary': '#ffffff',
+      '--md-color-outline': '#e0e0e0',
+      '--md-color-on-surface': '#222',
+      '--md-color-on-surface-variant': '#666',
+      '--md-color-primary-hover': '#007b5e',
+      '--md-border-radius': '4px',
+      '--md-spacing': '25px',
+      '--md-font-family': 'monospace',
+      '--md-font-size': '14px',
+      '--md-line-height': '1.5',
     };
     return { ...defaults, ...this.customTheme };
   }
@@ -175,30 +209,25 @@ export class NgxMarkdownEditorComponent {
   /**
    * Internal config used after merging with defaults.
    */
-  internalConfig: MarkdownEditorConfig = { ...DEFAULT_EDITOR_CONFIG };
+  internalConfig = signal<Required<MarkdownEditorConfig>>(DEFAULT_EDITOR_CONFIG);
 
   constructor() {
     // Sincronización de config e inputs
     effect(() => {
-      this.internalConfig = {
+      const mergedConfig: Required<MarkdownEditorConfig> = {
         ...DEFAULT_EDITOR_CONFIG,
+        ...this.config(),
         showPreview: this.showPreviewInput() ?? true,
         syncScroll: this.syncScrollInput() ?? true,
         showToolbar: this.showToolbarInput() ?? true,
-        ...this.config(),
       };
 
-      if (this.internalConfig.value) {
-        this.setValue(this.internalConfig.value);
+      this.internalConfig.set(mergedConfig);
+
+      if (mergedConfig.value && mergedConfig.value !== this.value) {
+        this.value = mergedConfig.value;
       }
     });
-  }
-
-  /**
-   * Sets the initial editor value.
-   */
-  private setValue(value: string) {
-    this.value = value || '';
   }
 
   /**
@@ -213,7 +242,7 @@ export class NgxMarkdownEditorComponent {
    * Handlers from toolbar events.
    */
   handleTogglePreview(value: boolean) {
-    this.internalConfig.showPreview = value;
+    this.internalConfig.update((config) => ({ ...config, showPreview: value }));
     this.showPreviewOutput.emit(value);
   }
 
@@ -223,7 +252,7 @@ export class NgxMarkdownEditorComponent {
    * @param value - A boolean indicating whether to enable or disable sync scrolling.
    */
   handleToggleSyncScroll(value: boolean) {
-    this.internalConfig.syncScroll = value;
+    this.internalConfig.update((config) => ({ ...config, syncScroll: value }));
     this.syncScrollOutput.emit(value);
   }
 
@@ -235,11 +264,11 @@ export class NgxMarkdownEditorComponent {
    *                This ratio is used to calculate the corresponding scroll position in the preview pane.
    */
   handleTextareaScroll(ratio: number) {
-    if (!this.internalConfig.syncScroll || this.isSyncing) return;
+    if (!this.internalConfig().syncScroll || this.isSyncing()) return;
 
-    this.isSyncing = true;
+    this.isSyncing.set(true);
     this.previewRef?.scrollTo(ratio);
-    requestAnimationFrame(() => (this.isSyncing = false));
+    requestAnimationFrame(() => this.isSyncing.set(false));
   }
 
   /**
@@ -251,10 +280,31 @@ export class NgxMarkdownEditorComponent {
    *                of the preview scroll relative to its total height.
    */
   handlePreviewScroll(ratio: number) {
-    if (!this.internalConfig.syncScroll || this.isSyncing) return;
+    if (!this.internalConfig().syncScroll || this.isSyncing()) return;
 
-    this.isSyncing = true;
+    this.isSyncing.set(true);
     this.textareaRef?.scrollTo(ratio);
-    requestAnimationFrame(() => (this.isSyncing = false));
+    requestAnimationFrame(() => this.isSyncing.set(false));
+  }
+
+  // ==========================================
+  // Public Methods
+  // ==========================================
+
+  public getMarkdown(): string {
+    return this.value;
+  }
+
+  public setMarkdown(value: string): void {
+    this.value = value;
+    this.valueChange.emit(value);
+  }
+
+  public insertAtCursor(text: string): void {
+    this.textareaRef?.insertTextAtCursor(text);
+  }
+
+  public clear(): void {
+    this.setMarkdown('');
   }
 }

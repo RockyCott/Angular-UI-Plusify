@@ -34,7 +34,7 @@ export class NgxMarkdownTextareaComponent {
   /**
    * Whether the textarea is readonly.
    */
-  readonly: InputSignal<boolean> = input<boolean>(false);
+  readonly = input<boolean>(false);
 
   /**
    * Emits whenever the value is updated programmatically or by the user.

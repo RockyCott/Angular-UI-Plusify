@@ -1,7 +1,7 @@
-// Este archivo contiene los estilos por defecto del tema Markdown
-// Los desarrolladores pueden NO importar este archivo y usar su propio tema
+// This file contains the default Markdown theme styles
+// Developers can choose not to import this file and use their own theme
 
-// Solo se aplica cuando la clase 'default-preview-styles' está presente
+// Only applies when the 'default-preview-styles' class is present
 .default-preview-styles {
   /* Selectores principales para contenido markdown */
   markdown,
@@ -272,7 +272,7 @@
     margin-bottom: 0;
   }
 
-  /* Listas anidadas */
+  /* Nested lists */
   markdown li > ul,
   markdown li > ol,
   .markdown-body li > ul,
@@ -356,32 +356,6 @@
     color: var(--color-on-surface, #333);
     border: 1px solid var(--color-outline-variant, #e0e0e0);
   }
-
-  // markdown pre,
-  // .markdown-body pre,
-  // [data-markdown] pre,
-  // [data-type='markdown'] pre,
-  // :host markdown pre {
-  //   background-color: var(--color-surface-container-low, #f8f8f8);
-  //   border: 1px solid var(--color-outline, #ddd);
-  //   border-radius: 6px;
-  //   padding: 1rem;
-  //   margin: 1.5rem 0;
-  //   overflow-x: auto;
-  //   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  // }
-
-  // markdown pre code,
-  // .markdown-body pre code,
-  // [data-markdown] pre code,
-  // [data-type='markdown'] pre code,
-  // :host markdown pre code {
-  //   background: none;
-  //   padding: 0;
-  //   border: none;
-  //   font-size: 0.875rem;
-  //   line-height: 1.5;
-  // }
 
   /* ========================================
    TABLES
@@ -927,7 +901,7 @@
    ACCESSIBILITY
    ======================================== */
 
-  /* Mejora el foco para navegación con teclado */
+  /* Improves focus for keyboard navigation */
   markdown *:focus-visible,
   .markdown-body *:focus-visible,
   [data-markdown] *:focus-visible,
@@ -938,7 +912,7 @@
     border-radius: 2px;
   }
 
-  /* Asegura que el texto sea legible */
+  /* Ensures text is readable */
   markdown,
   .markdown-body,
   [data-markdown],
@@ -949,7 +923,7 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Mejora la selección de texto */
+  /* Improves text selection */
   markdown ::selection,
   .markdown-body ::selection,
   [data-markdown] ::selection,
@@ -964,7 +938,7 @@
    UTILIDADES ADICIONALES
    ======================================== */
 
-  /* Espaciado consistente entre elementos */
+  /* Consistent spacing between elements */
   markdown > *:first-child,
   .markdown-body > *:first-child,
   [data-markdown] > *:first-child,
@@ -981,7 +955,7 @@
     margin-bottom: 0;
   }
 
-  /* Mejora para contenido de formularios en markdown */
+  /* Improvements for form content in markdown */
   markdown input,
   markdown textarea,
   markdown select,
@@ -1002,7 +976,7 @@
     line-height: inherit;
   }
 
-  /* Definiciones (si se usan) */
+  /* Definitions (if used) */
   markdown dl,
   .markdown-body dl,
   [data-markdown] dl,
@@ -1029,7 +1003,7 @@
     margin-bottom: 0.5rem;
   }
 
-  /* Abreviaciones */
+  /* Abbreviations */
   markdown abbr[title],
   .markdown-body abbr[title],
   [data-markdown] abbr[title],
@@ -1040,7 +1014,7 @@
     border-bottom: none;
   }
 
-  /* Marcado de texto */
+  /* Text highlighting */
   markdown mark,
   .markdown-body mark,
   [data-markdown] mark,
@@ -1052,7 +1026,7 @@
     border-radius: 2px;
   }
 
-  /* Texto pequeño */
+  /* Small text' */
   markdown small,
   .markdown-body small,
   [data-markdown] small,
@@ -1061,7 +1035,7 @@
     font-size: 0.875em;
   }
 
-  /* Superíndice y subíndice */
+  /* Superscript and subscript */
   markdown sup,
   markdown sub,
   .markdown-body sup,

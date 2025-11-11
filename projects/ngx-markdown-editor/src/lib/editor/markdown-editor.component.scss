@@ -30,7 +30,7 @@ plusify-markdown-editor {
   width: 100%;
 }
 
-// Estilos por defecto (solo si useDefaultStyles = true)
+// Default styles (only if useDefaultStyles = true)
 :host.default-styles {
   .plusify-markdown-editor {
     border: 1px solid var(--md-color-outline, #e0e0e0);
@@ -45,6 +45,6 @@ plusify-markdown-editor {
   }
 }
 
-// Los desarrolladores pueden sobrescribir con estas clases custom:
+// Developers can override with these custom classes:
 // :host.custom-dark-theme { ... }
 // :host.custom-minimal { ... }

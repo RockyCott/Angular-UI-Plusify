@@ -212,7 +212,7 @@ export class NgxMarkdownEditorComponent {
   internalConfig = signal<Required<MarkdownEditorConfig>>(DEFAULT_EDITOR_CONFIG);
 
   constructor() {
-    // Sincronización de config e inputs
+    // Synchronization of config and inputs
     effect(() => {
       const mergedConfig: Required<MarkdownEditorConfig> = {
         ...DEFAULT_EDITOR_CONFIG,

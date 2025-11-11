@@ -214,12 +214,18 @@ export class NgxMarkdownEditorComponent {
   constructor() {
     // Synchronization of config and inputs
     effect(() => {
-      const mergedConfig: Required<MarkdownEditorConfig> = {
+      // Merge default config with user config first
+      const baseConfig = {
         ...DEFAULT_EDITOR_CONFIG,
         ...this.config(),
-        showPreview: this.showPreviewInput() ?? true,
-        syncScroll: this.syncScrollInput() ?? true,
-        showToolbar: this.showToolbarInput() ?? true,
+      };
+
+      // Then apply input signals, falling back to the merged config values
+      const mergedConfig: Required<MarkdownEditorConfig> = {
+        ...baseConfig,
+        showPreview: this.showPreviewInput() ?? baseConfig.showPreview,
+        syncScroll: this.syncScrollInput() ?? baseConfig.syncScroll,
+        showToolbar: this.showToolbarInput() ?? baseConfig.showToolbar,
       };
 
       this.internalConfig.set(mergedConfig);

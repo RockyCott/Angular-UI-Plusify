@@ -1,202 +1,1070 @@
-:host markdown,
-:host ::ng-deep markdown {
-  color: var(--color-on-surface, #1c1b1f);
-  font-size: 1rem;
-  line-height: 1.6;
+// This file contains the default Markdown theme styles
+// Developers can choose not to import this file and use their own theme
 
-  // Headings
-  h1 {
-    color: var(--color-primary, #1976d2);
+// Only applies when the 'default-preview-styles' class is present
+.default-preview-styles {
+  /* Selectores principales para contenido markdown */
+  markdown,
+  .markdown-body,
+  [data-markdown],
+  [data-type='markdown'],
+  :host markdown {
+    /* Estilos base del contenedor */
+    color: var(--color-on-surface, var(--color-neutral, #666));
+    font-family: var(
+      --font-family-open-sans,
+      'Open Sans',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      sans-serif
+    );
+    font-size: var(--font-fontsize-lg, 16px);
+    font-weight: var(--font-weight-regular, 400);
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  h2 {
-    color: var(--color-on-surface-variant, #3c4043);
+  /* ========================================
+   HEADINGS
+   ======================================== */
+
+  markdown h1,
+  .markdown-body h1,
+  [data-markdown] h1,
+  [data-type='markdown'] h1,
+  :host markdown h1 {
+    color: var(--color-primary, #376a12);
+    font-family: var(--font-family-open-sans, 'Open Sans', sans-serif);
+    font-size: var(--font-fontsize-5xl, 36px);
+    font-style: normal;
+    font-weight: var(--font-weight-bold, 700);
+    line-height: var(--font-lineheight-8xl, 44px);
+    letter-spacing: var(--font-letterdpacing-tight, 0);
+    margin: 2rem 0 1rem;
+    scroll-margin-top: 2rem;
   }
 
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: var(--color-on-surface-variant, #5f6368);
-    margin-top: 1rem;
-    transition: color 0.3s ease-in-out;
+  markdown h1:first-child,
+  .markdown-body h1:first-child,
+  [data-markdown] h1:first-child,
+  [data-type='markdown'] h1:first-child,
+  :host markdown h1:first-child {
+    margin-top: 0;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  markdown h2,
+  .markdown-body h2,
+  [data-markdown] h2,
+  [data-type='markdown'] h2,
+  :host markdown h2 {
+    color: var(--color-neutral, var(--color-on-surface-variant, #666));
+    font-family: var(--font-family-open-sans, 'Open Sans', sans-serif);
+    font-size: var(--font-fontsize-3xl, 28px);
+    font-style: normal;
+    font-weight: var(--font-weight-bold, 700);
+    line-height: 36px;
+    margin: 1.75rem 0 0.75rem;
+    scroll-margin-top: 2rem;
+  }
+
+  markdown h3,
+  .markdown-body h3,
+  [data-markdown] h3,
+  [data-type='markdown'] h3,
+  :host markdown h3 {
+    color: var(--color-neutral, var(--color-on-surface-variant, #666));
+    font-family: var(--font-family-open-sans, 'Open Sans', sans-serif);
+    font-size: var(--font-fontsize-xl, 20px);
+    font-style: normal;
+    font-weight: var(--font-weight-bold, 700);
+    line-height: var(--font-lineheight-snug, 24px);
+    letter-spacing: var(--font-letterspacing-normal, 0.1px);
+    margin: 1.5rem 0 0.75rem;
+    scroll-margin-top: 2rem;
+  }
+
+  markdown h4,
+  .markdown-body h4,
+  [data-markdown] h4,
+  [data-type='markdown'] h4,
+  :host markdown h4 {
+    color: var(--color-neutral, var(--color-on-surface-variant, #666));
+    font-family: var(--font-family-open-sans, 'Open Sans', sans-serif);
+    font-size: var(--font-fontsize-xl, 20px);
+    font-style: normal;
+    font-weight: var(--font-weight-semibold, 600);
+    line-height: var(--font-fontsize-3xl, 28px);
+    margin: 1.25rem 0 0.75rem;
+    scroll-margin-top: 2rem;
+  }
+
+  markdown h5,
+  .markdown-body h5,
+  [data-markdown] h5,
+  [data-type='markdown'] h5,
+  :host markdown h5 {
+    color: var(--color-neutral, var(--color-on-surface-variant, #666));
+    font-family: var(--font-family-open-sans, 'Open Sans', sans-serif);
+    font-size: var(--font-fontsize-lg, 16px);
+    font-style: normal;
+    font-weight: var(--font-weight-semibold, 600);
+    line-height: 24px;
+    letter-spacing: 0.15px;
     margin: 1rem 0 0.5rem;
+    scroll-margin-top: 2rem;
   }
 
-  // Paragraphs
-  p {
-    margin: 0.5rem 0 1rem;
+  markdown h6,
+  .markdown-body h6,
+  [data-markdown] h6,
+  [data-type='markdown'] h6,
+  :host markdown h6 {
+    color: var(--color-neutral, var(--color-on-surface-variant, #666));
+    font-family: var(--font-family-open-sans, 'Open Sans', sans-serif);
+    font-size: var(--font-fontsize-base, 14px);
+    font-style: normal;
+    font-weight: var(--font-weight-semibold, 600);
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    margin: 1rem 0 0.5rem;
+    scroll-margin-top: 2rem;
   }
 
-  // Blockquotes
-  blockquote {
-    border-left: 4px solid var(--color-outline, #ccc);
-    background-color: var(--color-surface-container, #f9f9f9);
-    padding: 1rem 1.5rem;
-    margin: 1.5rem 0;
+  /* ========================================
+   PARAGRAPHS & TEXT
+   ======================================== */
+
+  markdown p,
+  .markdown-body p,
+  [data-markdown] p,
+  [data-type='markdown'] p,
+  :host markdown p {
+    margin: 0 0 1rem;
+    line-height: 24px;
+  }
+
+  markdown p:last-child,
+  .markdown-body p:last-child,
+  [data-markdown] p:last-child,
+  [data-type='markdown'] p:last-child,
+  :host markdown p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Strong y emphasis */
+  markdown strong,
+  markdown b,
+  .markdown-body strong,
+  .markdown-body b,
+  [data-markdown] strong,
+  [data-markdown] b,
+  [data-type='markdown'] strong,
+  [data-type='markdown'] b,
+  :host markdown strong,
+  :host markdown b {
+    font-weight: var(--font-weight-bold, 700);
+    color: var(--color-on-surface, var(--color-neutral, #333));
+  }
+
+  markdown em,
+  markdown i,
+  .markdown-body em,
+  .markdown-body i,
+  [data-markdown] em,
+  [data-markdown] i,
+  [data-type='markdown'] em,
+  [data-type='markdown'] i,
+  :host markdown em,
+  :host markdown i {
     font-style: italic;
-    color: var(--color-on-surface-variant, #666);
-    border-radius: 6px;
   }
 
-  // Lists
-  ul,
-  ol {
+  /* ========================================
+   LINKS
+   ======================================== */
+
+  markdown a,
+  .markdown-body a,
+  [data-markdown] a,
+  [data-type='markdown'] a,
+  :host markdown a {
+    color: var(--color-primary, #376a12);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition:
+      color 0.2s ease,
+      text-decoration-color 0.2s ease;
+    cursor: pointer;
+  }
+
+  markdown a:hover,
+  .markdown-body a:hover,
+  [data-markdown] a:hover,
+  [data-type='markdown'] a:hover,
+  :host markdown a:hover {
+    color: var(--color-primary-hover, #2a5209);
+    text-decoration-thickness: 2px;
+  }
+
+  markdown a:focus-visible,
+  .markdown-body a:focus-visible,
+  [data-markdown] a:focus-visible,
+  [data-type='markdown'] a:focus-visible,
+  :host markdown a:focus-visible {
+    outline: 2px solid var(--color-primary, #376a12);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* ========================================
+   LISTS
+   ======================================== */
+
+  markdown ul,
+  markdown ol,
+  .markdown-body ul,
+  .markdown-body ol,
+  [data-markdown] ul,
+  [data-markdown] ol,
+  [data-type='markdown'] ul,
+  [data-type='markdown'] ol,
+  :host markdown ul,
+  :host markdown ol {
     margin: 1rem 0;
     padding-left: 2rem;
   }
 
-  li {
+  markdown ul,
+  .markdown-body ul,
+  [data-markdown] ul,
+  [data-type='markdown'] ul,
+  :host markdown ul {
+    list-style-type: disc;
+  }
+
+  markdown ol,
+  .markdown-body ol,
+  [data-markdown] ol,
+  [data-type='markdown'] ol,
+  :host markdown ol {
+    list-style-type: decimal;
+  }
+
+  markdown li,
+  .markdown-body li,
+  [data-markdown] li,
+  [data-type='markdown'] li,
+  :host markdown li {
     margin-bottom: 0.5rem;
+    line-height: 24px;
   }
 
-  // Links
-  a {
-    color: var(--color-primary, #1976d2);
-    text-decoration: underline;
-    transition: color 0.2s;
-
-    &:hover {
-      color: var(--color-primary-hover, #0d47a1);
-    }
+  markdown li:last-child,
+  .markdown-body li:last-child,
+  [data-markdown] li:last-child,
+  [data-type='markdown'] li:last-child,
+  :host markdown li:last-child {
+    margin-bottom: 0;
   }
 
-  // Tables
-  table {
+  /* Nested lists */
+  markdown li > ul,
+  markdown li > ol,
+  .markdown-body li > ul,
+  .markdown-body li > ol,
+  [data-markdown] li > ul,
+  [data-markdown] li > ol,
+  [data-type='markdown'] li > ul,
+  [data-type='markdown'] li > ol,
+  :host markdown li > ul,
+  :host markdown li > ol {
+    margin: 0.5rem 0;
+  }
+
+  /* Task lists */
+  markdown input[type='checkbox'],
+  .markdown-body input[type='checkbox'],
+  [data-markdown] input[type='checkbox'],
+  [data-type='markdown'] input[type='checkbox'],
+  :host markdown input[type='checkbox'] {
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* ========================================
+   BLOCKQUOTES
+   ======================================== */
+
+  markdown blockquote,
+  .markdown-body blockquote,
+  [data-markdown] blockquote,
+  [data-type='markdown'] blockquote,
+  :host markdown blockquote {
+    border-left: 4px solid var(--color-primary, var(--color-outline, #376a12));
+    background-color: var(--color-surface-container, var(--color-surface-variant, #f9f9f9));
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--color-on-surface-variant, var(--color-neutral, #666));
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  markdown blockquote p,
+  .markdown-body blockquote p,
+  [data-markdown] blockquote p,
+  [data-type='markdown'] blockquote p,
+  :host markdown blockquote p {
+    margin: 0.5rem 0;
+  }
+
+  markdown blockquote p:first-child,
+  .markdown-body blockquote p:first-child,
+  [data-markdown] blockquote p:first-child,
+  [data-type='markdown'] blockquote p:first-child,
+  :host markdown blockquote p:first-child {
+    margin-top: 0;
+  }
+
+  markdown blockquote p:last-child,
+  .markdown-body blockquote p:last-child,
+  [data-markdown] blockquote p:last-child,
+  [data-type='markdown'] blockquote p:last-child,
+  :host markdown blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ========================================
+   CODE BLOCKS & INLINE CODE
+   ======================================== */
+
+  markdown :not(pre) > code,
+  .markdown-body :not(pre) > code,
+  [data-markdown] :not(pre) > code,
+  [data-type='markdown'] :not(pre) > code,
+  :host markdown :not(pre) > code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    background-color: var(--color-surface-container, var(--color-surface-variant, #f5f5f5));
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    color: var(--color-on-surface, #333);
+    border: 1px solid var(--color-outline-variant, #e0e0e0);
+  }
+
+  /* ========================================
+   TABLES
+   ======================================== */
+
+  markdown table,
+  .markdown-body table,
+  [data-markdown] table,
+  [data-type='markdown'] table,
+  :host markdown table {
     width: 100%;
     border-collapse: collapse;
     margin: 1.5rem 0;
-    border: 1px solid var(--color-outline, #ccc);
+    border: 1px solid var(--color-outline, var(--color-outline-variant, #ddd));
     background: var(--color-surface, #fff);
     font-size: 0.95rem;
     color: var(--color-on-surface, #333);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 
-  th,
-  td {
-    border: 1px solid var(--color-outline, #ccc);
-    padding: 0.75rem;
+  markdown th,
+  markdown td,
+  .markdown-body th,
+  .markdown-body td,
+  [data-markdown] th,
+  [data-markdown] td,
+  [data-type='markdown'] th,
+  [data-type='markdown'] td,
+  :host markdown th,
+  :host markdown td {
+    border: 1px solid var(--color-outline-variant, #e0e0e0);
+    padding: 0.75rem 1rem;
     text-align: left;
+    vertical-align: top;
   }
 
-  th {
-    background-color: var(--color-surface-container, #f5f5f5);
+  markdown th,
+  .markdown-body th,
+  [data-markdown] th,
+  [data-type='markdown'] th,
+  :host markdown th {
+    background-color: var(--color-surface-container, var(--color-surface-variant, #f5f5f5));
     color: var(--color-on-surface, #333);
-
+    font-weight: var(--font-weight-semibold, 600);
+    border-bottom: 2px solid var(--color-outline, #ddd);
   }
 
-  // Code blocks
-  // pre {
-  //   overflow-x: auto;
-  //   background-color: var(--color-surface-container, #f5f5f5);
-  //   padding: 1rem;
-  //   border-radius: 4px;
+  markdown tr:nth-child(even),
+  .markdown-body tr:nth-child(even),
+  [data-markdown] tr:nth-child(even),
+  [data-type='markdown'] tr:nth-child(even),
+  :host markdown tr:nth-child(even) {
+    background-color: var(--color-surface-container-lowest, rgba(0, 0, 0, 0.02));
+  }
 
-  //   code {
-  //     font-family: 'Fira Code', monospace;
-  //   }
-  // }
+  markdown tr:hover,
+  .markdown-body tr:hover,
+  [data-markdown] tr:hover,
+  [data-type='markdown'] tr:hover,
+  :host markdown tr:hover {
+    background-color: var(--color-surface-container-low, rgba(0, 0, 0, 0.04));
+    transition: background-color 0.2s ease;
+  }
 
-  // code {
-  //   background-color: var(--color-surface-container-low, #eeeeee);
-  //   padding: 0.2em 0.4em;
-  //   border-radius: 4px;
-  //   font-family: 'Fira Code', monospace;
-  // }
+  /* ========================================
+   IMAGES
+   ======================================== */
 
-  // Images
-  img {
+  markdown img,
+  .markdown-body img,
+  [data-markdown] img,
+  [data-type='markdown'] img,
+  :host markdown img {
     display: block;
     max-width: 100%;
-    margin: 1rem auto;
-    border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
-  // Horizontal Rule
-  hr {
+  /* ========================================
+   HORIZONTAL RULE
+   ======================================== */
+
+  markdown hr,
+  .markdown-body hr,
+  [data-markdown] hr,
+  [data-type='markdown'] hr,
+  :host markdown hr {
     border: none;
-    border-top: 1px solid var(--color-outline, #ccc);
-    margin: 2rem 0;
+    border-top: 2px solid var(--color-outline-variant, var(--color-outline, #e0e0e0));
+    margin: 2.5rem 0;
+    opacity: 0.6;
   }
 
-  // Math (KaTeX)
-  // .katex {
-  //   font-size: 1.1em;
-  //   background: var(--color-surface-container-low, #f0f0f0);
-  //   padding: 0.4rem 0.6rem;
-  //   border-radius: 6px;
-  //   display: inline-block;
-  // }
+  /* ========================================
+   PRISM.JS TOKEN HIGHLIGHTING
+   ======================================== */
 
-  // PrismJS Tokens
-  .token.comment,
-  .token.prolog,
-  .token.doctype,
-  .token.cdata {
+  markdown .token.comment,
+  markdown .token.prolog,
+  markdown .token.doctype,
+  markdown .token.cdata,
+  .markdown-body .token.comment,
+  .markdown-body .token.prolog,
+  .markdown-body .token.doctype,
+  .markdown-body .token.cdata,
+  [data-markdown] .token.comment,
+  [data-markdown] .token.prolog,
+  [data-markdown] .token.doctype,
+  [data-markdown] .token.cdata,
+  [data-type='markdown'] .token.comment,
+  [data-type='markdown'] .token.prolog,
+  [data-type='markdown'] .token.doctype,
+  [data-type='markdown'] .token.cdata,
+  :host markdown .token.comment,
+  :host markdown .token.prolog,
+  :host markdown .token.doctype,
+  :host markdown .token.cdata {
     color: #999;
-  }
-
-  .token.punctuation {
-    color: #ccc;
-  }
-
-  .token.property,
-  .token.tag,
-  .token.boolean,
-  .token.number,
-  .token.constant,
-  .token.symbol,
-  .token.deleted {
-    color: #e2777a;
-  }
-
-  .token.selector,
-  .token.attr-name,
-  .token.string,
-  .token.char,
-  .token.builtin,
-  .token.inserted {
-    color: #a6e22e;
-  }
-
-  .token.operator,
-  .token.entity,
-  .token.url,
-  .language-css .token.string,
-  .style .token.string {
-    color: #f08d49;
-  }
-
-  .token.atrule,
-  .token.attr-value,
-  .token.keyword {
-    color: #cc99cd;
-  }
-
-  .token.function {
-    color: #66d9ef;
-  }
-
-  .token.regex,
-  .token.important,
-  .token.variable {
-    color: #fd971f;
-  }
-
-  .token.important,
-  .token.bold {
-    font-weight: bold;
-  }
-
-  .token.italic {
     font-style: italic;
   }
 
-  .token.entity {
+  markdown .token.punctuation,
+  .markdown-body .token.punctuation,
+  [data-markdown] .token.punctuation,
+  [data-type='markdown'] .token.punctuation,
+  :host markdown .token.punctuation {
+    color: #ccc;
+  }
+
+  markdown .token.property,
+  markdown .token.tag,
+  markdown .token.boolean,
+  markdown .token.number,
+  markdown .token.constant,
+  markdown .token.symbol,
+  markdown .token.deleted,
+  .markdown-body .token.property,
+  .markdown-body .token.tag,
+  .markdown-body .token.boolean,
+  .markdown-body .token.number,
+  .markdown-body .token.constant,
+  .markdown-body .token.symbol,
+  .markdown-body .token.deleted,
+  [data-markdown] .token.property,
+  [data-markdown] .token.tag,
+  [data-markdown] .token.boolean,
+  [data-markdown] .token.number,
+  [data-markdown] .token.constant,
+  [data-markdown] .token.symbol,
+  [data-markdown] .token.deleted,
+  [data-type='markdown'] .token.property,
+  [data-type='markdown'] .token.tag,
+  [data-type='markdown'] .token.boolean,
+  [data-type='markdown'] .token.number,
+  [data-type='markdown'] .token.constant,
+  [data-type='markdown'] .token.symbol,
+  [data-type='markdown'] .token.deleted,
+  :host markdown .token.property,
+  :host markdown .token.tag,
+  :host markdown .token.boolean,
+  :host markdown .token.number,
+  :host markdown .token.constant,
+  :host markdown .token.symbol,
+  :host markdown .token.deleted {
+    color: #e2777a;
+  }
+
+  markdown .token.selector,
+  markdown .token.attr-name,
+  markdown .token.string,
+  markdown .token.char,
+  markdown .token.builtin,
+  markdown .token.inserted,
+  .markdown-body .token.selector,
+  .markdown-body .token.attr-name,
+  .markdown-body .token.string,
+  .markdown-body .token.char,
+  .markdown-body .token.builtin,
+  .markdown-body .token.inserted,
+  [data-markdown] .token.selector,
+  [data-markdown] .token.attr-name,
+  [data-markdown] .token.string,
+  [data-markdown] .token.char,
+  [data-markdown] .token.builtin,
+  [data-markdown] .token.inserted,
+  [data-type='markdown'] .token.selector,
+  [data-type='markdown'] .token.attr-name,
+  [data-type='markdown'] .token.string,
+  [data-type='markdown'] .token.char,
+  [data-type='markdown'] .token.builtin,
+  [data-type='markdown'] .token.inserted,
+  :host markdown .token.selector,
+  :host markdown .token.attr-name,
+  :host markdown .token.string,
+  :host markdown .token.char,
+  :host markdown .token.builtin,
+  :host markdown .token.inserted {
+    color: #a6e22e;
+  }
+
+  markdown .token.operator,
+  markdown .token.entity,
+  markdown .token.url,
+  markdown .language-css .token.string,
+  markdown .style .token.string,
+  .markdown-body .token.operator,
+  .markdown-body .token.entity,
+  .markdown-body .token.url,
+  .markdown-body .language-css .token.string,
+  .markdown-body .style .token.string,
+  [data-markdown] .token.operator,
+  [data-markdown] .token.entity,
+  [data-markdown] .token.url,
+  [data-markdown] .language-css .token.string,
+  [data-markdown] .style .token.string,
+  [data-type='markdown'] .token.operator,
+  [data-type='markdown'] .token.entity,
+  [data-type='markdown'] .token.url,
+  [data-type='markdown'] .language-css .token.string,
+  [data-type='markdown'] .style .token.string,
+  :host markdown .token.operator,
+  :host markdown .token.entity,
+  :host markdown .token.url,
+  :host markdown .language-css .token.string,
+  :host markdown .style .token.string {
+    color: #f08d49;
+  }
+
+  markdown .token.atrule,
+  markdown .token.attr-value,
+  markdown .token.keyword,
+  .markdown-body .token.atrule,
+  .markdown-body .token.attr-value,
+  .markdown-body .token.keyword,
+  [data-markdown] .token.atrule,
+  [data-markdown] .token.attr-value,
+  [data-markdown] .token.keyword,
+  [data-type='markdown'] .token.atrule,
+  [data-type='markdown'] .token.attr-value,
+  [data-type='markdown'] .token.keyword,
+  :host markdown .token.atrule,
+  :host markdown .token.attr-value,
+  :host markdown .token.keyword {
+    color: #cc99cd;
+  }
+
+  markdown .token.function,
+  markdown .token.class-name,
+  .markdown-body .token.function,
+  .markdown-body .token.class-name,
+  [data-markdown] .token.function,
+  [data-markdown] .token.class-name,
+  [data-type='markdown'] .token.function,
+  [data-type='markdown'] .token.class-name,
+  :host markdown .token.function,
+  :host markdown .token.class-name {
+    color: #66d9ef;
+  }
+
+  markdown .token.regex,
+  markdown .token.important,
+  markdown .token.variable,
+  .markdown-body .token.regex,
+  .markdown-body .token.important,
+  .markdown-body .token.variable,
+  [data-markdown] .token.regex,
+  [data-markdown] .token.important,
+  [data-markdown] .token.variable,
+  [data-type='markdown'] .token.regex,
+  [data-type='markdown'] .token.important,
+  [data-type='markdown'] .token.variable,
+  :host markdown .token.regex,
+  :host markdown .token.important,
+  :host markdown .token.variable {
+    color: #fd971f;
+  }
+
+  markdown .token.important,
+  markdown .token.bold,
+  .markdown-body .token.important,
+  .markdown-body .token.bold,
+  [data-markdown] .token.important,
+  [data-markdown] .token.bold,
+  [data-type='markdown'] .token.important,
+  [data-type='markdown'] .token.bold,
+  :host markdown .token.important,
+  :host markdown .token.bold {
+    font-weight: bold;
+  }
+
+  markdown .token.italic,
+  .markdown-body .token.italic,
+  [data-markdown] .token.italic,
+  [data-type='markdown'] .token.italic,
+  :host markdown .token.italic {
+    font-style: italic;
+  }
+
+  markdown .token.entity,
+  .markdown-body .token.entity,
+  [data-markdown] .token.entity,
+  [data-type='markdown'] .token.entity,
+  :host markdown .token.entity {
     cursor: help;
+  }
+
+  /* ========================================
+   KATEX / MATH (OPCIONAL)
+   ======================================== */
+
+  markdown .katex,
+  .markdown-body .katex,
+  [data-markdown] .katex,
+  [data-type='markdown'] .katex,
+  :host markdown .katex {
+    font-size: 1.1em;
+    background: var(--color-surface-container-low, #f8f8f8);
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    display: inline-block;
+    border: 1px solid var(--color-outline-variant, #e0e0e0);
+  }
+
+  markdown .katex-display,
+  .markdown-body .katex-display,
+  [data-markdown] .katex-display,
+  [data-type='markdown'] .katex-display,
+  :host markdown .katex-display {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  /* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+  @media (max-width: 768px) {
+    markdown,
+    .markdown-body,
+    [data-markdown],
+    [data-type='markdown'],
+    :host markdown {
+      font-size: var(--font-fontsize-base, 14px);
+      line-height: 20px;
+    }
+
+    markdown h1,
+    .markdown-body h1,
+    [data-markdown] h1,
+    [data-type='markdown'] h1,
+    :host markdown h1 {
+      font-size: var(--font-fontsize-3xl, 28px);
+      line-height: 36px;
+    }
+
+    markdown h2,
+    .markdown-body h2,
+    [data-markdown] h2,
+    [data-type='markdown'] h2,
+    :host markdown h2 {
+      font-size: var(--font-fontsize-xl, 24px);
+      line-height: 32px;
+    }
+
+    markdown h3,
+    .markdown-body h3,
+    [data-markdown] h3,
+    [data-type='markdown'] h3,
+    :host markdown h3 {
+      font-size: var(--font-fontsize-lg, 18px);
+      line-height: 24px;
+    }
+
+    markdown h4,
+    .markdown-body h4,
+    [data-markdown] h4,
+    [data-type='markdown'] h4,
+    :host markdown h4 {
+      font-size: var(--font-fontsize-lg, 18px);
+      line-height: 24px;
+    }
+
+    markdown h5,
+    .markdown-body h5,
+    [data-markdown] h5,
+    [data-type='markdown'] h5,
+    :host markdown h5 {
+      font-size: var(--font-fontsize-base, 14px);
+      line-height: 20px;
+    }
+
+    markdown h6,
+    .markdown-body h6,
+    [data-markdown] h6,
+    [data-type='markdown'] h6,
+    :host markdown h6 {
+      font-size: var(--font-fontsize-sm, 12px);
+      line-height: 18px;
+    }
+
+    markdown table,
+    .markdown-body table,
+    [data-markdown] table,
+    [data-type='markdown'] table,
+    :host markdown table {
+      font-size: 0.85rem;
+    }
+
+    markdown th,
+    markdown td,
+    .markdown-body th,
+    .markdown-body td,
+    [data-markdown] th,
+    [data-markdown] td,
+    [data-type='markdown'] th,
+    [data-type='markdown'] td,
+    :host markdown th,
+    :host markdown td {
+      padding: 0.5rem 0.75rem;
+    }
+
+    // markdown pre,
+    // .markdown-body pre,
+    // [data-markdown] pre,
+    // [data-type='markdown'] pre,
+    // :host markdown pre {
+    //   padding: 0.75rem;
+    //   font-size: 0.8rem;
+    // }
+
+    markdown blockquote,
+    .markdown-body blockquote,
+    [data-markdown] blockquote,
+    [data-type='markdown'] blockquote,
+    :host markdown blockquote {
+      padding: 0.75rem 1rem;
+    }
+  }
+
+  /* ========================================
+   PRINT STYLES
+   ======================================== */
+
+  @media print {
+    markdown,
+    .markdown-body,
+    [data-markdown],
+    [data-type='markdown'],
+    :host markdown {
+      color: #000;
+      font-size: 12pt;
+    }
+
+    markdown a,
+    .markdown-body a,
+    [data-markdown] a,
+    [data-type='markdown'] a,
+    :host markdown a {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    markdown a[href]:after,
+    .markdown-body a[href]:after,
+    [data-markdown] a[href]:after,
+    [data-type='markdown'] a[href]:after,
+    :host markdown a[href]:after {
+      content: ' (' attr(href) ')';
+      font-size: 90%;
+    }
+
+    markdown blockquote,
+    .markdown-body blockquote,
+    [data-markdown] blockquote,
+    [data-type='markdown'] blockquote,
+    :host markdown blockquote {
+      border: 1px solid #999;
+      page-break-inside: avoid;
+    }
+
+    markdown thead,
+    .markdown-body thead,
+    [data-markdown] thead,
+    [data-type='markdown'] thead,
+    :host markdown thead {
+      display: table-header-group;
+    }
+
+    markdown tr,
+    markdown img,
+    .markdown-body tr,
+    .markdown-body img,
+    [data-markdown] tr,
+    [data-markdown] img,
+    [data-type='markdown'] tr,
+    [data-type='markdown'] img,
+    :host markdown tr,
+    :host markdown img {
+      page-break-inside: avoid;
+    }
+
+    markdown h1,
+    markdown h2,
+    markdown h3,
+    markdown h4,
+    markdown h5,
+    markdown h6,
+    .markdown-body h1,
+    .markdown-body h2,
+    .markdown-body h3,
+    .markdown-body h4,
+    .markdown-body h5,
+    .markdown-body h6,
+    [data-markdown] h1,
+    [data-markdown] h2,
+    [data-markdown] h3,
+    [data-markdown] h4,
+    [data-markdown] h5,
+    [data-markdown] h6,
+    [data-type='markdown'] h1,
+    [data-type='markdown'] h2,
+    [data-type='markdown'] h3,
+    [data-type='markdown'] h4,
+    [data-type='markdown'] h5,
+    [data-type='markdown'] h6,
+    :host markdown h1,
+    :host markdown h2,
+    :host markdown h3,
+    :host markdown h4,
+    :host markdown h5,
+    :host markdown h6 {
+      page-break-after: avoid;
+    }
+  }
+
+  /* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+  /* Improves focus for keyboard navigation */
+  markdown *:focus-visible,
+  .markdown-body *:focus-visible,
+  [data-markdown] *:focus-visible,
+  [data-type='markdown'] *:focus-visible,
+  :host markdown *:focus-visible {
+    outline: 2px solid var(--color-primary, #376a12);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Ensures text is readable */
+  markdown,
+  .markdown-body,
+  [data-markdown],
+  [data-type='markdown'],
+  :host markdown {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Improves text selection */
+  markdown ::selection,
+  .markdown-body ::selection,
+  [data-markdown] ::selection,
+  [data-type='markdown'] ::selection,
+  :host markdown ::selection {
+    background-color: var(--color-primary, #376a12);
+    color: #fff;
+    opacity: 0.3;
+  }
+
+  /* ========================================
+   UTILIDADES ADICIONALES
+   ======================================== */
+
+  /* Consistent spacing between elements */
+  markdown > *:first-child,
+  .markdown-body > *:first-child,
+  [data-markdown] > *:first-child,
+  [data-type='markdown'] > *:first-child,
+  :host markdown > *:first-child {
+    margin-top: 0;
+  }
+
+  markdown > *:last-child,
+  .markdown-body > *:last-child,
+  [data-markdown] > *:last-child,
+  [data-type='markdown'] > *:last-child,
+  :host markdown > *:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Improvements for form content in markdown */
+  markdown input,
+  markdown textarea,
+  markdown select,
+  .markdown-body input,
+  .markdown-body textarea,
+  .markdown-body select,
+  [data-markdown] input,
+  [data-markdown] textarea,
+  [data-markdown] select,
+  [data-type='markdown'] input,
+  [data-type='markdown'] textarea,
+  [data-type='markdown'] select,
+  :host markdown input,
+  :host markdown textarea,
+  :host markdown select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  /* Definitions (if used) */
+  markdown dl,
+  .markdown-body dl,
+  [data-markdown] dl,
+  [data-type='markdown'] dl,
+  :host markdown dl {
+    margin: 1rem 0;
+  }
+
+  markdown dt,
+  .markdown-body dt,
+  [data-markdown] dt,
+  [data-type='markdown'] dt,
+  :host markdown dt {
+    font-weight: var(--font-weight-bold, 700);
+    margin-top: 0.5rem;
+  }
+
+  markdown dd,
+  .markdown-body dd,
+  [data-markdown] dd,
+  [data-type='markdown'] dd,
+  :host markdown dd {
+    margin-left: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Abbreviations */
+  markdown abbr[title],
+  .markdown-body abbr[title],
+  [data-markdown] abbr[title],
+  [data-type='markdown'] abbr[title],
+  :host markdown abbr[title] {
+    text-decoration: underline dotted;
+    cursor: help;
+    border-bottom: none;
+  }
+
+  /* Text highlighting */
+  markdown mark,
+  .markdown-body mark,
+  [data-markdown] mark,
+  [data-type='markdown'] mark,
+  :host markdown mark {
+    background-color: var(--color-warning-container, #fff9c4);
+    color: var(--color-on-warning-container, #000);
+    padding: 0.1em 0.2em;
+    border-radius: 2px;
+  }
+
+  /* Small text' */
+  markdown small,
+  .markdown-body small,
+  [data-markdown] small,
+  [data-type='markdown'] small,
+  :host markdown small {
+    font-size: 0.875em;
+  }
+
+  /* Superscript and subscript */
+  markdown sup,
+  markdown sub,
+  .markdown-body sup,
+  .markdown-body sub,
+  [data-markdown] sup,
+  [data-markdown] sub,
+  [data-type='markdown'] sup,
+  [data-type='markdown'] sub,
+  :host markdown sup,
+  :host markdown sub {
+    font-size: 0.75em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  markdown sup,
+  .markdown-body sup,
+  [data-markdown] sup,
+  [data-type='markdown'] sup,
+  :host markdown sup {
+    top: -0.5em;
+  }
+
+  markdown sub,
+  .markdown-body sub,
+  [data-markdown] sub,
+  [data-type='markdown'] sub,
+  :host markdown sub {
+    bottom: -0.25em;
   }
 }

@@ -1,4 +1,4 @@
-:host {
+plusify-markdown-editor {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -29,3 +29,22 @@
 .w-100 {
   width: 100%;
 }
+
+// Default styles (only if useDefaultStyles = true)
+:host.default-styles {
+  .plusify-markdown-editor {
+    border: 1px solid var(--md-color-outline, #e0e0e0);
+    border-radius: var(--md-border-radius, 4px);
+    background: #fff;
+    overflow: hidden;
+  }
+
+  textarea,
+  .preview-content {
+    border: 1px solid var(--md-color-outline, #dadde6);
+  }
+}
+
+// Developers can override with these custom classes:
+// :host.custom-dark-theme { ... }
+// :host.custom-minimal { ... }

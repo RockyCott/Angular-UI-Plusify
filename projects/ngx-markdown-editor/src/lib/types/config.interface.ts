@@ -38,4 +38,14 @@ export interface MarkdownEditorConfig {
    * Optional. Defaults to `false`.
    */
   disableSanitizer?: boolean;
+
+  /**
+   * Determines whether to apply default styles to the editor component.
+   */
+  useDefaultStyles?: boolean;
+
+  /**
+   * Custom CSS class to apply to the editor component for additional styling.
+   */
+  customStylesClass?: string;
 }

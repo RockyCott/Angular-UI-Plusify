@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.2] - 2025-11-10
+### Added
+- **Customizable Styles for Markdown Editor**:
+  - `useDefaultStyles` option to enable/disable default styling.
+  - `customStylesClass` option to apply user-defined CSS classes for further customization.
+- **Markdown Preview Component Enhancements**:
+  - Added support for default styles and custom CSS classes.
+- **Markdown Textarea Component Update**:
+  - Refactored to use input signals for readonly state management.
+
 ## [0.1.1] - 2025-07-28
 ### Added
 - **Table Size Selector**:
